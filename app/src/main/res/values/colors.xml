@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="divider">#E5E5E5</color>
+    <color name="color_f6">#f6f6f6</color>
+    <color name="mineTextCommonColor">#414141</color>
+    <color name="GeyTextColor">#aaaaaa</color>
+    <color name="e1">#e1e1e1</color>
+
+    <color name="public_3f56ae">#3f56ae</color>
+    <color name="public_aaaaaa">#aaaaaa</color>
+    <color name="public_eeeeee">#eeeeee</color>
+    <color name="public_414141">#414141</color>
+    <color name="public_888888">#888888</color>
+    <color name="coloer_yellow">#fdb403</color>
+</resources>

@@ -1,0 +1,97 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.hykj.liuzhi"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+        multiDexEnabled true
+    }
+//    signingConfigs {
+//        config {
+//            storeFile file('../android.keystore')//签名文件路径
+//            storePassword "xmkj2012"
+//            keyAlias "xmkj"
+//            keyPassword "xmkj2012"  //签名密码
+//        }
+//    }
+    buildTypes {
+//        debug {
+//            signingConfig signingConfigs.config
+//        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.config
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    buildToolsVersion '28.0.3'
+
+    greendao {
+        schemaVersion 1
+        daoPackage 'com.hykj.liuzhi.greendao.gen'
+        targetGenDir 'src/main/java'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:27.1.1'
+    compile 'com.android.support:design:27.1.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile project(path: ':libraryAdapter')
+    compile project(path: ':libraryVideo')
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    compile 'com.github.GrenderG:Toasty:1.3.0'
+    compile 'com.youth.banner:banner:1.4.10'
+    compile 'com.github.LRH1993:AutoFlowLayout:1.0.5'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.limxing:Android-PromptDialog:1.1.3'
+    compile 'com.github.bumptech.glide:glide:4.8.0'
+    compile 'com.android.support:multidex:1.0.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    /*图片视频三方库*/
+    compile 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    /*switchbutton*/
+    compile 'com.github.zcweng:switch-button:0.0.3@aar'
+    /*省市区*/
+    compile 'com.contrarywind:Android-PickerView:4.1.4'
+    /* 滚轮时间  地址*/
+    compile 'org.greenrobot:greendao:3.2.2'
+    compile 'org.greenrobot:greendao-generator:3.2.2'
+    compile 'com.zhouyou:rxeasyhttp:2.1.2'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.jakewharton:disklrucache:2.0.2'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    compile 'com.jakewharton:disklrucache:2.0.2'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    compile 'com.orhanobut:logger:2.2.0'
+    compile 'com.alibaba:fastjson:1.2.47'
+    // 刷新布局
+    compile 'com.liaoinstan.springview:library:1.3.0'
+    compile 'com.makeramen:roundedimageview:2.3.0'
+    //图片压缩工具
+    compile 'top.zibin:Luban:1.1.8'
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-7'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'
+    compile 'org.jsoup:jsoup:1.9.2'
+}

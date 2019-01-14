@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/dip_5">
+
+    <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/shop_1"
+        android:layout_width="0dip"
+        android:layout_height="@dimen/dip_110"
+        android:layout_weight="2"
+        android:scaleType="fitXY"
+        app:riv_corner_radius="@dimen/dip_2" />
+
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="@dimen/dip_110"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="@dimen/dip_5">
+
+        <TextView
+            android:id="@+id/shop_detale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="3"
+            android:text="虎虎皮牙啊哈在在在哈虎虎皮牙啊哈在在在哈虎虎皮牙啊哈在在在哈虎虎皮牙啊哈在在在哈虎虎皮牙啊哈在在在哈虎虎皮牙啊哈在在在哈虎虎皮牙啊哈在在在哈虎虎皮牙啊哈在在在哈虎虎皮牙啊哈在在在哈"
+            android:textSize="@dimen/fond_15sp" />
+        <TextView
+            android:id="@+id/money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dip_5"
+            android:text="¥99.00"
+            android:textColor="@color/color_orange"
+            android:textSize="@dimen/fond_18sp" />
+    </LinearLayout>
+</LinearLayout>

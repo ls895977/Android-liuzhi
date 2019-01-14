@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_title"/>
+
+    <EditText
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textCursorDrawable="@null"
+        android:paddingLeft="10dp"
+        android:hint="搜索"
+        android:drawablePadding="5dp"
+        android:textSize="13sp"
+        android:textColor="#aaaaaa"
+        android:background="@drawable/bg_edittext_f5"
+        android:drawableLeft="@mipmap/icon_search"
+        android:layout_toLeftOf="@+id/tv_cancel"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
+    <View
+        android:background="@color/public_eeeeee"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/springView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.liaoinstan.springview.widget.SpringView>
+
+
+</LinearLayout>

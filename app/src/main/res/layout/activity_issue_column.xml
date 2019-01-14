@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_title" />
+
+    <ImageView
+        android:id="@+id/issue_hader"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:scaleType="fitXY"
+        android:background="@mipmap/icon_person_detail_bg3" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <EditText
+                    android:id="@+id/issue_imagetexttext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:gravity="left"
+                    android:hint="添加说明..."
+                    android:inputType="textMultiLine"
+                    android:minLines="6"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="15dp" />
+
+            <RelativeLayout
+                android:id="@+id/issue_table"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="添加标签"
+                    android:textColor="@color/mineTextCommonColor"
+                    android:textSize="15sp" />
+
+                <Spinner
+                    android:id="@+id/issue_imagetextlabelid"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dip_30"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dip_70"
+                    android:background="@null" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dip_70"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:text="添加图片"
+                android:textColor="@color/mineTextCommonColor"
+                android:textSize="15sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_issue_column"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:overScrollMode="never" />
+
+            <TextView
+                android:id="@+id/issue_submit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
+                android:background="#ffea00"
+                android:gravity="center"
+                android:text="立即发布"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

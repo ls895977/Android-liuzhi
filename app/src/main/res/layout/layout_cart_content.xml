@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="2dp"
+    android:background="@drawable/shadow_bg"
+    android:elevation="2dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/ch_delete"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="14dp"
+        android:background="@drawable/tv_check_box"
+        android:checked="false" />
+
+    <ImageView
+        android:id="@+id/ch_hader"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/test3" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="纯手工纪念品"
+                android:textColor="#414141"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_title"
+                android:layout_marginTop="40dp"
+                android:text="¥99.00"
+                android:textColor="#ffb400"
+                android:textSize="17sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:padding="@dimen/dip_10">
+            <TextView
+                android:id="@+id/tv_jian"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/bg_tag_cart_add"
+                android:gravity="center"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/shop_cart_num"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/bg_tag_cart_center"
+                android:gravity="center"
+                android:text="25" />
+
+            <TextView
+                android:id="@+id/tv_add"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/bg_tag_cart_add"
+                android:gravity="center"
+                android:text="+" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:id="@+id/tv_homesearch_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="11dp"
+            android:text="取消"
+            android:textColor="#414141"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/shop_search"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/tv_cancel"
+            android:background="@drawable/bg_edittext"
+            android:drawableLeft="@mipmap/icon_search"
+            android:drawablePadding="5dp"
+            android:hint="搜索"
+            android:paddingLeft="10dp"
+            android:textColor="#aaaaaa"
+            android:textCursorDrawable="@null"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#aaaaaa"></View>
+
+    <LinearLayout
+        android:id="@+id/shop_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.hykj.liuzhi.androidcomponents.ui.widget.HistorySearchLayout
+            android:id="@+id/shop_search_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.hykj.liuzhi.androidcomponents.ui.widget.FindSearchLayout
+            android:id="@+id/shop_search_find"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shop_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/shop_refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlAccentColor="#00000000"
+            app:srlEnablePreviewInEditMode="true"
+            app:srlPrimaryColor="#00000000">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/shop_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </LinearLayout>
+</LinearLayout>

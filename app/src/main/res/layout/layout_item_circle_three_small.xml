@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="0.5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <com.hykj.liuzhi.androidcomponents.ui.widget.SquareRelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/THREE_SMALL_img1"
+            android:background="@mipmap/test1"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/icon_photo"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+    </com.hykj.liuzhi.androidcomponents.ui.widget.SquareRelativeLayout>
+
+    <com.hykj.liuzhi.androidcomponents.ui.widget.SquareRelativeLayout
+        android:layout_marginLeft="0.5dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/THREE_SMALL_img2"
+            android:background="@mipmap/test2"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/icon_photo"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+    </com.hykj.liuzhi.androidcomponents.ui.widget.SquareRelativeLayout>
+
+    <com.hykj.liuzhi.androidcomponents.ui.widget.SquareRelativeLayout
+        android:layout_marginLeft="0.5dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/THREE_SMALL_img3"
+            android:background="@mipmap/test3"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/icon_photo"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+    </com.hykj.liuzhi.androidcomponents.ui.widget.SquareRelativeLayout>
+</LinearLayout>

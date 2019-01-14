@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingRight="12dp">
+
+    <RelativeLayout
+        android:layout_width="130dp"
+        android:layout_height="70dp">
+
+        <ImageView
+            android:id="@+id/item_detailmore_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:background="@mipmap/test2" />
+
+        <ImageView
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/btn_start" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_detailmore_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="工艺品[低调品味]陶瓷家具摆件陶瓷工艺品[低调品味]陶瓷家具摆件陶瓷"
+            android:textColor="#414141"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/item_detailmore_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/read_times"
+                android:drawablePadding="3dp"
+                android:text="3456"
+                android:textColor="#aaaaaa"
+                android:textSize="10sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:drawableLeft="@mipmap/icon_video"
+                android:drawablePadding="3dp"
+                android:text="2.9万"
+                android:textColor="#aaaaaa"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.hykj.liuzhi.androidcomponents.ui.fragment.home.view.FixGridLayout
+                android:id="@+id/flow_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

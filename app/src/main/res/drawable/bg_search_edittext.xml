@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="44px" />
+            <stroke android:width="0.5dp" android:color="#000000"></stroke>
+            <!--<gradient android:angle="270" android:endColor="#ffebd8" android:startColor="#f5fcff" />-->
+            <gradient android:endColor="#000000" android:startColor="#000000" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="44px" />
+            <stroke android:width="0.5dp" android:color="#000000"></stroke>
+            <!--<gradient android:angle="270" android:endColor="#ece6e1" android:startColor="#fcfcfc" />-->
+            <gradient android:endColor="#F8F8F8" android:startColor="#F8F8F8" />
+        </shape>
+    </item>
+
+</selector><!-- Android:startcolor和android:endcolor分别为起始和结束颜色 --><!-- android:angle是渐变角度。angle＝“0”,angle＝“360”时，是从左到右 ;angle＝“90”是从上到下;android:angle＝“180”是从右到左 --><!-- stroke：描边 --><!-- android:color 描边的颜色 --><!--
+    corners：圆角
+    android:radius为角的弧度，值越大角越圆。
+    -->

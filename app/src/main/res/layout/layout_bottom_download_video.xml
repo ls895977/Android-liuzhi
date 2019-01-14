@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/dip_220"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+
+        <RelativeLayout
+            android:id="@+id/rl_top"
+            android:layout_width="match_parent"
+            android:layout_height="55dp">
+
+            <TextView
+                android:id="@+id/tv_huancun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:text="视频缓存"
+                android:textColor="#414141"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/devider"
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/tv_huancun"
+                android:background="#e1e1e1"></View>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/devider"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="高清"
+                    android:textColor="#414141"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:src="@mipmap/down" />
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/downlod_shudown"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:src="@mipmap/btn_close_reward" />
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#e1e1e1"></View>
+        </RelativeLayout>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_below="@id/rl_top"
+            android:text="最美的回忆,都围绕着我们所拥有的回忆。"
+            android:textColor="#ffb400"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:gravity="center"
+            android:textColor="#414141"
+            android:textSize="16sp"
+            android:text="查看全部缓存"
+            android:id="@+id/tv_all_cache"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+        <RelativeLayout
+            android:background="#f5f5f5"
+            android:layout_above="@id/tv_all_cache"
+            android:layout_width="match_parent"
+            android:layout_height="20dp">
+            <TextView
+                android:paddingLeft="15dp"
+                android:background="#fae14c"
+                android:textColor="#414141"
+                android:textSize="14sp"
+                android:text="共62.5G/12.4G可用"
+                android:layout_width="245dp"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

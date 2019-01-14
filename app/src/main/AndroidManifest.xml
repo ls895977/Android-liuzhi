@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.hykj.liuzhi">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.hykj.liuzhi.androidcomponents.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/app_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/app_logo"
+        android:supportsRtl="true"
+        android:testOnly="false"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".androidcomponents.ui.activity.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.hykj.liuzhi.androidcomponents.ui.activity.DetailVideoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity android:name=".androidcomponents.MainActivity"></activity>
+        <activity android:name=".androidcomponents.ui.activity.CartActivity"></activity>
+        <activity android:name=".androidcomponents.ui.activity.DetailCircleImageActivity"></activity>
+        <activity android:name=".androidcomponents.ui.activity.HomeSearchActivity"></activity>
+        <activity android:name=".androidcomponents.ui.activity.DetailSoftArticleActivity"></activity>
+        <activity android:name=".androidcomponents.ui.activity.ReportActivity"></activity>
+        <activity android:name=".androidcomponents.ui.activity.GoodDetailActivity"></activity>
+        <activity android:name=".androidcomponents.ui.activity.ConfirmOrderActivity"></activity>
+        <activity android:name=".androidcomponents.ui.activity.WatchHistoryActivity" />
+        <activity android:name=".androidcomponents.ui.activity.MyOrderActivity" />
+        <!--一键发布界面-->
+        <activity
+            android:name=".androidcomponents.ui.activity.IssueClumnActivity"
+            android:screenOrientation="portrait" />
+        <!--消息界面-->
+        <activity android:name=".androidcomponents.ui.activity.MessageActivity" />
+        <!--登录界面-->
+        <!--<activity android:name=".androidcomponents.ui.activity.LoginActivity" />-->
+        <!--忘记密码界面-->
+        <activity android:name=".androidcomponents.ui.activity.ForgetPasswordActivity" />
+        <!--动态码登录界面-->
+        <activity android:name=".androidcomponents.ui.activity.DongStateCodeActivity" />
+        <!--注册界面-->
+        <activity android:name=".androidcomponents.ui.activity.RegistActivity" />
+        <!--编辑用户资料页面-->
+        <activity android:name=".androidcomponents.ui.activity.EditUserDataActivity" />
+        <!--设置界面-->
+        <activity android:name=".androidcomponents.ui.activity.SetUpActivity" />
+        <!--绑定邮箱界面-->
+        <activity android:name=".androidcomponents.ui.activity.BindEmailActivity" />
+        <!--选择收货地址-->
+        <activity android:name=".androidcomponents.ui.activity.SelectAdressActivity" />
+        <!--新增地址界面-->
+        <activity android:name=".androidcomponents.ui.activity.AddAdressActivity" />
+        <!--我的收藏界面-->
+        <activity android:name=".androidcomponents.ui.activity.MyCollectActivity" />
+        <!--数据库界面-->
+        <activity android:name=".androidcomponents.ui.activity.SQLactivity" />
+        <!--登录记录界面-->
+        <activity android:name=".androidcomponents.ui.activity.LoginRecordActivity" />
+        <!--修改密码界面-->
+        <activity android:name=".androidcomponents.ui.activity.ChangePasswordActivity" />
+        <!--实名认证界面-->
+        <activity android:name=".androidcomponents.ui.activity.TrueNameIdenActivity" />
+        <!--投诉建议界面-->
+        <activity android:name=".androidcomponents.ui.activity.SuggestActivity" />
+        <!--修改名字界面-->
+        <activity android:name=".androidcomponents.ui.activity.ChangeNameActivity" />
+        <!--我的积分界面-->
+        <activity android:name=".androidcomponents.ui.activity.MyJiFenActivity" />
+        <!--积分记录界面-->
+        <activity android:name=".androidcomponents.ui.activity.JiFenRecordActivity" />
+        <!--怎么获得神奇种子界面-->
+        <activity android:name=".androidcomponents.ui.activity.HowToGetSeedActivity" />
+        <!--离线视频界面-->
+        <activity android:name=".androidcomponents.ui.activity.OffLineVideoActivity" />
+        <!--关注界面-->
+        <activity android:name=".androidcomponents.ui.activity.AttentionActivity" />
+        <!--修改标签界面-->
+        <activity android:name=".androidcomponents.ui.activity.ChangeUserTableActivity" />
+        <!--其他用户详情界面-->
+        <activity android:name=".androidcomponents.ui.activity.PersonDetailActivity" />
+        <activity android:name="com.hykj.liuzhi.androidcomponents.ui.fragment.shop.ShopSearchActivity" />
+        <activity android:name="com.hykj.liuzhi.androidcomponents.ui.activity.softtext.Act_addsofttext" />
+        <activity android:name="com.hykj.liuzhi.androidcomponents.ui.activity.Act_CommodityCategory" />
+        <activity android:name=".androidcomponents.ui.activity.min.Act_WatchHistory" />
+        <activity android:name=".androidcomponents.ui.activity.min.Act_MyOrder"/>
+        <activity android:name=".androidcomponents.ui.fragment.mine.MyOrderTabDetails"/>
+    </application>
+
+</manifest>

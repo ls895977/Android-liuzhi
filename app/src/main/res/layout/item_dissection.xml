@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_center"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_below="@id/ll_top">
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/test1"
+            app:riv_corner_radius="@dimen/dp_10" />
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_130"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_weight="2"
+            android:background="@drawable/bg_ll"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_5">
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="最美的回忆"
+                android:textColor="@color/bar_grey_90"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/context"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:paddingTop="@dimen/dp_5"
+                android:text="紧随美的会理紧随美的会理紧随美的会理紧随美的会理紧随美的会理紧随美的会理紧随美的会理紧随美的会理"
+                android:textColor="@color/color_4d"
+                android:textSize="14sp" />
+            <com.hykj.liuzhi.androidcomponents.ui.fragment.home.view.FixGridLayout
+                android:id="@+id/myll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"></com.hykj.liuzhi.androidcomponents.ui.fragment.home.view.FixGridLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

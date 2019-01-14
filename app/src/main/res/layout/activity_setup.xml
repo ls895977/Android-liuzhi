@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_title" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="关注"
+                android:textColor="@color/mineTextCommonColor" />
+
+            <RelativeLayout
+                android:id="@+id/rl_setup_fans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp">
+
+
+                <TextView
+                    style="@style/SetupTextStyle"
+                    android:text="粉丝" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_setup_follows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    style="@style/SetupTextStyle"
+                    android:text="关注" />
+
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="账号安全"
+
+                android:textColor="@color/mineTextCommonColor" />
+
+            <RelativeLayout
+                android:id="@+id/rl_mine_setup_change_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    style="@style/SetupTextStyle"
+                    android:text="修改密码" />
+
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_mine_setup_realname_auth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp">
+
+
+                <TextView
+                    style="@style/SetupTextStyle"
+                    android:text="实名认证" />
+
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_mine_setup_login_record"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    style="@style/SetupTextStyle"
+                    android:text="登录记录" />
+
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+
+            <View style="@style/commonDiciderStyle" />
+
+            <RelativeLayout
+                android:id="@+id/rl_mine_setup_bindemail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    style="@style/SetupTextStyle"
+                    android:text="绑定邮箱" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="购物"
+                android:textColor="@color/mineTextCommonColor" />
+
+            <RelativeLayout
+                android:id="@+id/rl_mine_setup_takeaddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    style="@style/SetupTextStyle"
+                    android:text="收货地址" />
+
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="账号安全"
+                android:textColor="@color/mineTextCommonColor" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    style="@style/SetupTextStyle"
+                    android:text="关于我们" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+
+            <View style="@style/commonDiciderStyle" />
+
+            <RelativeLayout
+                android:id="@+id/rl_mine_setup_suggest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    style="@style/SetupTextStyle"
+                    android:text="投诉与建议" />
+
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp">
+
+
+                <TextView
+                    style="@style/SetupTextStyle"
+                    android:text="联系客服" />
+
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:id="@+id/cller_cache"
+                    style="@style/SetupTextStyle"
+                    android:text="清除缓存" />
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="12dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/next_grey" />
+            </RelativeLayout>
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+            <TextView
+                android:id="@+id/tv_setup_exitlogin"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="19dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:background="#ffea00"
+                android:gravity="center"
+                android:text="退出登录"
+                android:textColor="@color/colorPrimaryDark" />
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

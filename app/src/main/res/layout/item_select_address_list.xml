@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginTop="12dp"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp">
+
+        <TextView
+            android:id="@+id/item_select_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="金贵夫人"
+            android:textColor="@color/mineTextCommonColor"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/item_select_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:text="17633652369"
+            android:textColor="@color/mineTextCommonColor"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/item_select_addr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14sp"
+        android:layout_marginTop="8dp"
+        android:text="浙江省绍兴市湖南新区灵芝路金坛大山"
+        android:textColor="@color/mineTextCommonColor"
+        android:textSize="11sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+        <CheckBox
+            android:id="@+id/ch_delete"
+            android:layout_width="20dp"
+            android:checked="false"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:button="@drawable/select_check_box" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="默认地址"
+            android:textColor="@color/GeyTextColor"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/item_select_binaji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="18dp"
+            android:drawableLeft="@mipmap/edit_address"
+            android:drawablePadding="5dp"
+            android:text="编辑"
+            android:textColor="#888888"
+            android:textSize="11sp" />
+        <TextView
+            android:id="@+id/item_select_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:drawableLeft="@mipmap/delete_address"
+            android:drawablePadding="5dp"
+            android:text="删除"
+            android:textColor="#888888"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+
+    <View
+        style="@style/commonDiciderStyle"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="15dp" />
+
+</LinearLayout>

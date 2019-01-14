@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="211dp"
+        android:background="#eeeeee">
+
+        <com.hykj.liuzhi.androidcomponents.utils.RoundImageView
+            android:id="@+id/iv_mine_userhead"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:background="@mipmap/btn_publish_photo" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="29dp"
+            android:layout_toRightOf="@+id/iv_mine_userhead">
+
+            <LinearLayout
+                android:id="@+id/ll_person_datacount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true">
+
+
+                <LinearLayout
+                    android:id="@+id/ll_mine_mycollect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="27dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/mineTvCollection"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="56"
+                        android:textColor="@color/mineTextCommonColor" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="收藏"
+                        android:textColor="@color/mineTextCommonColor" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_mine_myfocus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="27dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/mineTvmyfocus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="288"
+                        android:textColor="@color/mineTextCommonColor" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="关注"
+                        android:textColor="@color/mineTextCommonColor" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_mine_myfans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/mineTvmyfans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/mineTextCommonColor" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="粉丝"
+                        android:textColor="@color/mineTextCommonColor" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_person_datacount"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_mine_sead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:drawableLeft="@mipmap/icon_magic_seed"
+                    android:drawablePadding="7dp"
+                    android:text="20"
+                    android:textColor="#c12472" />
+
+                <TextView
+                    android:id="@+id/tv_mine_offline_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/video_downloaded"
+                    android:drawablePadding="7dp"
+                    android:text="20"
+                    android:textColor="@color/mineTextCommonColor" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_mineuser_nike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="summer小姐姐"
+                android:textColor="#414141"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_mineuser_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_mineuser_nike"
+                android:layout_centerVertical="true"
+                android:text="ID:"
+                android:textColor="#aaaaaa"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_mine_edit_userdata"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_button_common_white"
+                android:gravity="center"
+                android:text="编辑主页" />
+
+            <RelativeLayout
+                android:id="@+id/rl_mine_setup"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/shape_button_common_white">
+
+                <ImageView
+                    android:id="@+id/tv_mine_set"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:src="@mipmap/set_up" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/main_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@+id/tab_Camer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/check_camer"
+            android:gravity="center"
+            android:paddingTop="@dimen/dip_5" />
+        <TextView
+            android:id="@+id/tab_Img"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/check_img"
+            android:paddingTop="@dimen/dip_5" />
+        <TextView
+            android:id="@+id/tab_History"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/view_history"
+            android:gravity="center"
+            android:paddingTop="@dimen/dip_10" />
+        <TextView
+            android:id="@+id/tab_Order"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/my_orders"
+            android:paddingTop="@dimen/dip_10" />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/myFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

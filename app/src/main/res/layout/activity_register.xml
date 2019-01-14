@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_title" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="注册"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp" />
+
+
+    <EditText
+        android:id="@+id/et_regist_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:hint="请输入手机号"
+        android:inputType="phone"
+        android:paddingLeft="16dp"
+        android:textSize="14sp" />
+
+    <View
+        style="@style/commonDiciderStyle"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="15dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_regist_authcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入验证码"
+            android:paddingLeft="16dp"
+            android:textSize="14sp" />
+
+        <com.hykj.liuzhi.androidcomponents.view.CountdownButton
+            android:id="@+id/et_regist_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/shape_button_regist_oval"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dip_10"
+            android:paddingTop="@dimen/dip_5"
+            android:paddingRight="@dimen/dip_10"
+            android:paddingBottom="@dimen/dip_5"
+            android:text="获取验证码" />
+    </RelativeLayout>
+
+
+    <View
+        style="@style/commonDiciderStyle"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="15dp" />
+
+    <EditText
+        android:id="@+id/et_regist_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:hint="请输入密码(至少6位字符)"
+        android:inputType="textPassword"
+        android:paddingLeft="16dp"
+        android:textSize="14sp" />
+
+    <View
+        style="@style/commonDiciderStyle"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:text="注册即视为同意"
+            android:textColor="#414141"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_regist_registdeal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="注册协议"
+            android:textColor="#45a2ff"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_regist_regist"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:background="#ffea00"
+        android:gravity="center"
+        android:text="注册"
+        android:textColor="@color/colorPrimaryDark" />
+</LinearLayout>
