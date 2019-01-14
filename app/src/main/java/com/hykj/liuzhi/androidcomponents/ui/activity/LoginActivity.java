@@ -58,12 +58,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
-        new TitleBuilder(LoginActivity.this).setTitleText("登录").setLeftIco(R.mipmap.common_black_back).setLeftIcoListening(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
     }
 
     @OnClick({R.id.tv_login_forgetpassword, R.id.tv_login_dongcode2login, R.id.tv_login_toregist, R.id.tv_login_login})
