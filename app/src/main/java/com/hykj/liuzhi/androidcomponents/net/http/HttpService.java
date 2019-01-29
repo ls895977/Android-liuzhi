@@ -22,6 +22,11 @@ public interface HttpService {
     @POST(ApiConstant.LOGIN)
     Observable<String> login(@FieldMap Map<String, String> map);
 
+    //用户密码登录
+    @FormUrlEncoded
+    @POST(ApiConstant.PhonePassWordLoGin)
+    Observable<String> PhonePassWordLoGin(@FieldMap Map<String, String> map);
+
     @FormUrlEncoded
     @POST(ApiConstant.REGISTER)
     Observable<String> register(@FieldMap Map<String, String> map);
@@ -56,19 +61,36 @@ public interface HttpService {
     Observable<String> getUserFan(@FieldMap Map<String, String> map);
 
     /**
-     * 用户点击按钮 关注/已关注
+     * 用户点击按钮 关注
      */
     @FormUrlEncoded
     @POST(ApiConstant.USER_CLICK_ATTENTION)
     Observable<String> getUserClickAttention(@FieldMap Map<String, String> map);
 
     /**
-     * 用户上传图文信息
+     * 用户点击按钮 取消 关注
      */
     @FormUrlEncoded
-    @POST(ApiConstant.USER_ADD_IMAGTEXT)
-    Observable<String> getUseraddImagText(@FieldMap Map<String, String> map);
-
+    @POST(ApiConstant.USER_CLICK_Usernotfans)
+    Observable<String> getUsernotfans(@FieldMap Map<String, String> map);
+    /**
+     * 首页=消息详情
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Home_systemnotificationdetail)
+    Observable<String> getSystemnotificationdetail(@FieldMap Map<String, String> map);
+    /**
+     * 首页=平台通知
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Home_showsystemnotification)
+    Observable<String> Home_showsystemnotification(@FieldMap Map<String, String> map);
+    /**
+     * 首页=用户消息
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Home_authorgetmessage)
+    Observable<String> Home_authorgetmessage(@FieldMap Map<String, String> map);
     /**
      * 首页=推荐
      */
@@ -189,6 +211,12 @@ public interface HttpService {
     Observable<String> changeadderssstatus(@FieldMap Map<String, String> map);
 
     /**
+     * 我的=我的订单=订单取消
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Min_cancellationOfOrder)
+    Observable<String> CancellationOfOrder(@FieldMap Map<String, String> map);
+    /**
      * 我的=省
      */
     @FormUrlEncoded
@@ -222,7 +250,18 @@ public interface HttpService {
     @FormUrlEncoded
     @POST(ApiConstant.Min_changelabel)
     Observable<String> changelabel(@FieldMap Map<String, String> map);
-
+    /**
+     * 我的=修改性别
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Min_changeusersex)
+    Observable<String> changeusersex(@FieldMap Map<String, String> map);
+    /**
+     * 我的=修改出生日期
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Min_changeuserbarth)
+    Observable<String> Min_changeuserbarth(@FieldMap Map<String, String> map);
     /**
      * 商品=获取轮播图片
      */
@@ -545,24 +584,45 @@ public interface HttpService {
     @FormUrlEncoded
     @POST(ApiConstant.getreportreason)
     Observable<String> getreportreason(@FieldMap Map<String, String> map);
+
     /**
-     *用户发过的所有软文
+     * 用户发过的所有软文
      */
     @FormUrlEncoded
     @POST(ApiConstant.usersofttexts)
     Observable<String> usersofttexts(@FieldMap Map<String, String> map);
 
     /**
-     *订单详情
+     * 订单详情
      */
     @FormUrlEncoded
     @POST(ApiConstant.showorders)
     Observable<String> showorders(@FieldMap Map<String, String> map);
 
     /**
-     *用户浏览记录
+     * 用户浏览记录
      */
     @FormUrlEncoded
     @POST(ApiConstant.userbrowses)
     Observable<String> userbrowses(@FieldMap Map<String, String> map);
+
+    /**
+     * 图文浏览记录添加
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.imagetextbrowses)
+    Observable<String> imagetextbrowses(@FieldMap Map<String, String> map);
+
+    /**
+     * 软文浏览记录添加
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.softtextborwses)
+    Observable<String> softtextborwses(@FieldMap Map<String, String> map);
+    /**
+     * 订单支付
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.payOrders)
+    Observable<String> payOrders(@FieldMap Map<String, String> map);
 }

@@ -17,20 +17,30 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.MainActivity;
+import com.hykj.liuzhi.androidcomponents.bean.AliiTabBean;
 import com.hykj.liuzhi.androidcomponents.bean.MineFileBean;
+import com.hykj.liuzhi.androidcomponents.bean.SexBean;
 import com.hykj.liuzhi.androidcomponents.bean.SignInBean;
 import com.hykj.liuzhi.androidcomponents.bean.UserData;
 import com.hykj.liuzhi.androidcomponents.bean.UserTableBean;
@@ -118,7 +128,13 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
     RoundImageView haderImage;
     @BindView(R.id.tv_edit_userdata_autograph)
     TextView tv_edit_userdata_autograph;
+    @BindView(R.id.item_date)
+    TextView tv_date;
+
+    TimePickerView pvTime;
+    private int tvSex = 0;
     private ArrayList<UserTableBean> tableSexList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,14 +145,16 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
     }
 
     private void initData() {
+        aCache = ACache.get(this);
         getOptionSexData();
         seetingUser();
         photo = new Dlg_Photograph(EditUserDataActivity.this, this);
+        initTimePicker();
     }
 
     private void getOptionSexData() {
-        tableSexList.add(new UserTableBean(1, "男"));
         tableSexList.add(new UserTableBean(2, "女"));
+        tableSexList.add(new UserTableBean(1, "男"));
 
     }
 
@@ -155,7 +173,7 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
 
     @OnClick({R.id.rl_edit_userdata_changehead, R.id.rl_edit_userdata_label, R.id.rl_edit_userdata_nick,
             R.id.rl_edit_userdata_signname, R.id.rl_edit_userdata_sex, R.id.rl_edit_userdata_email,
-            R.id.iv_edituser_head1})
+            R.id.iv_edituser_head1,R.id.riqi_item})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -178,7 +196,6 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
             case R.id.rl_edit_userdata_sex:
                 ChangeUserSexTble();
                 break;
-
             case R.id.rl_edit_userdata_email:
                 intent = new Intent(EditUserDataActivity.this, BindEmailActivity.class);
                 startActivityForResult(intent, 1);
@@ -186,17 +203,21 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
             case R.id.iv_edituser_head1://头像
                 photo.show();
                 break;
+            case R.id.riqi_item://时间选择
+                pvTime.show();
+                break;
         }
     }
-
+    String tx;
     private void ChangeUserSexTble() {
         //条件选择器
         OptionsPickerView pvOptions = new OptionsPickerBuilder(EditUserDataActivity.this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                String tx = tableSexList.get(options1).getPickerViewText();
-                tvEditUserdataSex.setText(tx);
+                 tx = tableSexList.get(options1).getPickerViewText();
+                tvSex = options1;
+                setSex(tvSex + "");
             }
         }).build();
         pvOptions.setPicker(tableSexList);
@@ -208,6 +229,7 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
         Intent intent = new Intent(this, ChangeUserTableActivity.class);
         startActivityForResult(intent, 0);
     }
+
     public void seetingUser() {
         Glide.with(this).load(LocalInfoUtils.getUserself("user_pic")).into(haderImage);
         tvEditUserdataSex.setText(LocalInfoUtils.getUserself("user_sex"));
@@ -442,6 +464,106 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
             public void onSucceed(String succeed) {
                 LocalInfoUtils.saveUserself(succeed);
                 Glide.with(EditUserDataActivity.this).load(LocalInfoUtils.getUserself("user_pic")).into(haderImage);
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(EditUserDataActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 修改性别
+     */
+    public void setSex(final String Sex) {
+        Log.e("aa", "-----------" + Sex);
+        HttpHelper.changeusersex(aCache.getAsString("user_id"), Sex, new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                Toast.makeText(EditUserDataActivity.this, failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                SexBean entity = FastJSONHelper.getPerson(succeed, SexBean.class);
+                if (entity.getError() == 0) {
+                    tvEditUserdataSex.setText(tx);
+                    Toast.makeText(EditUserDataActivity.this, entity.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(EditUserDataActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 日期选择器初始化
+     */
+    private void initTimePicker() {//Dialog 模式下，在底部弹出
+        pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                Min_changeuserbarth( getTime(date));
+            }
+        }) .setTimeSelectChangeListener(new OnTimeSelectChangeListener() {
+                    @Override
+                    public void onTimeSelectChanged(Date date) {
+                        Log.i("pvTime", "onTimeSelectChanged");
+                    }
+                })
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .isDialog(true)
+                .build();
+
+        Dialog mDialog = pvTime.getDialog();
+        if (mDialog != null) {
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    Gravity.BOTTOM);
+            params.leftMargin = 0;
+            params.rightMargin = 0;
+            pvTime.getDialogContainerLayout().setLayoutParams(params);
+
+            Window dialogWindow = mDialog.getWindow();
+            if (dialogWindow != null) {
+                dialogWindow.setWindowAnimations(com.bigkoo.pickerview.R.style.picker_view_slide_anim);//修改动画样式
+                dialogWindow.setGravity(Gravity.BOTTOM);//改成Bottom,底部显示
+            }
+        }
+    }
+
+    private String getTime(Date date) {//可根据需要自行截取数据显示
+        Log.d("getTime()", "choice date millis: " + date.getTime());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+
+
+    /**
+     * 修改性别
+     */
+    public void Min_changeuserbarth(final String date) {
+        Log.e("aa", "-----------" + date);
+        HttpHelper.Min_changeuserbarth(aCache.getAsString("user_id"), date, new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                Toast.makeText(EditUserDataActivity.this, failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                SexBean entity = FastJSONHelper.getPerson(succeed, SexBean.class);
+                if (entity.getError() == 0) {
+                    tv_date.setText(date);
+                    Toast.makeText(EditUserDataActivity.this, entity.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override

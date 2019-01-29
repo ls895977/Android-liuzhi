@@ -55,6 +55,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/circle_Userfans"
                     android:layout_width="42dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"

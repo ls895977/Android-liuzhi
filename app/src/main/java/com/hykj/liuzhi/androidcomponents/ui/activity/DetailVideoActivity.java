@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -64,11 +65,18 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
     TextView video_collection;
     @BindView(R.id.tv_videoDetail_Zan)
     TextView zan;
+    @BindView(R.id.choseGaoqing)
+    ImageView gaoqing;
+
     JzvdStd mJzvdStd;
     private String videoid;
     private ACache aCache;
     private Dlg_Videoreward dialog;
     private Dlg_VideoDownload download;
+    private TextView[] pt = new TextView[4];
+    private TextView[] ppt = new TextView[4];
+    private LinearLayout myChaoQingView;
+    private String definition = "0";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,7 +92,16 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         viewPager.setAdapter(new DetailPagerAdapter(getSupportFragmentManager(), videoid, "video"));
         tabLayout.setViewPager(viewPager);
         mJzvdStd = findViewById(R.id.jz_video);
-        download = new Dlg_VideoDownload(this);
+        myChaoQingView = findViewById(R.id.chaoqingstatus);
+        pt[0] = findViewById(R.id.pt1);
+        pt[1] = findViewById(R.id.pt2);
+        pt[2] = findViewById(R.id.pt3);
+        pt[3] = findViewById(R.id.pt4);
+        ppt[0] = findViewById(R.id.ppt1);
+        ppt[1] = findViewById(R.id.ppt2);
+        ppt[2] = findViewById(R.id.ppt3);
+        ppt[3] = findViewById(R.id.ppt4);
+
     }
 
     private void initData() {
@@ -98,6 +115,7 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         });
         postBackData();
     }
+
     @Override
     public void onBackPressed() {
         if (Jzvd.backPress()) {
@@ -124,12 +142,19 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.tv_collect, R.id.ll_download, R.id.videoDetail_Collection, R.id.tv_videoDetail_Zan, R.id.videoDetail_videoreward})
+    @OnClick({R.id.tv_collect, R.id.ll_download, R.id.videoDetail_Collection, R.id.tv_videoDetail_Zan, R.id.videoDetail_videoreward, R.id.choseGaoqing,
+            R.id.p1, R.id.p2, R.id.p3, R.id.p4})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_collect:
                 break;
             case R.id.ll_download:
+                if (definition.equals("0")) {
+                    Toast.makeText(getContext(), "请在视频右上角选择清晰度", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                download = new Dlg_VideoDownload(this, videoid,entity.getData().getVideo_name(),entity.getData().getVideo_image());
+                download.setDefinition(definition);
                 download.show();
                 break;
             case R.id.videoDetail_Collection://收藏
@@ -148,6 +173,30 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 break;
             case R.id.videoDetail_videoreward://打赏
                 dialog.show();
+                break;
+            case R.id.choseGaoqing://选择视频放置清晰度
+                myChaoQingView.setVisibility(View.VISIBLE);
+                setChoseStatus(0);
+                break;
+            case R.id.p1://标清
+                definition = "1";
+                setChoseStatus(0);
+                myChaoQingView.setVisibility(View.GONE);
+                break;
+            case R.id.p2://高清
+                definition = "2";
+                setChoseStatus(1);
+                myChaoQingView.setVisibility(View.GONE);
+                break;
+            case R.id.p3://超清
+                definition = "3";
+                setChoseStatus(2);
+                myChaoQingView.setVisibility(View.GONE);
+                break;
+            case R.id.p4://蓝光
+                definition = "4";
+                setChoseStatus(3);
+                myChaoQingView.setVisibility(View.GONE);
                 break;
         }
     }
@@ -378,6 +427,16 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
     public void onItem(String p) {
         number = p;
         videoreward();
+    }
+
+    private int idnex = 1;
+
+    public void setChoseStatus(int stauts) {
+        pt[stauts].setSelected(true);
+        ppt[stauts].setSelected(true);
+        pt[idnex].setSelected(false);
+        ppt[idnex].setSelected(false);
+        idnex = stauts;
     }
 
 }

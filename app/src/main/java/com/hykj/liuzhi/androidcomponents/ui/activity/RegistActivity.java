@@ -52,12 +52,6 @@ public class RegistActivity extends BaseActivity {
     }
 
     private void initView() {
-        new TitleBuilder(this).setLeftIco(R.mipmap.common_black_back).setLeftIcoListening(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     /*设置数据*/

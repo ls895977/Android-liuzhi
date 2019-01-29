@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginTop="@dimen/dip_220"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dip_220">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -42,6 +43,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/qingxidu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="高清"
@@ -55,6 +57,7 @@
                     android:layout_marginLeft="4dp"
                     android:src="@mipmap/down" />
             </LinearLayout>
+
             <ImageView
                 android:id="@+id/downlod_shudown"
                 android:layout_width="14dp"
@@ -63,43 +66,41 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="16dp"
                 android:src="@mipmap/btn_close_reward" />
+
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
                 android:background="#e1e1e1"></View>
         </RelativeLayout>
+
         <TextView
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="16dp"
-            android:layout_below="@id/rl_top"
-            android:text="最美的回忆,都围绕着我们所拥有的回忆。"
-            android:textColor="#ffb400"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_top"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:text="最美的回忆,都围绕着我们所拥有的回忆。"
+            android:textColor="#ffb400" />
+
         <TextView
-            android:gravity="center"
-            android:textColor="#414141"
-            android:textSize="16sp"
-            android:text="查看全部缓存"
             android:id="@+id/tv_all_cache"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" />
-        <RelativeLayout
-            android:background="#f5f5f5"
+            android:gravity="center"
+            android:text="查看全部缓存"
+            android:textColor="#414141"
+            android:textSize="16sp" />
+        <com.daimajia.numberprogressbar.NumberProgressBar
+            android:id="@+id/myNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:progress_reached_bar_height="20dip"
             android:layout_above="@id/tv_all_cache"
-            android:layout_width="match_parent"
-            android:layout_height="20dp">
-            <TextView
-                android:paddingLeft="15dp"
-                android:background="#fae14c"
-                android:textColor="#414141"
-                android:textSize="14sp"
-                android:text="共62.5G/12.4G可用"
-                android:layout_width="245dp"
-                android:layout_height="match_parent" />
-        </RelativeLayout>
+            custom:progress_unreached_color="#f5f5f5"
+            custom:progress_reached_color="#fae14c"
+            custom:progress_current="10" />
     </RelativeLayout>
 
 </RelativeLayout>

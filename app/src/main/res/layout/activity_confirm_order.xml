@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:drawableRight="@mipmap/next_grey"
-                    android:text="您还未填写收货地址"
+                    android:text="您还未选择默认收货地址"
                     android:textColor="@color/bar_grey"
                     android:textSize="14sp" />
             </RelativeLayout>

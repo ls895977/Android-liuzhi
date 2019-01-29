@@ -156,12 +156,13 @@ public class MineFragment extends Fragment {
             case R.id.iv_mine_userhead:
             case R.id.tv_mine_edit_userdata:
                 rxPermissions
-                        .request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .request(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA)
                         .subscribe(new Consumer<Boolean>() {
                             @Override
-                            public void accept(Boolean aBoolean) throws Exception {
+                            public void accept(Boolean aBoolean) {
                                 if (aBoolean) {
                                     intent = new Intent(getContext(), EditUserDataActivity.class);
+                                    startActivity(intent);
                                 } else {
                                     Toast.makeText(getActivity(), "请打开读写存储卡权限", Toast.LENGTH_SHORT).show();
                                 }

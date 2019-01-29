@@ -2,23 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <com.luck.picture.lib.widget.SquareRelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:orientation="vertical">
-
             <RelativeLayout
                 android:id="@+id/rl_header_user1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
                 <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/iv0"
                     android:layout_width="65dp"
@@ -28,14 +24,11 @@
                     android:background="@mipmap/test1"
                     app:riv_corner_radius="@dimen/dip_90"
                     app:riv_mutate_background="true" />
-
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:src="@mipmap/icon_1th" />
-
             </RelativeLayout>
-
             <TextView
                 android:id="@+id/name1"
                 android:layout_width="wrap_content"

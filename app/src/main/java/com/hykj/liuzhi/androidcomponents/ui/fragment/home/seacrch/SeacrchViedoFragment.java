@@ -119,9 +119,8 @@ public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.O
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
-        Log.e("aa", selecttype + "----" + messageEvent.getMessage());
         data.clear();
-        postBackData("");
+        postBackData(messageEvent.getMessage());
     }
 
     VideoContextBean entity;
@@ -181,7 +180,7 @@ public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.O
             mAdapter.setOnItemClickListener(this);
             rv.setAdapter(mAdapter);
         } else {
-            mAdapter.notifyLoadMoreToLoading();
+            mAdapter.notifyDataSetChanged();
         }
     }
 

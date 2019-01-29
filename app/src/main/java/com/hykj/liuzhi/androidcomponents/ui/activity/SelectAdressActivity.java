@@ -41,6 +41,7 @@ public class SelectAdressActivity extends BaseActivity implements BaseQuickAdapt
     private SelectAdressListAdapter adapter;
     List<AllAddBean.DataBean.ArrayBean> AllDatas = new ArrayList<>();
     private String title = "";
+    private String status = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +94,9 @@ public class SelectAdressActivity extends BaseActivity implements BaseQuickAdapt
     }
 
     private void initData() {
+        if (getIntent().getStringExtra("status") != null) {
+            status = getIntent().getStringExtra("status");
+        }
         aCache = ACache.get(this);
         recyclerSelectAdress.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         postBackAddData();
@@ -100,6 +104,7 @@ public class SelectAdressActivity extends BaseActivity implements BaseQuickAdapt
 
     int page = 1;
     private AllAddBean entity;
+
     public void postBackAddData() {
         HttpHelper.getUserAddress(aCache.getAsString("user_id"), page + "", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
@@ -207,7 +212,7 @@ public class SelectAdressActivity extends BaseActivity implements BaseQuickAdapt
      * 修改默认地址
      */
     public void changeadderssstatus(int position) {
-        HttpHelper.changeadderssstatus( AllDatas.get(position).getAddress_id()+"",aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.changeadderssstatus(AllDatas.get(position).getAddress_id() + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(SelectAdressActivity.this, failure, Toast.LENGTH_SHORT).show();

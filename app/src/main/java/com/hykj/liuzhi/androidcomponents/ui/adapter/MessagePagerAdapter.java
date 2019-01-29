@@ -1,5 +1,6 @@
 package com.hykj.liuzhi.androidcomponents.ui.adapter;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,12 +23,16 @@ public class MessagePagerAdapter extends FragmentPagerAdapter {
 
     private ArrayList<Fragment> list;
     private ArrayList<String> titleList;
+
     public MessagePagerAdapter(FragmentManager fm) {
         super(fm);
         list = new ArrayList<>();
-        list.add(new NotifyFragment());
-        list.add(new UserMessageFragment());
-        list.add(new TradeInfoFragment());
+        NotifyFragment notifyFragment = new NotifyFragment();
+        list.add(notifyFragment);
+        UserMessageFragment userMessageFragment = new UserMessageFragment();
+        list.add(userMessageFragment);
+        TradeInfoFragment tradeInfoFragment = new TradeInfoFragment();
+        list.add(tradeInfoFragment);
         titleList = new ArrayList<>();
         titleList.add("平台通知");
         titleList.add("用户消息");

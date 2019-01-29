@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.mock.Mock;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
+import com.hykj.liuzhi.androidcomponents.ui.activity.DetailSoftArticleActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailVideoActivity;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.RecommendAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.adapter.FashionAdapter;
@@ -80,7 +81,7 @@ public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapt
         smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));  //设置 Header 为 贝塞尔雷达 样式
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));//设置 Footer 为 球脉冲 样式
         smartRefreshLayout.setEnableRefresh(true);//启用刷新
-        smartRefreshLayout.setEnableLoadmore(true);//启用加载
+        smartRefreshLayout.setEnableLoadmore(false);//启用加载
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -88,15 +89,6 @@ public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapt
                 datas.clear();
                 backData(page);
                 refreshlayout.finishRefresh();
-            }
-        });
-        //加载更多
-        smartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-                page++;
-                backData(page);
-                refreshlayout.finishLoadmore();
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -177,19 +169,13 @@ public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapt
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        Intent intent = new Intent();
-        intent.putExtra("videoid", datas.get(position).getSofttext_id() + "");
-        intent.setClass(getContext(), DetailVideoActivity.class);
-        startActivity(intent);
+        Intent intent1 = new Intent();
+        intent1.putExtra("softtextid", datas.get(position).getSofttext_id() + "");
+        intent1.setClass(getContext(), DetailSoftArticleActivity.class);
+        startActivity(intent1);
     }
 
     @Override
-
-
-
-
-
-
     public void onLoadMoreRequested() {
         rv.postDelayed(new Runnable() {
             @Override

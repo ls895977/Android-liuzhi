@@ -43,20 +43,17 @@ public class HeaderCircleScroll extends RelativeLayout {
     @BindView(R.id.name3)
     TextView name3;
     private List<CircleFragmentBean.DataBean.UserdataBean> datas;
-
     public HeaderCircleScroll(Context context, List<CircleFragmentBean.DataBean.UserdataBean> datas1) {
         super(context);
         datas = datas1;
         initView(context);
     }
-
     private void initView(final Context context) {
         View root = LayoutInflater.from(context).inflate(R.layout.layout_header_circle_horizon_scroll, this, true);
         RelativeLayout rl_header_user1 = root.findViewById(R.id.rl_header_user1);
         RelativeLayout rl_header_user2 = root.findViewById(R.id.rl_header_user2);
         RelativeLayout rl_header_user3 = root.findViewById(R.id.rl_header_user3);
         ButterKnife.bind(this);
-        Log.e("aa", "-----------" + datas.size());
         if (datas.size() >= 1) {
             Glide.with(this).load(datas.get(0).getUserdetail().getUser_pic()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(iv0);
             name1.setText(datas.get(0).getUserdetail().getUser_nickname());

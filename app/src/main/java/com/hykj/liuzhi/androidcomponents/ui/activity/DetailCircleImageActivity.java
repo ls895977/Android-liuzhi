@@ -16,7 +16,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
+import com.hykj.liuzhi.androidcomponents.bean.AddCodeBean;
+import com.hykj.liuzhi.androidcomponents.bean.LoginEntity;
 import com.hykj.liuzhi.androidcomponents.interfaces.GlideImageLoader;
 import com.hykj.liuzhi.androidcomponents.mock.Mock;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
@@ -30,6 +33,9 @@ import com.hykj.liuzhi.androidcomponents.ui.widget.DefaultTopBar;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
+import com.hykj.liuzhi.androidcomponents.utils.LocalInfoUtils;
+import com.luck.picture.lib.tools.ToastManage;
+import com.orhanobut.logger.Logger;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 
@@ -73,6 +79,8 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
     TextView Zan;
     @BindView(R.id.tv_collect)
     TextView concell;
+    @BindView(R.id.circle_Userfans)
+    TextView userFans;
     private String imagetext_id;
     private ACache aCache;
     private Dlg_Videoreward dlg_videoreward;
@@ -89,9 +97,10 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
         dlg_videoreward = new Dlg_Videoreward(this, this);
         aCache = ACache.get(this);
         imagetext_id = getIntent().getStringExtra("imagetext_id");
-        viewPager.setAdapter(new DetailCircleAdapter(getSupportFragmentManager(),imagetext_id,"imagetext"));
+        viewPager.setAdapter(new DetailCircleAdapter(getSupportFragmentManager(), imagetext_id, "imagetext"));
         tabLayout.setViewPager(viewPager);
         backData(imagetext_id);
+        postAdd();
     }
 
 
@@ -100,7 +109,9 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
         DefaultTopBar topBar = new DefaultTopBar(this, "详情", true);
         return topBar;
     }
-    @OnClick({R.id.ll_collect, R.id.ll_detail_circle_tougao, R.id.detailcircleimage_concell, R.id.ll_pay, R.id.tv_collect})
+
+    @OnClick({R.id.ll_collect, R.id.ll_detail_circle_tougao, R.id.detailcircleimage_concell, R.id.ll_pay, R.id.tv_collect,
+            R.id.circle_Userfans})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_collect:
@@ -128,8 +139,21 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
             case R.id.ll_pay://打赏
                 dlg_videoreward.show();
                 break;
+            case R.id.circle_Userfans://关注
+                if(entity.getData()==null){
+                    return;
+                }
+                if (userFans.getText().toString().equals("+ 关注")) {//走关注
+                    setClick(entity.getData().getUser_id());
+                } else {
+                    getUsernotfans(entity.getData().getUser_id());
+                }
+                break;
         }
     }
+
+    DetailCirclelmageBean entity;
+
     public void backData(String messageid) {
         HttpHelper.imagetextpage(messageid + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
@@ -139,7 +163,7 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
 
             @Override
             public void onSucceed(String succeed) {
-                DetailCirclelmageBean entity = FastJSONHelper.getPerson(succeed, DetailCirclelmageBean.class);
+                entity = FastJSONHelper.getPerson(succeed, DetailCirclelmageBean.class);
                 if (entity.getCode() != 0) {
                     return;
                 }
@@ -168,6 +192,11 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
                 } else {
                     Zan.setSelected(false);
                 }
+                if (entity.getData().getUserfans() == 1) {
+                    userFans.setText("已关注");
+                } else {
+                    userFans.setText("+ 关注");
+                }
                 Zan.setText(entity.getData().getImagetext_point() + "");
 
             }
@@ -178,6 +207,7 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
             }
         });
     }
+
     /**
      * 图文取消收藏
      */
@@ -348,4 +378,91 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
             }
         });
     }
+
+    /**
+     * 添加到软文瀏覽记录
+     */
+    private Gson gson;
+
+    public void postAdd() {
+        gson = new Gson();
+        HttpHelper.imagetextbrowses(imagetext_id + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                AddCodeBean bean = gson.fromJson(succeed, AddCodeBean.class);
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 关注
+     *
+     * @param clickId
+     */
+    private void setClick(int clickId) {
+        HttpHelper.getUserClickAttention(clickId, LocalInfoUtils.getUserId(), new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                LoginEntity entity = FastJSONHelper.getPerson(succeed, LoginEntity.class);
+                if (entity.getCode() == 0) {
+                    if (entity.getError() == 0) {
+                        userFans.setText("已关注");
+                    }
+                    Toast.makeText(getContext(), entity.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    /**
+     * 取消关注
+     *
+     * @param clickId
+     */
+    private void getUsernotfans(int clickId) {
+        HttpHelper.getUsernotfans(clickId, LocalInfoUtils.getUserId(), new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                LoginEntity entity = FastJSONHelper.getPerson(succeed, LoginEntity.class);
+                if (entity.getCode() == 0) {
+                    if (entity.getError() == 0) {
+                        userFans.setText("+ 关注");
+                    }
+                    Toast.makeText(getContext(), entity.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+    }
+
 }

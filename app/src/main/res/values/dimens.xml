@@ -55,6 +55,7 @@
     <dimen name="fond_24sp">24sp</dimen>
     <dimen name="fond_26sp">26sp</dimen>
     <dimen name="fond_25sp">25sp</dimen>
+    <dimen name="fond_28sp">28sp</dimen>
     <dimen name="examination_pding">8dip</dimen>
     <dimen name="btn_text_size">16sp</dimen>
     <dimen name="view_text_size">16sp</dimen>

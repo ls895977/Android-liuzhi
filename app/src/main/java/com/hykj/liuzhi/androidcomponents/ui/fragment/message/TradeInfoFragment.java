@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.bean.UserMessageBean;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.MessageAdapter;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.message.bean.UserMessageBean;
 
 import java.util.ArrayList;
 

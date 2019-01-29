@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -90,8 +91,10 @@ public class ShopSearchActivity extends BaseActivity implements BaseQuickAdapter
                 if (stSerch.length() > 0) {
                     linearTab.setVisibility(View.GONE);
                     linearList.setVisibility(View.VISIBLE);
+                    datas.clear();
                     selectgoods(stSerch);
                 } else {
+                    backHistoryData();
                     linearTab.setVisibility(View.VISIBLE);
                     linearList.setVisibility(View.GONE);
                 }
@@ -188,12 +191,13 @@ public class ShopSearchActivity extends BaseActivity implements BaseQuickAdapter
 
 
     /**
-     * 商品搜索历史
+     * 商品搜索
      */
     private int page = 1;
     GoodsAdapter mAdapter;
     List<ShopHomeBean.DataBean.ArrayBean> datas = new ArrayList<>();
     public void selectgoods(String name) {
+        Log.e("aa","----商品搜索-------"+name);
         HttpHelper.selectgoods(page + "", name, "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {

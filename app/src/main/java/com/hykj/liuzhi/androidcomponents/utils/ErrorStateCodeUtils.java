@@ -32,7 +32,7 @@ public class ErrorStateCodeUtils {
 
     public static String getRegisterErrorMessage(String errorCode) {
         if (TextUtils.isEmpty(errorCode)) {
-            return "出现未知异常，请重试";
+            return " ";
         }
         switch (errorCode) {
             case "1":
@@ -42,7 +42,7 @@ public class ErrorStateCodeUtils {
                 case "3":
                 return "注册失败";
             default:
-                return "出现未知异常"+errorCode+"，请重试";
+                return " "+errorCode+"，请重试";
         }
     }
 }

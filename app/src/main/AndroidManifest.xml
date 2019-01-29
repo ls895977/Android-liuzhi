@@ -2,30 +2,37 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.hykj.liuzhi">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="com.hykj.liuzhi.androidcomponents.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/app_logo"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/app_logo"
+        android:icon="@mipmap/icon_liuzhi"
+        android:label="@string/myAppName"
+        android:roundIcon="@mipmap/icon_liuzhi"
         android:supportsRtl="true"
         android:testOnly="false"
+        tools:replace="android:label"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".androidcomponents.ui.activity.LoginActivity">
+        <!--欢迎页-->
+        <activity android:name=".androidcomponents.ui.activity.Act_Loding">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+         <!--登录-->
+        <activity android:name=".androidcomponents.ui.activity.LoginActivity"/>
         <activity
             android:name="com.hykj.liuzhi.androidcomponents.ui.activity.DetailVideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -46,8 +53,6 @@
             android:screenOrientation="portrait" />
         <!--消息界面-->
         <activity android:name=".androidcomponents.ui.activity.MessageActivity" />
-        <!--登录界面-->
-        <!--<activity android:name=".androidcomponents.ui.activity.LoginActivity" />-->
         <!--忘记密码界面-->
         <activity android:name=".androidcomponents.ui.activity.ForgetPasswordActivity" />
         <!--动态码登录界面-->
@@ -98,6 +103,31 @@
         <activity android:name=".androidcomponents.ui.activity.min.Act_WatchHistory" />
         <activity android:name=".androidcomponents.ui.activity.min.Act_MyOrder"/>
         <activity android:name=".androidcomponents.ui.fragment.mine.MyOrderTabDetails"/>
+        <activity android:name=".androidcomponents.ui.fragment.message.MeaageDetails"/>
+        <!--微信支付-->
+        <activity
+            android:name=".androidcomponents.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wx153551c2cce0e6a8" />
+            </intent-filter>
+        </activity>
+        <!--支付宝支付-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"/>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"/>
     </application>
 
 </manifest>

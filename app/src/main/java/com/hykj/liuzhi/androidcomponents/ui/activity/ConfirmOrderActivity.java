@@ -22,6 +22,7 @@ import com.hykj.liuzhi.androidcomponents.bean.CartBean;
 import com.hykj.liuzhi.androidcomponents.bean.ConfirmOrderBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.bean.AllAddBean;
+import com.hykj.liuzhi.androidcomponents.ui.adapter.SelectAdressListAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.CollectionBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.GoodDetailDetailBean;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
@@ -79,7 +80,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             shopName = shopCartView.findViewById(R.id.order_shopName);
             shopPrice = shopCartView.findViewById(R.id.order_shopPrice);
             price_num = shopCartView.findViewById(R.id.order_shopPrice_num);
-            if(bean.getData().getImage()!=null) {
+            if (bean.getData().getImage() != null) {
                 Glide.with(this).load(bean.getData().getImage().get(0)).into(imageView);
             }
             shopName.setText(bean.getData().getName());
@@ -128,7 +129,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void initData() {
-
+        postBackAddData();
     }
 
     @Override
@@ -180,16 +181,22 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 订单生成
-     *
      * @param
      */
     private int goodsnum = 1;
-
     public void addorders() {
         if (TextUtils.isEmpty(addressid)) {
             Toast.makeText(getContext(), "请选择地址", Toast.LENGTH_SHORT).show();
             return;
         }
+        Log.e("aa", "----------user_id--------" + aCache.getAsString("user_id") + "/n" +
+                "----------addressid--------" + addressid + "---/n" +
+                "-----goodsnum-----" + goodsnum + "------/n"
+                + "--------shopcarids----" + shopcarids + "------/n" +
+                "----paymentmethod------" + paymentmethod + "---------/n"
+                + "-----liuyan--------" + liuyan.getText().toString() + "-----/n" +
+                "-------stDeductibletype-----" + stDeductibletype);
+
         HttpHelper.addorders(aCache.getAsString("user_id"),
                 addressid,
                 goodsid,
@@ -206,6 +213,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
                     @Override
                     public void onSucceed(String succeed) {
+                        Log.e("aa", "----订单提交成功------" + succeed);
                         ConfirmOrderBean entity = FastJSONHelper.getPerson(succeed, ConfirmOrderBean.class);
                         if (entity.getMsg().equals("访问成功")) {
                             Toast.makeText(getContext(), "订单提交成功！", Toast.LENGTH_SHORT).show();
@@ -222,5 +230,36 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                         Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+
+    /**
+     * 获取默认地址
+     */
+    public void postBackAddData() {
+        HttpHelper.getUserAddress(aCache.getAsString("user_id"), "1", new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                AllAddBean entity = FastJSONHelper.getPerson(succeed, AllAddBean.class);
+                if (entity.getData().getArray().size() == 0) {
+                    return;
+                }
+                for (int i = 0; i < entity.getData().getArray().size(); i++) {
+                    Log.e("aa", "---getAddress_status-------" + entity.getData().getArray().get(i).getAddress_status());
+                    if (entity.getData().getArray().get(i).getAddress_status() == 1) {
+                        tvAdd.setText(entity.getData().getArray().get(i).getAddress_address());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+            }
+        });
     }
 }

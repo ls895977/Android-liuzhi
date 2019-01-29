@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,12 +50,13 @@ import butterknife.Unbinder;
  */
 
 
-public class RecommendFragment extends ViewPagerFragment implements BaseQuickAdapter.OnItemClickListener {
+public class RecommendFragment extends ViewPagerFragment implements BaseQuickAdapter.OnItemChildClickListener {
     @BindView(R.id.rv)
     RecyclerView rv;
     Unbinder unbinder;
     FirstpageAdapter mAdapter;
-    List<SoftLanguageBean> data = new ArrayList<>();
+    List<SoftLanguageBean> dataAll = new ArrayList<>();
+
     private Banner banner;
     private SmartRefreshLayout smartRefreshLayout;
 
@@ -75,8 +77,6 @@ public class RecommendFragment extends ViewPagerFragment implements BaseQuickAda
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        header = new BannerHeader(getContext());
-        banner = header.getBanner();
     }
 
     private void initListener(View view) {
@@ -85,25 +85,25 @@ public class RecommendFragment extends ViewPagerFragment implements BaseQuickAda
         smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));  //设置 Header 为 贝塞尔雷达 样式
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));//设置 Footer 为 球脉冲 样式
         smartRefreshLayout.setEnableRefresh(true);//启用刷新
-        smartRefreshLayout.setEnableLoadmore(true);//启用加载
+        smartRefreshLayout.setEnableLoadmore(false);//启用加载
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 page = 1;
-                data.clear();
+                videoList.clear();
+                imageList.clear();
+                guangGaoList.clear();
+                dataAll.clear();
                 postBackData();
                 refreshlayout.finishRefresh();
             }
         });
-        //加载更多
-        smartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-                page++;
-                refreshlayout.finishLoadmore();
-            }
-        });
-
+        header = new BannerHeader(getContext());
+        banner = header.getBanner();
+        mAdapter = new FirstpageAdapter(getContext(), dataAll);
+        mAdapter.setOnItemChildClickListener(this);
+        mAdapter.addHeaderView(header);
+        rv.setAdapter(mAdapter);
     }
 
     @Override
@@ -155,65 +155,53 @@ public class RecommendFragment extends ViewPagerFragment implements BaseQuickAda
     /**
      * 设置adapter数据源
      */
+    List<FirstpagedataBean.DataBean.VideodataBean> videoList = new ArrayList<>();
+    List<FirstpagedataBean.DataBean.SofttextdataBean> imageList = new ArrayList<>();
+    List<FirstpagedataBean.DataBean.AdvdataBean> guangGaoList = new ArrayList<>();
+
     public void setAdapterData(FirstpagedataBean bean) {
         if (bean.getCode() != 0) {
             Toast.makeText(getContext(), "返回的参数有误不能获取该结果!", Toast.LENGTH_SHORT).show();
             return;
         }
-        SoftLanguageBean bean1 = new SoftLanguageBean(SoftLanguageBean.SECTION_HEADER);//纹理
-        data.add(bean1);
-        for (int i = 0; i < bean.getData().getVideodata().size(); i++) {
+//        for (int i = 0; i < bean.getData().getVideodata().size(); i++) {
+//            videoList.add(bean.getData().getVideodata().get(i));
+//        }
+//        for (int i = 0; i < bean.getData().getSofttextdata().size(); i++) {
+//            imageList.add(bean.getData().getSofttextdata().get(i));
+//        }
+//        for (int i = 0; i < bean.getData().getAdvdata().size(); i++) {
+//            guangGaoList.add(bean.getData().getAdvdata().get(i));
+//        }
+        SoftLanguageBean bean1 = new SoftLanguageBean(SoftLanguageBean.SECTION_HEADER);//纹理  头
+        dataAll.add(bean1);
+        for (int i = 0; i < bean.getData().getVideodata().size(); i++) {//视频数据
             SoftLanguageBean bean2 = new SoftLanguageBean(SoftLanguageBean.IMAGE_TEXT_INSIDE);
             bean2.setVideo_id(bean.getData().getVideodata().get(i).getVideo_id());
             bean2.setVideo_image(bean.getData().getVideodata().get(i).getVideo_image());
             bean2.setVideo_name(bean.getData().getVideodata().get(i).getVideo_name());
-            data.add(bean2);
+            dataAll.add(bean2);
         }
-
-        SoftLanguageBean bean3 = new SoftLanguageBean(SoftLanguageBean.SOFT_ARTICLE);//软文
-        data.add(bean3);
-        for (int i = 0; i < bean.getData().getSofttextdata().size(); i++) {
+        SoftLanguageBean bean3 = new SoftLanguageBean(SoftLanguageBean.SOFT_ARTICLE);//软文头
+        dataAll.add(bean3);
+        for (int i = 0; i < bean.getData().getSofttextdata().size(); i++) {//数据源软文
             SoftLanguageBean bean4 = new SoftLanguageBean(SoftLanguageBean.IMAGE_TEXT_TOP);
-            bean4.setSofttext_id(bean.getData().getSofttextdata().get(i).getSofttext_id());
-            bean4.setSofttext_title(bean.getData().getSofttextdata().get(i).getSofttext_title());
-            bean4.setSofttextimageURL(bean.getData().getSofttextdata().get(i).getSofttextimage().getSofttextimage_url());
-            bean4.setUser_id(bean.getData().getSofttextdata().get(i).getUser_id());
-            bean4.setUser_nickname(bean.getData().getSofttextdata().get(i).getUserdata().getUser_nickname());
-            bean4.setUser_pic(bean.getData().getSofttextdata().get(i).getUserdata().getUser_pic());
-            data.add(bean4);
+            bean4.setSofttext_id( bean.getData().getSofttextdata().get(i).getSofttext_id());
+            bean4.setSofttext_title( bean.getData().getSofttextdata().get(i).getSofttext_title());
+            bean4.setSofttextimageURL( bean.getData().getSofttextdata().get(i).getSofttextimage().getSofttextimage_url());
+            bean4.setUser_id( bean.getData().getSofttextdata().get(i).getUser_id());
+            bean4.setUser_nickname( bean.getData().getSofttextdata().get(i).getUserdata().getUser_nickname());
+            bean4.setUser_pic( bean.getData().getSofttextdata().get(i).getUserdata().getUser_pic());
+            dataAll.add(bean4);
         }
-        SoftLanguageBean bean5 = new SoftLanguageBean(SoftLanguageBean.IMAGE_HADER);//图片
-        data.add(bean5);
-        for (int i = 0; i < bean.getData().getAdvdata().size(); i++) {
+        SoftLanguageBean bean5 = new SoftLanguageBean(SoftLanguageBean.IMAGE_HADER);//更多内容头
+        dataAll.add(bean5);
+        for (int i = 0; i < bean.getData().getAdvdata().size(); i++) {//广告数据
             SoftLanguageBean bean6 = new SoftLanguageBean(SoftLanguageBean.IMAGE_BUTTOM);
-            bean6.setAdv_url(bean.getData().getAdvdata().get(i).getAdv_url());
-            data.add(bean6);
+            bean6.setAdv_url( bean.getData().getAdvdata().get(i).getAdv_url());
+            dataAll.add(bean6);
         }
-        if (mAdapter == null) {
-            mAdapter = new FirstpageAdapter(getContext(), data);
-            mAdapter.setOnItemClickListener(this);
-            mAdapter.addHeaderView(header);
-            rv.setAdapter(mAdapter);
-        } else {
-            mAdapter.notifyLoadMoreToLoading();
-        }
-    }
-
-    @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if (position <= (entity.getData().getVideodata().size())) {//视频
-            Intent intent = new Intent();
-            intent.putExtra("videoid", data.get(position).getVideo_id() + "");
-            intent.setClass(getContext(), DetailVideoActivity.class);
-            startActivity(intent);
-        } else if (position <= (entity.getData().getSofttextdata().size() + entity.getData().getVideodata().size() + 1)) {//图片
-            Intent intent1 = new Intent();
-            intent1.putExtra("softtextid", data.get(position).getSofttext_id() + "");
-            intent1.setClass(getContext(), DetailSoftArticleActivity.class);
-            startActivity(intent1);
-        } else {//广告
-
-        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -223,6 +211,28 @@ public class RecommendFragment extends ViewPagerFragment implements BaseQuickAda
 
         } else {
 
+        }
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        switch (view.getId()) {
+            case R.id.my_addadd://加载更多内窜
+                page++;
+                postBackData();
+                break;
+            case R.id.video1://视频
+                Intent intent = new Intent();
+                intent.putExtra("videoid", dataAll.get(position).getVideo_id() + "");
+                intent.setClass(getContext(), DetailVideoActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.image1://软文
+                Intent intent1 = new Intent();
+                intent1.putExtra("softtextid", dataAll.get(position).getSofttext_id() + "");
+                intent1.setClass(getContext(), DetailSoftArticleActivity.class);
+                startActivity(intent1);
+                break;
         }
     }
 }

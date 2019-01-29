@@ -68,7 +68,9 @@ public class PersonDetailActivity extends BaseActivity {
             case R.id.iv_person_detail_back:
                 finish();
                 break;
-            case R.id.ll_person_detail_myfocus:
+            case R.id.ll_person_detail_myfocus://关注
+
+
                 break;
         }
     }

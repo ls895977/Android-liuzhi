@@ -94,8 +94,7 @@ public class LoginActivity extends BaseActivity {
         if (TextUtils.isEmpty(mLoginPhone) || TextUtils.isEmpty(mLoginPass)) {
             Toast.makeText(this, "账号密码不能为空", Toast.LENGTH_SHORT).show();
         } else {
-            mLoginPass = "";
-            HttpHelper.login(mLoginPhone, mLoginPass, new HttpHelper.HttpUtilsCallBack<String>() {
+            HttpHelper.PhonePassWordLoGin(mLoginPhone, mLoginPass, new HttpHelper.HttpUtilsCallBack<String>() {
                 @Override
                 public void onFailure(String failure) {
                     Toast.makeText(LoginActivity.this, failure, Toast.LENGTH_SHORT).show();
@@ -135,6 +134,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSucceed(String succeed) {
                 LocalInfoUtils.saveUserself(succeed);
+                aCache.put("mLoginPhone", mLoginPhone);
+                aCache.put("mLoginPass", mLoginPass);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
 

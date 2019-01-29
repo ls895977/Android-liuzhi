@@ -5,11 +5,144 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical">
-    <!--视频区域-->
-    <cn.jzvd.JzvdStd
-        android:id="@+id/jz_video"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dip_220" />
+        android:layout_height="wrap_content">
+
+        <!--视频区域-->
+        <cn.jzvd.JzvdStd
+            android:id="@+id/jz_video"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dip_220" />
+
+        <ImageView
+            android:id="@+id/choseGaoqing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dip_10"
+            android:layout_marginRight="@dimen/dip_10"
+            android:padding="@dimen/dip_10"
+            android:src="@mipmap/more_index" />
+
+        <LinearLayout
+            android:id="@+id/chaoqingstatus"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dip_20"
+            android:layout_marginRight="@dimen/dip_20"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/p1"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/pt1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="270P"
+                    android:textColor="@drawable/fond_selecte"
+                    android:textSize="@dimen/fond_20sp" />
+                <TextView
+                    android:id="@+id/ppt1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="@dimen/dip_5"
+                    android:text="标清"
+                    android:textColor="@drawable/fond_selecte"
+                    android:textSize="@dimen/fond_16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/p2"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/pt2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="480P"
+                    android:textColor="@drawable/fond_selecte"
+                    android:textSize="@dimen/fond_20sp" />
+
+                <TextView
+                    android:id="@+id/ppt2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="@dimen/dip_5"
+                    android:text="高清"
+                    android:textColor="@drawable/fond_selecte"
+                    android:textSize="@dimen/fond_16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/p3"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/pt3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="720P"
+                    android:textColor="@drawable/fond_selecte"
+                    android:textSize="@dimen/fond_25sp" />
+
+                <TextView
+                    android:id="@+id/ppt3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="@dimen/dip_5"
+                    android:text="超清"
+                    android:textColor="@drawable/fond_selecte"
+                    android:textSize="@dimen/fond_18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/p4"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/pt4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="1080P"
+                    android:textColor="@drawable/fond_selecte"
+                    android:textSize="@dimen/fond_25sp" />
+
+                <TextView
+                    android:id="@+id/ppt4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="@dimen/dip_5"
+                    android:text="蓝光"
+                    android:textColor="@drawable/fond_selecte"
+                    android:textSize="@dimen/fond_18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_content"
@@ -96,12 +229,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_videoDetail_Zan"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/collection_check_box" />
+                    android:background="@drawable/circlecollection_check_box" />
 
                 <TextView
                     android:id="@+id/video_zan"

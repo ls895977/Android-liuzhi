@@ -61,6 +61,9 @@ public class ForgetPasswordActivity extends BaseActivity {
                 }
                 backPhotCode();
                 break;
+            case R.id.forget_back://
+                finish();
+                break;
         }
     }
 

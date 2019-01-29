@@ -15,7 +15,8 @@ import java.util.List;
 
 public class FirstpageAdapter extends BaseMultiItemQuickAdapter<SoftLanguageBean, BaseViewHolder> {
     Context context;
-    public  FirstpageAdapter(Context context1, List<SoftLanguageBean> data) {
+
+    public FirstpageAdapter(Context context1, List<SoftLanguageBean> data) {
         super(data);
         this.context = context1;
         addItemType(SoftLanguageBean.IMAGE_TEXT_BOTTOM, R.layout.layout_adapter_item_image_text_bottom);
@@ -27,17 +28,21 @@ public class FirstpageAdapter extends BaseMultiItemQuickAdapter<SoftLanguageBean
         addItemType(SoftLanguageBean.IMAGE_HADER, R.layout.layout_adapter_section_imgeheader);
         addItemType(SoftLanguageBean.IMAGE_BUTTOM, R.layout.layout_adapter_section_imge);
     }
+
     @Override
     protected void convert(BaseViewHolder helper, SoftLanguageBean item) {
         switch (helper.getItemViewType()) {
             case SoftLanguageBean.IMAGE_TEXT_BOTTOM:
+                helper.addOnClickListener(R.id.video1);
                 break;
             case SoftLanguageBean.IMAGE_TEXT_INSIDE:
+                helper.addOnClickListener(R.id.video1);
                 helper.setText(R.id.softLanguage_Name, item.getVideo_name());
                 ImageView loding = helper.getView(R.id.softLanguage_back);
                 Glide.with(context).load(item.getVideo_image()).into(loding);
                 break;
             case SoftLanguageBean.IMAGE_TEXT_TOP:
+                helper.addOnClickListener(R.id.image1);
                 ImageView haderImage = helper.getView(R.id.iv_top_icon);
                 Glide.with(context).load(item.getUser_pic()).into(haderImage);
                 helper.setText(R.id.tv_nickName, item.getUser_nickname());
@@ -48,12 +53,12 @@ public class FirstpageAdapter extends BaseMultiItemQuickAdapter<SoftLanguageBean
 
                 break;
             case SoftLanguageBean.SOFT_ARTICLE:
-
                 break;
             case SoftLanguageBean.IMAGE_HADER:
-
+                helper.addOnClickListener(R.id.my_addadd);
                 break;
             case SoftLanguageBean.IMAGE_BUTTOM:
+                helper.addOnClickListener(R.id.guanggao);
                 ImageView img = helper.getView(R.id.button_img);
                 Glide.with(context).load(item.getAdv_url()).into(img);
                 break;

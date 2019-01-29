@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">liuzhi</string>
+    <string name="myAppName" translatable="false">六之</string>
+    <string name="nn" translatable="false"></string>
 </resources>

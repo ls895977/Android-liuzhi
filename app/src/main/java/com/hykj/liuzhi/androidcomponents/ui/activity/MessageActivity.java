@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.ui.adapter.DetailPagerAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.MessagePagerAdapter;
-import com.hykj.liuzhi.androidcomponents.ui.widget.DefaultTopBar;
 import com.hykj.liuzhi.androidcomponents.ui.widget.MessageTopBar;
 
 import butterknife.BindView;

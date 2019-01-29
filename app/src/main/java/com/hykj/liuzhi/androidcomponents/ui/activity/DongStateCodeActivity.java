@@ -58,16 +58,10 @@ public class DongStateCodeActivity extends BaseActivity {
     }
 
     private void initView() {
-        new TitleBuilder(DongStateCodeActivity.this).setTitleText("登录").setLeftIco(R.mipmap.common_black_back).setLeftIcoListening(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     @OnClick({R.id.tv_dongtailogin_login, R.id.tv_dongtailogin_pass2login, R.id.tv_dongtailogin_forgetpassword, R.id.tv_dongtailogin_toregist
-            , R.id.tv_dongtailogin_authcode})
+            , R.id.tv_dongtailogin_authcode, R.id.login_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_dongtailogin_login:
@@ -88,6 +82,9 @@ public class DongStateCodeActivity extends BaseActivity {
                     return;
                 }
                 backPhotCode();
+                break;
+            case R.id.login_back:
+                finish();
                 break;
         }
     }

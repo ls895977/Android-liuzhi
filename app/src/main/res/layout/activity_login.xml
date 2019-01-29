@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dip_40">
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="登录"
+            android:layout_centerVertical="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fond_16sp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="100dp"
         android:src="@mipmap/app_logo" />
 
     <EditText
@@ -35,7 +47,7 @@
         android:layout_marginTop="20dp"
         android:background="@null"
         android:hint="请输入密码"
-        android:text="123456"
+        android:text="qwe1234"
         android:inputType="textPassword"
         android:paddingLeft="16dp"
         android:textSize="14sp" />

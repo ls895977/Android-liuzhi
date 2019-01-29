@@ -5,8 +5,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.hykj.liuzhi.androidcomponents.bean.AddAddressBean;
+import com.hykj.liuzhi.androidcomponents.bean.AddCodeBean;
 import com.hykj.liuzhi.androidcomponents.bean.AddContextBean;
 import com.hykj.liuzhi.androidcomponents.bean.AliiTabBean;
+import com.hykj.liuzhi.androidcomponents.bean.AppPayBean;
 import com.hykj.liuzhi.androidcomponents.bean.CartBean;
 import com.hykj.liuzhi.androidcomponents.bean.ConfirmOrderBean;
 import com.hykj.liuzhi.androidcomponents.bean.DetailCommetListBean;
@@ -30,6 +32,8 @@ import com.hykj.liuzhi.androidcomponents.ui.activity.video.bean.VideoPointBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.circle.bean.CircleFragmentBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.detail.bean.GetImageTextBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.detail.bean.VideoDetailBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.message.bean.NotifyFragmentBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.message.bean.SystemNotiFicationdetailBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.bean.MyOrderTabDetailsBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.bean.UserAdvertorialBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.bean.UserordersBean;
@@ -66,6 +70,47 @@ public class HttpHelper {
         map.put("phone", phone);
         map.put("code", code);
         httpService.login(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper").i(succeed);
+                        LoginEntity entity = FastJSONHelper.getPerson(succeed, LoginEntity.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(entity.getMsg());
+                            }
+
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    public static void PhonePassWordLoGin(String phone, String password, final HttpUtilsCallBack<String> callBack) {
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("password", password);
+        httpService.PhonePassWordLoGin(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -393,6 +438,192 @@ public class HttpHelper {
                             if (entity.getError() == 0) {
                                 callBack.onSucceed(succeed);
                             } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getMsg()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+
+    /**
+     * 用户点击取消关注
+     *
+     * @param callBack
+     */
+    public static void getUsernotfans(int click_id, int user_id, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("coll", click_id + "");
+        map.put("user_id", user_id + "");
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.getUsernotfans(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper").i(succeed.toString());
+                        LoginEntity entity = FastJSONHelper.getPerson(succeed, LoginEntity.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getError()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+
+    /**
+     * 首页=消息
+     *
+     * @param callBack
+     */
+    public static void getSystemnotificationdetail(String systemnotificationid, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("systemnotificationid", systemnotificationid);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.getSystemnotificationdetail(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper").i(succeed.toString());
+                        SystemNotiFicationdetailBean entity = FastJSONHelper.getPerson(succeed, SystemNotiFicationdetailBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getError()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+
+    /**
+     * 首页=平台通知
+     *
+     * @param callBack
+     */
+    public static void Home_showsystemnotification(String user_id, String page, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        map.put("page", page);
+        map.put("number", "10");
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Home_showsystemnotification(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper").i(succeed.toString());
+                        NotifyFragmentBean entity = FastJSONHelper.getPerson(succeed, NotifyFragmentBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getError()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+
+    /**
+     * 首页=用户消息
+     *
+     * @param callBack
+     */
+    public static void Home_authorgetmessage(String user_id, String page, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        map.put("page", page);
+        map.put("number", "10");
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Home_authorgetmessage(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper").i(succeed.toString());
+                        Log.e("aa", "------" + succeed);
+                        NotifyFragmentBean entity = FastJSONHelper.getPerson(succeed, NotifyFragmentBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
                                 callBack.onError(String.valueOf(entity.getError()));
                             }
                         } else {
@@ -596,7 +827,7 @@ public class HttpHelper {
      *
      * @param callBack
      */
-    public static void getuserselect(int page, String selectname, final String selecttype, final HttpUtilsCallBack<String> callBack) {
+    public static void getuserselect(int page, String selectname, String selecttype, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("Page", String.valueOf(page));
         map.put("Number", "10");
@@ -622,7 +853,7 @@ public class HttpHelper {
                                 callBack.onError(String.valueOf(entity.getError()));
                             }
                         } else {
-                            callBack.onFailure(String.valueOf(entity.getError()));
+                            callBack.onFailure(entity.getMsg());
                         }
                     }
 
@@ -1196,6 +1427,52 @@ public class HttpHelper {
                 });
     }
 
+
+    /**
+     * 我的=取消订单
+     */
+    public static void CancellationOfOrder(String ordersid, String user_id, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("ordersid", ordersid);
+        map.put("user_id", user_id);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.CancellationOfOrder(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed.toString());
+                        AddAddressBean entity = FastJSONHelper.getPerson(succeed, AddAddressBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+
     /**
      * 我的=省
      *
@@ -1367,6 +1644,100 @@ public class HttpHelper {
                             }
                         } else {
                             callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 我的=修改性别
+     *
+     * @param callBack
+     */
+    public static void changeusersex(String user_id, String sex, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        map.put("sex", sex);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.changeusersex(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed.toString());
+                        AliiTabBean entity = FastJSONHelper.getPerson(succeed, AliiTabBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getMsg()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 我的=修改出生日期
+     *
+     * @param callBack
+     */
+    public static void Min_changeuserbarth(String user_id, String barthday, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        map.put("barthday", barthday);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Min_changeuserbarth(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed.toString());
+                        AliiTabBean entity = FastJSONHelper.getPerson(succeed, AliiTabBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getMsg()));
                         }
                     }
 
@@ -1870,12 +2241,9 @@ public class HttpHelper {
     public static void userorders(String user_id, String page, String type, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("user_id", user_id);
-        Log.e("aa", "-----user_id---" + user_id);
         map.put("page", page);
-        Log.e("aa", "-----page---" + page);
         map.put("number", "10");
         map.put("type", type);
-        Log.e("aa", "-----type---" + type);
         HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
         httpService.userorders(map)
                 .subscribeOn(Schedulers.io())
@@ -1888,8 +2256,6 @@ public class HttpHelper {
 
                     @Override
                     public void onNext(String succeed) {
-                        Log.e("aa", "--------" + succeed);
-                        Logger.t("HttpHelper---").i(succeed);
                         UserordersBean entity = FastJSONHelper.getPerson(succeed, UserordersBean.class);
                         if (entity.getCode() == 0) {
                             if (entity.getError() == 0) {
@@ -2012,14 +2378,15 @@ public class HttpHelper {
 
 
     /**
-     * 商=商品搜索历史
+     * 商=商品搜索
      *
      * @param callBack
      */
     public static void selectgoods(String page, String name, String cateid, String user_id, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("page", page);
-        map.put("number", name);
+        map.put("number", "10");
+        map.put("name", name);
         map.put("cateid", cateid);
         map.put("user_id", user_id);
         HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
@@ -2137,7 +2504,7 @@ public class HttpHelper {
                                 callBack.onError(String.valueOf(entity.getMsg()));
                             }
                         } else {
-                            callBack.onFailure(String.valueOf(entity.getError()));
+                            callBack.onFailure(entity.getMsg());
                         }
                     }
 
@@ -2414,10 +2781,10 @@ public class HttpHelper {
                             if (entity.getError() == 0) {
                                 callBack.onSucceed(succeed);
                             } else {
-                                callBack.onError(String.valueOf(entity.getMsg()));
+                                callBack.onError(entity.getMsg());
                             }
                         } else {
-                            callBack.onFailure(String.valueOf(entity.getError()));
+                            callBack.onFailure(entity.getMsg());
                         }
                     }
 
@@ -2976,7 +3343,7 @@ public class HttpHelper {
                                 callBack.onError(entity.getMsg());
                             }
                         } else {
-                            callBack.onFailure(entity.getError() + "");
+                            callBack.onFailure(entity.getMsg() + "");
                         }
                     }
 
@@ -3219,7 +3586,7 @@ public class HttpHelper {
                                 callBack.onError(entity.getMsg());
                             }
                         } else {
-                            callBack.onFailure(entity.getError() + "");
+                            callBack.onFailure(entity.getMsg() + "");
                         }
                     }
 
@@ -3267,7 +3634,7 @@ public class HttpHelper {
                                 callBack.onError(entity.getMsg());
                             }
                         } else {
-                            callBack.onFailure(entity.getError() + "");
+                            callBack.onFailure(entity.getMsg() + "");
                         }
                     }
 
@@ -3710,7 +4077,7 @@ public class HttpHelper {
     }
 
     /**
-     * 用户浏览记录1图文
+     * 用户浏览记录2图文
      */
     public static void userbrowses1(String user_id, String page, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
@@ -3802,6 +4169,144 @@ public class HttpHelper {
                 });
     }
 
+
+    /**
+     * 图文浏览记录添加
+     */
+    public static void imagetextbrowses(String imagetextid, String user_id, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("imagetextid ", imagetextid);
+        map.put("user_id", user_id);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.imagetextbrowses(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Log.e("aa", "--------图文--" + succeed);
+                        Logger.t("HttpHelper---").i(succeed);
+                        Gson gson = new Gson();
+                        AddCodeBean entity = gson.fromJson(succeed, AddCodeBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(entity.getMsg());
+                            }
+                        } else {
+                            callBack.onFailure(entity.getError() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 软文浏览记录添加
+     */
+    public static void softtextborwses(String softtextid, String user_id, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("softtextid", softtextid);
+        map.put("user_id", user_id);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.softtextborwses(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Log.e("aa", "--------软文--" + succeed);
+                        Logger.t("HttpHelper---").i(succeed);
+                        Gson gson = new Gson();
+                        AddCodeBean entity = gson.fromJson(succeed, AddCodeBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(entity.getMsg());
+                            }
+                        } else {
+                            callBack.onFailure(entity.getError() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+
+    /**
+     * 订单支付
+     */
+    public static void payOrders(String ordersid, String paytype, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("ordersid", ordersid);
+        map.put("paytype", paytype);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.payOrders(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed);
+                        Gson gson = new Gson();
+                        AppPayBean entity = gson.fromJson(succeed, AppPayBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(entity.getMsg());
+                            }
+                        } else {
+                            callBack.onFailure(entity.getError() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
 
     public interface HttpUtilsCallBack<T> {
         public void onFailure(String failure);

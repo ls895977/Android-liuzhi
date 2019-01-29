@@ -22,7 +22,6 @@ import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.DetailCommentBean;
 import com.hykj.liuzhi.androidcomponents.bean.DetailCommetListBean;
 import com.hykj.liuzhi.androidcomponents.bean.DetailVideoBean;
-import com.hykj.liuzhi.androidcomponents.bean.UserMessageBean;
 import com.hykj.liuzhi.androidcomponents.bean.VideomessageBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.ReportActivity;
@@ -49,7 +48,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.zhouyou.http.EasyHttp.getContext;
 
 /**
  * @author: lujialei

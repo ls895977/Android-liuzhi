@@ -62,7 +62,7 @@
                 android:layout_centerVertical="true"
                 android:background="@color/white"
                 android:layout_marginLeft="16dp"
-                android:text="请输入邮箱地址"
+                android:hint="请输入邮箱地址"
                 android:textColor="#aaaaaa"
                 android:textSize="15sp" />
 

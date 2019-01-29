@@ -10,22 +10,24 @@ android {
         versionName rootProject.versionName
         multiDexEnabled true
     }
-//    signingConfigs {
-//        config {
-//            storeFile file('../android.keystore')//签名文件路径
-//            storePassword "xmkj2012"
-//            keyAlias "xmkj"
-//            keyPassword "xmkj2012"  //签名密码
-//        }
-//    }
+    signingConfigs {
+        debug {
+            keyAlias 'xmkj'
+            keyPassword 'xmkj2012'
+            storeFile file('../android.keystore')
+            storePassword 'xmkj2012'
+        }
+        release {
+            storeFile file('../android.keystore')
+            storePassword 'xmkj2012'
+            keyAlias 'xmkj'
+            keyPassword 'xmkj2012'
+        }
+}
     buildTypes {
-//        debug {
-//            signingConfig signingConfigs.config
-//        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.config
         }
     }
     lintOptions {
@@ -76,9 +78,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.jakewharton:disklrucache:2.0.2'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'io.reactivex.rxjava2:rxjava:2.1.1'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -94,4 +94,8 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-7'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'
     compile 'org.jsoup:jsoup:1.9.2'
+    compile 'com.daimajia.numberprogressbar:library:1.4@aar'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    // 支付宝 SDK AAR 包所需的配置
+    compile (name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
 }

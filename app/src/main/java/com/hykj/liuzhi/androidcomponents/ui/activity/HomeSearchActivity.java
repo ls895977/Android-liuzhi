@@ -26,7 +26,6 @@ import butterknife.OnClick;
 
 /**
  * 搜索页面
- *
  * @author: lujialei
  * @date: 2018/10/22
  * @describe:
@@ -46,7 +45,7 @@ public class HomeSearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_search);
         ButterKnife.bind(this);
-//        backHistoryData();
+        backHistoryData();
         initView();
     }
 
@@ -99,6 +98,7 @@ public class HomeSearchActivity extends BaseActivity {
 
             @Override
             public void onSucceed(String succeed) {
+                Log.e("aa","--------"+succeed);
 //                entity = FastJSONHelper.getPerson(succeed, FashionBean.class);
             }
 

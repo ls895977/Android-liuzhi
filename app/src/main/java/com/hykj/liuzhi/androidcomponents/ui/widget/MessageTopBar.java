@@ -26,8 +26,17 @@ public class MessageTopBar extends RelativeLayout {
     ImageView ivLeft;
     @BindView(R.id.tv_title)
     TextView tvTitle;
+    @BindView(R.id.all_read)
+    TextView all_read;
     Activity activity;
 
+    public TextView getAll_read() {
+        return all_read;
+    }
+
+    public void setAll_read(TextView all_read) {
+        this.all_read = all_read;
+    }
 
     public interface OnTopBarClickListener{
         void onChatClick(View v);

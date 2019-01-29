@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -37,6 +38,7 @@ public class MyOrderTabAdapter extends BaseQuickAdapter<UserordersBean.DataBean.
     protected void convert(BaseViewHolder helper, UserordersBean.DataBean.ArrayBean item) {
         helper.setText(R.id.oder_number, "订单号:" + item.getOrders_id());
         helper.setText(R.id.oder_status, item.getOrdertype());
+        sum=0;
         for (int i = 0; i < item.getGoodsdata().size(); i++) {
             sum += Integer.valueOf(item.getGoodsdata().get(i).getOrdersgoods_money());
         }

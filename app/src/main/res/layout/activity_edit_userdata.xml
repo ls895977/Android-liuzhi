@@ -57,12 +57,14 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="姓名" />
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="12dp"
+                <TextView
+                    android:id="@+id/nickName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
+                    android:drawablePadding="@dimen/dip_10"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/next_grey" />
+                    android:drawableRight="@mipmap/next_grey" />
             </RelativeLayout>
 
             <View
@@ -70,6 +72,7 @@
                 android:layout_marginTop="5dp" />
 
             <RelativeLayout
+                android:id="@+id/riqi_item"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
                 android:layout_marginTop="10dp">
@@ -80,12 +83,14 @@
                     android:layout_centerVertical="true"
                     android:text="出生日期" />
 
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="12dp"
+                <TextView
+                    android:id="@+id/item_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/dip_10"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/next_grey" />
+                    android:drawableRight="@mipmap/next_grey" />
 
             </RelativeLayout>
 

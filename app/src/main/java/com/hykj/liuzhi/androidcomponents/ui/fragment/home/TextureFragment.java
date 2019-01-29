@@ -80,7 +80,7 @@ public class TextureFragment extends ViewPagerFragment implements BaseQuickAdapt
         smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));  //设置 Header 为 贝塞尔雷达 样式
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));//设置 Footer 为 球脉冲 样式
         smartRefreshLayout.setEnableRefresh(true);//启用刷新
-        smartRefreshLayout.setEnableLoadmore(true);//启用加载
+        smartRefreshLayout.setEnableLoadmore(false);//启用加载
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -90,15 +90,6 @@ public class TextureFragment extends ViewPagerFragment implements BaseQuickAdapt
                 refreshlayout.finishRefresh();
             }
         });
-        //加载更多
-        smartRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-                page++;
-                refreshlayout.finishLoadmore();
-            }
-        });
-
 
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         header = new BannerHeader(getContext());

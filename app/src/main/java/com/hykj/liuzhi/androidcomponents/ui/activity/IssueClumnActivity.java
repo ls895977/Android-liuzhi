@@ -260,14 +260,6 @@ public class IssueClumnActivity extends BaseActivity implements View.OnClickList
                 });
     }
 
-
-
-
-
-
-
-
-
     IProgressDialog mProgressDialog = new IProgressDialog() {
         @Override
         public Dialog getDialog() {

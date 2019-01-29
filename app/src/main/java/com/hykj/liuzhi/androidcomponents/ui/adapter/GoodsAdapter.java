@@ -33,7 +33,6 @@ public class GoodsAdapter extends BaseQuickAdapter<ShopHomeBean.DataBean.ArrayBe
 
     @Override
     protected void convert(BaseViewHolder helper, ShopHomeBean.DataBean.ArrayBean item) {
-
         Glide.with(context).load(item.getGoods_pic()).into((ImageView) helper.getView(R.id.iv_goods));
         helper.setText(R.id.tv_title, item.getGoods_name())
                 .setText(R.id.tv_stock, "限量" + item.getGoods_stock() + "件")

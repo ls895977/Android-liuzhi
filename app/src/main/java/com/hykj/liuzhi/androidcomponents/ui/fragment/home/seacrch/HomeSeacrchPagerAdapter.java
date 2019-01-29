@@ -41,15 +41,6 @@ public class HomeSeacrchPagerAdapter extends FragmentPagerAdapter {
         titleList.add("软文");
         titleList.add("视频");
     }
-
-    //    @Override
-//    public void onDestroyView() {
-//        LogUtils.d(TAG, "-->onDestroyView");
-//        super.onDestroyView();
-//        if (null != FragmentView) {
-//            ((ViewGroup) mFragmentView.getParent()).removeView(mFragmentView);
-//        }
-//    }
     @Override
     public Fragment getItem(int position) {
         return list.get(position);

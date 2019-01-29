@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.CircleBean;
+import com.hykj.liuzhi.androidcomponents.bean.User;
 import com.hykj.liuzhi.androidcomponents.mock.Mock;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailCircleImageActivity;
@@ -128,12 +129,14 @@ public class MineSoftArticleFragment extends Fragment implements BaseQuickAdapte
             @Override
             public void onSucceed(String succeed) {
                 Gson gson = new Gson();
-                Log.e("aa", "--------" + succeed);
                 WatchHistoryBean entity = gson.fromJson(succeed, WatchHistoryBean.class);
                 for (int i = 0; i < entity.getData().getArray().size(); i++) {
                     UserAdvertorialBean.DataBean.ArrayBean bean = new UserAdvertorialBean.DataBean.ArrayBean();
                     bean.setSofttext_id(entity.getData().getArray().get(i).getSofttext_id());
                     bean.setSofttext_title(entity.getData().getArray().get(i).getSofttext_id() + "");
+                    UserAdvertorialBean.DataBean.ArrayBean.SofttextimagedataBean  softtextimagedataBean=new   UserAdvertorialBean.DataBean.ArrayBean.SofttextimagedataBean();
+                    softtextimagedataBean.setSofttextimage_url(entity.getData().getArray().get(i).getSofttextdata().getSofttextimages().getSofttextimage_url());
+                    bean.setSofttextimagedata(softtextimagedataBean);
                     UserAdvertorialBean.DataBean.ArrayBean.UserdataBean userdataBean = new UserAdvertorialBean.DataBean.ArrayBean.UserdataBean();
                     userdataBean.setUser_autograph(entity.getData().getArray().get(i).getSofttextdata().getUserdata().getUser_autograph());
                     userdataBean.setUser_nickname(entity.getData().getArray().get(i).getSofttextdata().getUserdata().getUser_nickname());

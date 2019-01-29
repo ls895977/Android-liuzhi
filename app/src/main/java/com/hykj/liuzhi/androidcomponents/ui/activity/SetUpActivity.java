@@ -91,7 +91,9 @@ public class SetUpActivity extends BaseActivity {
                 aCache.clear();
                 break;
             case R.id.rl_mine_setup_takeaddress://收货地址
-                intent = new Intent(SetUpActivity.this, SelectAdressActivity.class);
+                intent = new Intent();
+                intent.setClass(SetUpActivity.this, SelectAdressActivity.class);
+                intent.putExtra("status", "setup");
                 startActivity(intent);
                 break;
             case R.id.rl_mine_setup_bindemail://绑定邮箱
@@ -127,7 +129,8 @@ public class SetUpActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.cller_cache://清除缓存
-
+                aCache.clear();
+                Toast.makeText(SetUpActivity.this, "缓存清理完毕", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

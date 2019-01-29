@@ -3,7 +3,10 @@ package com.hykj.liuzhi.androidcomponents.net.http;
 public class ApiConstant {
     //正式
     public static final String ROOT_URL = "http://liuzhi.365hy.com";
+    //用户登录
     public static final String LOGIN = "/api/index/login";
+    //用户密码登录
+    public static final String PhonePassWordLoGin = "/api/index/phonepasswordlogin";
     //用户注册
     public static final String REGISTER = "/api/index/register";
     //获取用户信息
@@ -16,10 +19,16 @@ public class ApiConstant {
     public static final String GETUSERCOLLECTION = "/api/index/getusercollection";
     //用户的粉丝
     public static final String USER_FAN = "/api/index/getuserfanse";
-    //用户点击按钮 关注/已关注
+    //用户点击按钮 关注
     public static final String USER_CLICK_ATTENTION = "/api/index/userfans";
-    //用户上传图文信息
-    public static final String USER_ADD_IMAGTEXT = "/api/index/addimagetext";
+    //用户点击按钮 取消关注
+    public static final String USER_CLICK_Usernotfans = "/api/index/usernotfans";
+    //首页=消息详情接口
+    public static final String Home_systemnotificationdetail = "/api/index/systemnotificationdetail";
+    //首页=平台通知
+    public static final String Home_showsystemnotification = "/api/index/showsystemnotification";
+    //首页=用户消息
+    public static final String Home_authorgetmessage = "/api/index/authorgetmessage";
     //首页=推荐
     public static final String Home_Firstpagedata = "/api/index/firstpagedata";
     //首页=纹理
@@ -56,6 +65,8 @@ public class ApiConstant {
     public static final String Min_deleteaddress = "/api/index/deleteaddress";
     //我的=修改收货地址
     public static final String Min_changeadderssstatus = "/api/index/changeadderssstatus";
+    //我的=我的订单=订单取消
+    public static final String Min_cancellationOfOrder = "/api/index/cancellationOfOrder";
     //我的=省
     public static final String Min_getprovinces = "/api/index/getprovinces";
     //我的=市
@@ -66,6 +77,10 @@ public class ApiConstant {
     public static final String Min_getlabels = "/api/index/getlabels";
     //我的=修改标签
     public static final String Min_changelabel = "/api/index/changelabel";
+    //我的=修改性别
+    public static final String Min_changeusersex = "/api/index/changeusersex";
+    //我的=修改出生日期
+    public static final String Min_changeuserbarth= "/api/index/changeuserbarth";
     //图文(圈)=图文添加
     public static final String Circle_AddImageText = "/api/index/addimagetext";
     //商=获取轮播图片
@@ -110,6 +125,8 @@ public class ApiConstant {
     public static final String Home_videolist = "/api/index/videolist";
     //视频=视频评论
     public static final String Home_videomessage = "/api/index/videomessage";
+    //视频=视频下载
+    public static final String Home_videodownloadvideo = "/api/index/downloadvideo";
     //视频=获取所有的视频评论
     public static final String Home_videomessageall = "/api/index/videomessageall";
     //视频=视频打赏
@@ -170,4 +187,10 @@ public class ApiConstant {
     public static final String userbrowses = "/api/index/userbrowses";
     //订单详情
     public static final String showorders = "/api/index/showorders";
+    //图文浏览记录添加
+    public static final String imagetextbrowses = "/api/index/imagetextbrowses";
+    //软文浏览记录添加
+    public static final String softtextborwses = "/api/index/softtextborwses";
+    //订单支付
+    public static final String payOrders = "/api/index/payOrders";
 }

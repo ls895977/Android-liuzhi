@@ -20,7 +20,6 @@
             android:text="取消"
             android:textColor="#414141"
             android:textSize="14sp" />
-
         <EditText
             android:id="@+id/et_homesearch_input"
             android:layout_width="300dp"
@@ -34,7 +33,8 @@
             android:drawablePadding="5dp"
             android:hint="搜索"
             android:paddingLeft="10dp"
-            android:textColor="#aaaaaa"
+            android:textColorHint="#aaaaaa"
+            android:textColor="@color/black"
             android:textCursorDrawable="@null"
             android:textSize="13sp" />
     </RelativeLayout>

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -185,6 +186,7 @@ public class BeautifulImageFragment extends Fragment implements BaseQuickAdapter
     }
 
     public void backData() {
+        Log.e("aa", "-------user_id----" + (aCache.getAsString("user_id") + "-----------" + page));
         HttpHelper.userbrowses1(aCache.getAsString("user_id"), page + "", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
@@ -193,6 +195,7 @@ public class BeautifulImageFragment extends Fragment implements BaseQuickAdapter
 
             @Override
             public void onSucceed(String succeed) {
+                Log.e("aa", "-------美图----" + succeed);
                 Gson gson=new Gson();
                 WatchHistoryBean1 entity = gson.fromJson(succeed, WatchHistoryBean1.class);
                 if (entity.getCode() != 0) {

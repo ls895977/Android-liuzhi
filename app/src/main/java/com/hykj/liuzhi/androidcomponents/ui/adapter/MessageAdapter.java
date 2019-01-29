@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.bean.UserMessageBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.message.bean.UserMessageBean;
 
 import java.util.List;
 

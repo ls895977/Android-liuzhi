@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hykj.liuzhi.R;
+import com.hykj.liuzhi.androidcomponents.MainActivity;
 import com.hykj.liuzhi.androidcomponents.bean.CartBean;
+import com.hykj.liuzhi.androidcomponents.bean.ConfirmOrderBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.CartAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.CollectionBean;
@@ -32,6 +35,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.zhouyou.http.EasyHttp.getContext;
+
 /**
  * 购物车
  *
@@ -43,7 +48,7 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
     @BindView(R.id.rv)
     RecyclerView rv;
     ACache aCache;
-    private TextView allPrice, chose, tvRight;
+    private TextView allPrice, chose, tvRight, rl_bottom_right;
     private LinearLayout Settlement, shop_delte;
 
     @Override
@@ -57,7 +62,8 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
     private void initView() {
         aCache = ACache.get(this);
         allPrice = findViewById(R.id.all_price);
-        findViewById(R.id.rl_bottom_right).setOnClickListener(this);
+        rl_bottom_right = findViewById(R.id.rl_bottom_right);
+        rl_bottom_right.setOnClickListener(this);
         findViewById(R.id.iv_left).setOnClickListener(this);
         rv.setLayoutManager(new LinearLayoutManager(this));
         findViewById(R.id.tv_delte).setOnClickListener(this);
@@ -69,16 +75,12 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
         shop_delte = findViewById(R.id.shop_delte);
         showShopCar();
     }
-//
-//    @Override
-//    protected View onCreateTopBar(ViewGroup view) {
-//        DefaultTopBar topBar = new DefaultTopBar(this, "购物车", true);
-//        return topBar;
-//    }
 
     int page = 1;
     private CartAdapter adapter;
     List<CartBean.DataBean.ArrayBean> datas = new ArrayList<>();
+
+    List<CartBean.DataBean.ArrayBean> datasXuanz = new ArrayList<>();
 
     public void showShopCar() {
         HttpHelper.showshopcar(page + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
@@ -166,10 +168,23 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 addPrice();
                 break;
             case R.id.rl_bottom_right://结算
-                Intent intent = new Intent();
-                intent.setClass(CartActivity.this, ConfirmOrderActivity.class);
-                intent.putExtra("data", (Serializable) datas);
-                startActivity(intent);
+                datasXuanz.clear();
+                for (int i = 0; i < datas.size(); i++) {
+                    if (datas.get(i).isCartShop()) {
+                        datasXuanz.add(datas.get(i));
+                    }
+                }
+                if (datasXuanz.size()== 0) {
+                    Toast.makeText(CartActivity.this, "请选择一个商品！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+
+//                Intent intent = new Intent();
+//                intent.setClass(CartActivity.this, ConfirmOrderActivity.class);
+//                intent.putExtra("data", (Serializable) datasXuanz);
+//                startActivity(intent);
                 break;
             case R.id.iv_left://返回
                 finish();
@@ -220,6 +235,7 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 zongjia += (datas.get(i).getGoodsshopcar_num() * datas.get(i).getDanjiaprice());
             }
         }
+        rl_bottom_right.setText("结算(" + zongjia + ")");
         allPrice.setText("合计:" + zongjia);
     }
 
@@ -229,10 +245,8 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
         HashMap<String, String> map = new HashMap<>();
         map.put("userid", aCache.getAsString("user_id"));
         if (shopcaridList.size() == 1) {
-            Log.e("aa", "--------------===一个");
             map.put("shopcarid", shopcarid);
         } else {
-            Log.e("aa", "--------------===多个");
             map.put("shopcarids", shopcarid);
         }
         HttpHelper.deleteShopCar(map, new HttpHelper.HttpUtilsCallBack<String>() {
@@ -257,6 +271,58 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
             }
         });
     }
+    /**
+     * 订单生成
+     * @param
+     */
+    private int goodsnum = 1;
+//    public void addorders() {
+//        if (TextUtils.isEmpty(addressid)) {
+//            Toast.makeText(getContext(), "请选择地址", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        Log.e("aa", "----------user_id--------" + aCache.getAsString("user_id") + "/n" +
+//                "----------addressid--------" + addressid + "---/n" +
+//                "-----goodsnum-----" + goodsnum + "------/n"
+//                + "--------shopcarids----" + shopcarids + "------/n" +
+//                "----paymentmethod------" + paymentmethod + "---------/n"
+//                + "-----liuyan--------" + liuyan.getText().toString() + "-----/n" +
+//                "-------stDeductibletype-----" + stDeductibletype);
+//
+//        HttpHelper.addorders(aCache.getAsString("user_id"),
+//                addressid,
+//                goodsid,
+//                goodsnum + "",
+//                shopcarids,
+//                paymentmethod,
+//                liuyan.getText().toString(),
+//                stDeductibletype,
+//                new HttpHelper.HttpUtilsCallBack<String>() {
+//                    @Override
+//                    public void onFailure(String failure) {
+//                        Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onSucceed(String succeed) {
+//                        Log.e("aa", "----订单提交成功------" + succeed);
+//                        ConfirmOrderBean entity = FastJSONHelper.getPerson(succeed, ConfirmOrderBean.class);
+//                        if (entity.getMsg().equals("访问成功")) {
+//                            Toast.makeText(getContext(), "订单提交成功！", Toast.LENGTH_SHORT).show();
+//                            Intent intent1 = new Intent();
+//                            intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                            intent1.setClass(ConfirmOrderActivity.this, MainActivity.class);
+//                            startActivity(intent1);
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(String error) {
+//                        Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 
 
 }

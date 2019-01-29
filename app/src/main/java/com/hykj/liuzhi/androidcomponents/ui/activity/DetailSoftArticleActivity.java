@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
+import com.hykj.liuzhi.androidcomponents.bean.AddCodeBean;
 import com.hykj.liuzhi.androidcomponents.bean.DetailCommentBean;
 import com.hykj.liuzhi.androidcomponents.bean.DetailCommetListBean;
 import com.hykj.liuzhi.androidcomponents.bean.VideomessageBean;
@@ -100,6 +101,7 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
             }
         });
         postBackData();
+        postAdd();
     }
 
     @Override
@@ -121,6 +123,10 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
             @Override
             public void onSucceed(String succeed) {
                 softtextFirstPageBean = gson.fromJson(succeed, SofttextFirstPageBean.class);
+                mAdapter = new DetailCommentAdapter(datas);
+                mAdapter.setOnItemChildClickListener(DetailSoftArticleActivity.this);
+                mAdapter.addHeaderView(new SoftDetailHeader(DetailSoftArticleActivity.this, softtextFirstPageBean));
+                recyclerView.setAdapter(mAdapter);
                 Advertorial_softtextmessageall();
             }
 
@@ -150,20 +156,13 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
                 for (int i = entity.getData().getArray().size() - 1; i >= 0; i--) {
                     datas.add(entity.getData().getArray().get(i));
                 }
-                if (mAdapter == null) {
-                    mAdapter = new DetailCommentAdapter(datas);
-                    mAdapter.setOnItemChildClickListener(DetailSoftArticleActivity.this);
-                    mAdapter.addHeaderView(new SoftDetailHeader(DetailSoftArticleActivity.this, softtextFirstPageBean));
-                    recyclerView.setAdapter(mAdapter);
-                } else {
-                    mAdapter.notifyDataSetChanged();
-                }
+
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -172,61 +171,90 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         switch (view.getId()) {
             case R.id.iv_report:
-                    if (aCache.getAsString("user_id").equals(datas.get(position).getUser_id())) {
-                        Toast.makeText(getContext(), "自己不能举报自己！", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Intent intent = new Intent();
-                        intent.putExtra("title", "soft");
-                        intent.putExtra("reportuserid", (datas.get(position).getUser_id() + ""));
-                        intent.setClass(getContext(), ReportActivity.class);
-                        startActivity(intent);
-                    }
-                    break;
+                if (aCache.getAsString("user_id").equals(datas.get(position).getUser_id())) {
+                    Toast.makeText(getContext(), "自己不能举报自己！", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent();
+                    intent.putExtra("title", "soft");
+                    intent.putExtra("reportuserid", (datas.get(position).getUser_id() + ""));
+                    intent.setClass(getContext(), ReportActivity.class);
+                    startActivity(intent);
                 }
-        }
-
-        @Override
-        public void onClick (View v){
-            switch (v.getId()) {
-                case R.id.iv_send://发送
-                    Advertorial_softtextmessage();
-                    break;
-            }
-        }
-        /**
-         * 发送消息
-         */
-        String msg = "";
-        public void Advertorial_softtextmessage () {
-            msg = message.getText().toString();
-            if (TextUtils.isEmpty(msg)) {
-                Toast.makeText(getContext(), "请输入您要评论的内容!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            HttpHelper.Advertorial_softtextmessage(softtextid + "", aCache.getAsString("user_id"), msg, new HttpHelper.HttpUtilsCallBack<String>() {
-                @Override
-                public void onFailure(String failure) {
-                    Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onSucceed(String succeed) {
-                    VideomessageBean entity = FastJSONHelper.getPerson(succeed, VideomessageBean.class);
-                    if (entity.getCode() == 0) {
-                        if (entity.getMsg().equals("恭喜您，评论成功")) {
-                            message.setText("");
-                            Toast.makeText(getContext(), "发送成功！", Toast.LENGTH_SHORT).show();
-                            page = 1;
-                            datas.clear();
-                            Advertorial_softtextmessageall();
-                        }
-                    }
-                }
-
-                @Override
-                public void onError(String error) {
-                    Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
-                }
-            });
+                break;
         }
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_send://发送
+                Advertorial_softtextmessage();
+                break;
+        }
+    }
+
+    /**
+     * 发送消息
+     */
+    String msg = "";
+
+    public void Advertorial_softtextmessage() {
+        msg = message.getText().toString();
+        if (TextUtils.isEmpty(msg)) {
+            Toast.makeText(getContext(), "请输入您要评论的内容!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        HttpHelper.Advertorial_softtextmessage(softtextid + "", aCache.getAsString("user_id"), msg, new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                VideomessageBean entity = FastJSONHelper.getPerson(succeed, VideomessageBean.class);
+                if (entity.getCode() == 0) {
+                    if (entity.getMsg().equals("恭喜您，评论成功")) {
+                        message.setText("");
+                        Toast.makeText(getContext(), "发送成功！", Toast.LENGTH_SHORT).show();
+                        page = 1;
+                        datas.clear();
+                        Advertorial_softtextmessageall();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("aa", "--------" + error);
+                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    /**
+     * 添加到图文瀏覽记录
+     */
+    public void postAdd() {
+        HttpHelper.softtextborwses(softtextid + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                AddCodeBean bean = gson.fromJson(succeed, AddCodeBean.class);
+
+//                softtextFirstPageBean = gson.fromJson(succeed, SofttextFirstPageBean.class);
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+}

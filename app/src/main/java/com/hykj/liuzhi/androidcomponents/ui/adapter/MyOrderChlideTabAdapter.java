@@ -30,5 +30,6 @@ public class MyOrderChlideTabAdapter extends BaseQuickAdapter<UserordersBean.Dat
     protected void convert(BaseViewHolder helper, UserordersBean.DataBean.ArrayBean.GoodsdataBean item) {
         Glide.with(context).load(item.getGoods_pic()).into((ImageView) helper.getView(R.id.oder_img));
         helper.setText(R.id.oder_name, item.getGoods_name()).setText(R.id.oder_price, "¥" + item.getOrdersgoods_money());
+        helper.setText(R.id.oder_num,"X"+item.getOrdersgoods_num());
     }
 }
