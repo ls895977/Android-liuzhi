@@ -27,9 +27,8 @@ public class RegistActivity extends BaseActivity {
     ImageView titleLeftIco;
     @BindView(R.id.title_text)
     TextView titleText;
-    @BindView(R.id.title_rightIco)
-    ImageView titleRightIco;
-    @BindView(R.id.title_bar)
+//    @BindView(R.id.title_rightIc、
+//    @BindView(R.id.titleRightIco)
     RelativeLayout titleBar;
     @BindView(R.id.et_regist_phone)
     EditText etRegistPhone;

@@ -53,7 +53,7 @@ import butterknife.Unbinder;
  * @date: 2018/9/27
  * @describe:
  */
-public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapter.OnItemClickListener{
     @BindView(R.id.rv)
     RecyclerView rv;
     Unbinder unbinder;
@@ -159,7 +159,6 @@ public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapt
             mAdapter = new FashionAdapter(getContext(), datas);
             mAdapter.setOnItemClickListener(this);
             mAdapter.setLoadMoreView(new CustomLoadMoreView());
-            mAdapter.setOnLoadMoreListener(this, rv);
             rv.setAdapter(mAdapter);
         } else {
             mAdapter.notifyDataSetChanged();
@@ -175,15 +174,5 @@ public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapt
         startActivity(intent1);
     }
 
-    @Override
-    public void onLoadMoreRequested() {
-        rv.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                page++;
-                backData(page);
-            }
-        }, 2000);
-    }
 
 }
