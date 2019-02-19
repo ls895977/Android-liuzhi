@@ -91,6 +91,7 @@ public class TradeInfoFragment extends Fragment implements BaseQuickAdapter.OnIt
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        backData();
     }
 
     @Override
