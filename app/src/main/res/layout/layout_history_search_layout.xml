@@ -19,6 +19,7 @@
             android:textColor="#aaaaaa"
             android:textSize="13sp" />
         <ImageView
+            android:id="@+id/shop_delte"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
             android:layout_centerVertical="true"

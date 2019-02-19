@@ -15,4 +15,6 @@
     <color name="public_414141">#414141</color>
     <color name="public_888888">#888888</color>
     <color name="coloer_yellow">#fdb403</color>
+    <color name="green">#18C289</color>
+    <color name="gray">#999999</color>
 </resources>

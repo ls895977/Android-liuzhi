@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="0.5dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/shop2"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dip_5"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/shopingImage1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dip_100"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/test2"
+            app:riv_border_color="#333333"
+            app:riv_corner_radius="@dimen/dip_5"
+            app:riv_mutate_background="true"
+            app:riv_tile_mode="repeat" />
+
+        <TextView
+            android:id="@+id/shopName1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dip_10"
+            android:layout_marginTop="@dimen/dip_5"
+            android:singleLine="true"
+            android:text="精化" />
+
+        <TextView
+            android:id="@+id/tv_goods_price1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dip_10"
+            android:layout_marginBottom="5dp"
+            android:text="$99"
+            android:textColor="#ffb400"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shop3"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dip_5"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/shopingImage2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dip_100"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/test2"
+            app:riv_border_color="#333333"
+            app:riv_corner_radius="@dimen/dip_5"
+            app:riv_mutate_background="true"
+            app:riv_tile_mode="repeat" />
+
+        <TextView
+            android:id="@+id/shopName2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dip_10"
+            android:layout_marginTop="@dimen/dip_5"
+            android:singleLine="true"
+            android:text="精化" />
+
+        <TextView
+            android:id="@+id/tv_goods_price2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="$99"
+            android:textColor="#ffb400"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>

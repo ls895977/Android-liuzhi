@@ -16,6 +16,7 @@ import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.bean.AllAddBean;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.dailog.Dlg_AddChose;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.SelectAdressListAdapter;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
@@ -51,6 +52,7 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
             tvAddr.setText(ben.getFull_name());
             phone.setText(ben.getAddress_phone());
             addr.setText(ben.getAddress_address());
+            regionid=ben.getAddress_id()+"";
             new TitleBuilder(AddAdressActivity.this).setTitleText("修改收货地址").setLeftIco(R.mipmap.common_black_back).setLeftIcoListening(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -69,7 +71,7 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
     }
 
     private ACache aCache;
-    String st_name, st_phone, allname, address, regionid, status;
+    String st_name, st_phone, allname, address, regionid="", status;
 
     public void postAdd() {
         Log.e("aa", "-----------" + switchButton.isChecked());
@@ -148,7 +150,7 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onItem(String province, String city, String area, String regionid1) {
-        allname = province + city + area;
+        allname = province + " " + " " + city + " " + area;
         tvAddr.setText(allname);
         regionid = regionid1;
     }
@@ -168,10 +170,13 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
             Toast.makeText(AddAdressActivity.this, "请输入您的手机号！", Toast.LENGTH_SHORT).show();
             return;
         }
+        allname = tvAddr.getText().toString();
         if (TextUtils.isEmpty(allname)) {
             Toast.makeText(AddAdressActivity.this, "请重新选择省市区！", Toast.LENGTH_SHORT).show();
             return;
         }
+
+
         address = addr.getText().toString();
         if (TextUtils.isEmpty(address)) {
             Toast.makeText(AddAdressActivity.this, "请输入详细地址！", Toast.LENGTH_SHORT).show();
@@ -182,39 +187,38 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
         } else {
             status = 0 + "";
         }
-                                    setResult(1);
-                            finish();
-//        HttpHelper.changeadderssstatus(aCache.getAsString("user_id"),
-//                st_name + "",
-//                st_phone + "",
-//                allname + "",
-//                address + "",
-//                regionid + "",
-//                status + "",
-//                ben.getAddress_id() + "",
-//                new HttpHelper.HttpUtilsCallBack<String>() {
-//                    @Override
-//                    public void onFailure(String failure) {
-//                        Toast.makeText(AddAdressActivity.this, failure, Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onSucceed(String succeed) {
-//                        Log.e("aa", regionid);
-//                        AddAddressBean entity = FastJSONHelper.getPerson(succeed, AddAddressBean.class);
-//                        if (entity.getCode() == 0) {
-//                            Toast.makeText(AddAdressActivity.this, entity.getMsg(), Toast.LENGTH_SHORT).show();
-//                            setResult(1);
-//                            finish();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onError(String error) {
-//                        Toast.makeText(AddAdressActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+        HttpHelper.Min_modifyaddress(aCache.getAsString("user_id"),
+                ben.getAddress_id() + "",
+                st_name + "",
+                st_phone + "",
+                allname + "",
+                address + "",
+                regionid + "",
+                status + "",
+                new HttpHelper.HttpUtilsCallBack<String>() {
+                    @Override
+                    public void onFailure(String failure) {
+                        Toast.makeText(AddAdressActivity.this, failure, Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onSucceed(String succeed) {
+                        Debug.e("--------" + succeed);
+                        AddAddressBean entity = FastJSONHelper.getPerson(succeed, AddAddressBean.class);
+                        if (entity.getCode() == 0) {
+                            Toast.makeText(AddAdressActivity.this, entity.getMsg(), Toast.LENGTH_SHORT).show();
+                            setResult(1);
+                            finish();
+                        }else {
+                            Toast.makeText(AddAdressActivity.this, entity.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Toast.makeText(AddAdressActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 

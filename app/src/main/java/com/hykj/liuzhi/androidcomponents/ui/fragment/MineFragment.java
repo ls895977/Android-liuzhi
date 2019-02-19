@@ -48,14 +48,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.reactivex.functions.Consumer;
-
 /**
  * @author: lujialei
  * @date: 2018/9/27
  * @describe:
  */
-
-
 public class MineFragment extends Fragment {
     @BindView(R.id.iv_mine_userhead)
     RoundImageView ivMineUserhead;
@@ -190,12 +187,12 @@ public class MineFragment extends Fragment {
                 startActivity(intent);
                 break;
             case R.id.tv_mine_sead:
-                intent = new Intent(getContext(), MyJiFenActivity.class);
-                startActivity(intent);
+//                intent = new Intent(getContext(), MyJiFenActivity.class);
+//                startActivity(intent);
                 break;
             case R.id.tv_mine_offline_down:
-                intent = new Intent(getContext(), OffLineVideoActivity.class);
-                startActivity(intent);
+//                intent = new Intent(getContext(), OffLineVideoActivity.class);
+//                startActivity(intent);
                 break;
             case R.id.tab_Order://订单
                 intent = new Intent(getContext(), Act_MyOrder.class);

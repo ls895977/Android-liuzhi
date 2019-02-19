@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hykj.liuzhi.R;
+import com.hykj.liuzhi.androidcomponents.bean.DeleteSelecthisteryBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.BaseActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.GoodDetailActivity;
@@ -22,6 +23,7 @@ import com.hykj.liuzhi.androidcomponents.ui.adapter.CommodityCategoryAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.GoodsAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.ShopHomeBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.ShopSeacharBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.ui.widget.FindSearchLayout;
 import com.hykj.liuzhi.androidcomponents.ui.widget.HistorySearchLayout;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
@@ -73,6 +75,23 @@ public class ShopSearchActivity extends BaseActivity implements BaseQuickAdapter
 
     public void initView() {
         aCache = ACache.get(this);
+        topUser.setOnClick(new HistorySearchLayout.onClick() {
+            @Override
+            public void onDealte() {
+                Shop_clearuserselectgoodshistory();
+            }
+
+            @Override
+            public void onBackData(String name) {
+                shop_search.setText(name);
+            }
+        });
+        topShop.setBackData(new FindSearchLayout.BackData(){
+            @Override
+            public void onBack(String name) {
+                shop_search.setText(name);
+            }
+        });
         myListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         shop_search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -95,6 +114,7 @@ public class ShopSearchActivity extends BaseActivity implements BaseQuickAdapter
                     selectgoods(stSerch);
                 } else {
                     backHistoryData();
+                    goodsselecthistory();
                     linearTab.setVisibility(View.VISIBLE);
                     linearList.setVisibility(View.GONE);
                 }
@@ -149,7 +169,7 @@ public class ShopSearchActivity extends BaseActivity implements BaseQuickAdapter
             public void onSucceed(String succeed) {
                 ShopSeacharBean entity = FastJSONHelper.getPerson(succeed, ShopSeacharBean.class);
                 List<String> stList = new ArrayList<>();
-                for (int i = 0; i < entity.getData().getArray().size(); i++) {
+                for (int i = (entity.getData().getArray().size() - 1); i >= 0; i--) {
                     stList.add(entity.getData().getArray().get(i).getGoodsselect_name());
                 }
                 topUser.setData(stList, ShopSearchActivity.this);
@@ -189,15 +209,15 @@ public class ShopSearchActivity extends BaseActivity implements BaseQuickAdapter
         });
     }
 
-
     /**
      * 商品搜索
      */
     private int page = 1;
     GoodsAdapter mAdapter;
     List<ShopHomeBean.DataBean.ArrayBean> datas = new ArrayList<>();
+
     public void selectgoods(String name) {
-        Log.e("aa","----商品搜索-------"+name);
+        Log.e("aa", "----商品搜索-------" + name);
         HttpHelper.selectgoods(page + "", name, "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
@@ -225,6 +245,35 @@ public class ShopSearchActivity extends BaseActivity implements BaseQuickAdapter
             }
         });
     }
+
+    /**
+     * deleteselecthistory
+     */
+
+    public void Shop_clearuserselectgoodshistory() {
+        HttpHelper.Shop_clearuserselectgoodshistory(aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                Toast.makeText(ShopSearchActivity.this, failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                DeleteSelecthisteryBean entity = FastJSONHelper.getPerson(succeed, DeleteSelecthisteryBean.class);
+                if (entity.getMsg().equals("删除成功")) {
+                    backHistoryData();
+                    goodsselecthistory();
+                    Toast.makeText(ShopSearchActivity.this, entity.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(ShopSearchActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

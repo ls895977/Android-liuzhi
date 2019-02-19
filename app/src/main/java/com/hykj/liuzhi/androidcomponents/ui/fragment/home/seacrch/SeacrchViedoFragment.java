@@ -24,7 +24,9 @@ import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FirstpagedataBean
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.MessageEvent;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.SoftLanguageBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.VideoContextBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.ui.widget.BannerHeader;
+import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -55,14 +57,14 @@ import butterknife.Unbinder;
  */
 
 
-public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.OnItemClickListener {
+public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.OnItemChildClickListener {
     @BindView(R.id.rv)
     RecyclerView rv;
     Unbinder unbinder;
-    FirstpageAdapter mAdapter;
     List<SoftLanguageBean> data = new ArrayList<>();
     String selecttype;
     private SmartRefreshLayout smartRefreshLayout;
+    private ACache aCache;
 
     @Nullable
     @Override
@@ -70,8 +72,9 @@ public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.O
         View view = inflater.inflate(R.layout.fragment_home_recommend, container, false);
         unbinder = ButterKnife.bind(this, view);
         selecttype = getArguments().getString("pid");
+        aCache = ACache.get(getContext());
         EventBus.getDefault().register(this);
-        smartRefreshLayout=view.findViewById(R.id.home_refreshLayout1);
+        smartRefreshLayout = view.findViewById(R.id.home_refreshLayout1);
         smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));  //设置 Header 为 贝塞尔雷达 样式
         smartRefreshLayout.setRefreshFooter(new ClassicsFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));//设置 Footer 为 球脉冲 样式
         smartRefreshLayout.setEnableRefresh(true);//启用刷新
@@ -81,7 +84,7 @@ public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.O
             public void onRefresh(RefreshLayout refreshlayout) {
                 page = 1;
                 data.clear();
-                postBackData("");
+                postBackData(serchName);
                 refreshlayout.finishRefresh();
             }
         });
@@ -90,7 +93,7 @@ public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.O
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
                 page++;
-                postBackData("");
+                postBackData(serchName);
                 refreshlayout.finishLoadmore();
             }
         });
@@ -117,9 +120,13 @@ public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.O
         }
     }
 
+    String serchName = "";
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
+        serchName = messageEvent.getMessage();
         data.clear();
+        page = 1;
         postBackData(messageEvent.getMessage());
     }
 
@@ -127,7 +134,7 @@ public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.O
     private int page = 1;
 
     public void postBackData(String serchName) {
-        HttpHelper.getuserselect(page, serchName, selecttype, new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getuserselect(aCache.getAsString("user_id"), page, serchName, selecttype, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
@@ -149,6 +156,8 @@ public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.O
     /**
      * 设置adapter数据源
      */
+    FirstpageAdapter mAdapter;
+
     public void setAdapterData(VideoContextBean bean) {
         if (bean.getCode() != 0) {
             Toast.makeText(getContext(), "返回的参数有误不能获取该结果!", Toast.LENGTH_SHORT).show();
@@ -177,7 +186,7 @@ public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.O
         }
         if (mAdapter == null) {
             mAdapter = new FirstpageAdapter(getContext(), data);
-            mAdapter.setOnItemClickListener(this);
+            mAdapter.setOnItemChildClickListener(this);
             rv.setAdapter(mAdapter);
         } else {
             mAdapter.notifyDataSetChanged();
@@ -185,15 +194,19 @@ public class SeacrchViedoFragment extends Fragment implements BaseQuickAdapter.O
     }
 
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if (selecttype.equals("1")) {
-            Intent intent = new Intent(getContext(), DetailSoftArticleActivity.class);
-            startActivity(intent);
-        } else if (selecttype.equals("2")) {
-            Intent intent = new Intent();
-            intent.putExtra("videoid", entity.getData().getArray().get(position).getVideo_id()+ "");
-            intent.setClass(getContext(), DetailVideoActivity.class);
-            startActivity(intent);
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        switch (view.getId()) {
+            case R.id.video1:
+                Intent intent = new Intent();
+                intent.putExtra("videoid", entity.getData().getArray().get(position).getVideo_id() + "");
+                intent.setClass(getContext(), DetailVideoActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.image1:
+                Intent intent1 = new Intent(getContext(), DetailSoftArticleActivity.class);
+                intent1.putExtra("softtextid", entity.getData().getArray().get(position).getSofttext_id() + "");
+                startActivity(intent1);
+                break;
         }
     }
 }

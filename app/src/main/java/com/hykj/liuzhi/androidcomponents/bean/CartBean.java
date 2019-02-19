@@ -112,7 +112,6 @@ public class CartBean implements Serializable {
              */
             private Double danjiaprice;
             private String goodsshopcar_id;
-
             public String getGoodsshopcar_id() {
                 return goodsshopcar_id;
             }

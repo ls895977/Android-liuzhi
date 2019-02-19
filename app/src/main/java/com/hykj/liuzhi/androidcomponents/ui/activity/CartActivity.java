@@ -1,6 +1,7 @@
 package com.hykj.liuzhi.androidcomponents.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,18 +15,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.MainActivity;
 import com.hykj.liuzhi.androidcomponents.bean.CartBean;
+import com.hykj.liuzhi.androidcomponents.bean.ChangeshopcarBean;
 import com.hykj.liuzhi.androidcomponents.bean.ConfirmOrderBean;
+import com.hykj.liuzhi.androidcomponents.bean.Shop_intermediatedataBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.CartAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.CollectionBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.ShopHomeBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.ui.widget.DefaultTopBar;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,7 +57,7 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
     ACache aCache;
     private TextView allPrice, chose, tvRight, rl_bottom_right;
     private LinearLayout Settlement, shop_delte;
-
+    ZLoadingDialog dialog ;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +80,16 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
         tvRight.setOnClickListener(this);
         Settlement = findViewById(R.id.shop_jiesuan);
         shop_delte = findViewById(R.id.shop_delte);
+        dialog = new ZLoadingDialog(this);
+        dialog.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
+                .setLoadingColor(Color.DKGRAY)//颜色
+                .setHintText("数据提交中...")
+                .setHintTextSize(16) // 设置字体大小 dp
+                .setHintTextColor(Color.DKGRAY)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setDialogBackgroundColor(Color.parseColor("#CCffffff")); // 设置背景色，默认白色
         showShopCar();
     }
-
     int page = 1;
     private CartAdapter adapter;
     List<CartBean.DataBean.ArrayBean> datas = new ArrayList<>();
@@ -83,14 +97,17 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
     List<CartBean.DataBean.ArrayBean> datasXuanz = new ArrayList<>();
 
     public void showShopCar() {
+        dialog.show();
         HttpHelper.showshopcar(page + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
+                dialog.dismiss();
                 Toast.makeText(CartActivity.this, failure, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSucceed(String succeed) {
+                dialog.dismiss();
                 CartBean entity = FastJSONHelper.getPerson(succeed, CartBean.class);
                 for (int i = 0; i < entity.getData().getArray().size(); i++) {
                     CartBean.DataBean.ArrayBean bean = entity.getData().getArray().get(i);
@@ -111,6 +128,7 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
 
             @Override
             public void onError(String error) {
+                dialog.dismiss();
                 Toast.makeText(CartActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
             }
         });
@@ -124,12 +142,11 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                     Toast.makeText(CartActivity.this, "该宝贝不能减少了哟！", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                datas.get(position).setGoodsshopcar_num(datas.get(position).getGoodsshopcar_num() - 1);
-                addPrice();
+                dialog.show();
+                changeshopcar(position, datas.get(position).getGoodsshopcar_id(), (datas.get(position).getGoodsshopcar_num() - 1));
                 break;
             case R.id.tv_add://加
-                datas.get(position).setGoodsshopcar_num(datas.get(position).getGoodsshopcar_num() + 1);
-                addPrice();
+                changeshopcar(position, datas.get(position).getGoodsshopcar_id(), (datas.get(position).getGoodsshopcar_num() + 1));
                 break;
         }
         adapter.notifyDataSetChanged();
@@ -148,6 +165,7 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
 
     private int zongjia = 0;
     private List<String> shopcaridList = new ArrayList<>();
+    private List<String> shopgoodsidList = new ArrayList<>();
 
     @Override
     public void onClick(View v) {
@@ -174,17 +192,11 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                         datasXuanz.add(datas.get(i));
                     }
                 }
-                if (datasXuanz.size()== 0) {
+                if (datasXuanz.size() == 0) {
                     Toast.makeText(CartActivity.this, "请选择一个商品！", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
-
-//                Intent intent = new Intent();
-//                intent.setClass(CartActivity.this, ConfirmOrderActivity.class);
-//                intent.putExtra("data", (Serializable) datasXuanz);
-//                startActivity(intent);
+                Shop_intermediatedata();
                 break;
             case R.id.iv_left://返回
                 finish();
@@ -206,6 +218,7 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 for (int i = 0; i < datas.size(); i++) {
                     if (datas.get(i).isCartShop()) {
                         shopcaridList.add(datas.get(i).getGoodsshopcar_id() + "");
+                        shopgoodsidList.add(datas.get(i).getGoods_id() + "");
                     }
                 }
                 if (shopcaridList.size() == 0) {
@@ -219,7 +232,6 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                         shopcarid += shopcaridList.get(j) + ",";
                     }
                 }
-                Log.e("aa", "--------shopcarid----" + shopcarid);
                 deleteShopCar();
                 break;
         }
@@ -241,6 +253,9 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
 
     private String shopcarid = "";
 
+    /**
+     * 删除商品
+     */
     public void deleteShopCar() {
         HashMap<String, String> map = new HashMap<>();
         map.put("userid", aCache.getAsString("user_id"));
@@ -249,14 +264,17 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
         } else {
             map.put("shopcarids", shopcarid);
         }
+        dialog.show();
         HttpHelper.deleteShopCar(map, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
+                dialog.dismiss();
                 Toast.makeText(CartActivity.this, failure, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSucceed(String succeed) {
+                dialog.dismiss();
                 CollectionBean entity = FastJSONHelper.getPerson(succeed, CollectionBean.class);
                 if (entity.getCode() == 0 && entity.getError() == 0) {
                     Toast.makeText(CartActivity.this, entity.getMsg(), Toast.LENGTH_SHORT).show();
@@ -267,62 +285,85 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
 
             @Override
             public void onError(String error) {
+                dialog.dismiss();
                 Toast.makeText(CartActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     /**
-     * 订单生成
-     * @param
+     * 确认订单页面中间的商品数据
      */
-    private int goodsnum = 1;
-//    public void addorders() {
-//        if (TextUtils.isEmpty(addressid)) {
-//            Toast.makeText(getContext(), "请选择地址", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        Log.e("aa", "----------user_id--------" + aCache.getAsString("user_id") + "/n" +
-//                "----------addressid--------" + addressid + "---/n" +
-//                "-----goodsnum-----" + goodsnum + "------/n"
-//                + "--------shopcarids----" + shopcarids + "------/n" +
-//                "----paymentmethod------" + paymentmethod + "---------/n"
-//                + "-----liuyan--------" + liuyan.getText().toString() + "-----/n" +
-//                "-------stDeductibletype-----" + stDeductibletype);
-//
-//        HttpHelper.addorders(aCache.getAsString("user_id"),
-//                addressid,
-//                goodsid,
-//                goodsnum + "",
-//                shopcarids,
-//                paymentmethod,
-//                liuyan.getText().toString(),
-//                stDeductibletype,
-//                new HttpHelper.HttpUtilsCallBack<String>() {
-//                    @Override
-//                    public void onFailure(String failure) {
-//                        Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onSucceed(String succeed) {
-//                        Log.e("aa", "----订单提交成功------" + succeed);
-//                        ConfirmOrderBean entity = FastJSONHelper.getPerson(succeed, ConfirmOrderBean.class);
-//                        if (entity.getMsg().equals("访问成功")) {
-//                            Toast.makeText(getContext(), "订单提交成功！", Toast.LENGTH_SHORT).show();
-//                            Intent intent1 = new Intent();
-//                            intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                            intent1.setClass(ConfirmOrderActivity.this, MainActivity.class);
-//                            startActivity(intent1);
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(String error) {
-//                        Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
+    private String shopcarids = "", goodsid = "", goodsnum = "";
+
+    public void Shop_intermediatedata() {
+        for (int i = 0; i < datas.size(); i++) {
+            if (i == (datas.size() - 1)) {
+                shopcarids += datas.get(i).getGoodsshopcar_id();
+                goodsid += datas.get(i).getGoods_id();
+                goodsnum += datas.get(i).getGoodsshopcar_num();
+            } else {
+                shopcarids += datas.get(i).getGoodsshopcar_id() + ",";
+                goodsid += datas.get(i).getGoods_id() + ",";
+                goodsnum += datas.get(i).getGoodsshopcar_num() + ",";
+            }
+        }
+        dialog.show();
+        HttpHelper.Shop_intermediatedata("", "", shopcarids, new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                dialog.dismiss();
+                Toast.makeText(CartActivity.this, failure, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onSucceed(String succeed) {
+                dialog.dismiss();
+                Shop_intermediatedataBean entity = FastJSONHelper.getPerson(succeed, Shop_intermediatedataBean.class);
+                if (entity.getCode() == 0 && entity.getMsg().equals("访问成功")) {
+                    Intent intent = new Intent();
+                    intent.setClass(CartActivity.this, ConfirmOrderActivity.class);
+                    intent.putExtra("data", (Serializable) datasXuanz);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                dialog.dismiss();
+                Toast.makeText(CartActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
+    /**
+     * 修改购物车商品数量
+     */
+    public void changeshopcar(final int position, String shopcardid, final int num) {
+        HttpHelper.Shop_changeshopcar(aCache.getAsString("user_id"), shopcardid, num + "", new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                dialog.dismiss();
+                Toast.makeText(CartActivity.this, failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                Gson gosn = new Gson();
+                dialog.dismiss();
+                ChangeshopcarBean bean = gosn.fromJson(succeed, ChangeshopcarBean.class);
+                if (bean.getCode() == 0 && bean.getError() == 0) {
+                    datas.get(position).setGoodsshopcar_num(num);
+                    addPrice();
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                dialog.dismiss();
+                Toast.makeText(CartActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

@@ -10,6 +10,7 @@
     <include layout="@layout/activity_title"/>
 
     <EditText
+        android:id="@+id/Attention_seachzr"
         android:layout_marginBottom="7dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"

@@ -27,6 +27,7 @@ import com.hykj.liuzhi.androidcomponents.ui.adapter.CircleAdapter1;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.DetailMoreVideoAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.circle.bean.CircleFragmentBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.detail.bean.GetImageTextBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.ui.widget.BannerHeader;
 import com.hykj.liuzhi.androidcomponents.ui.widget.HeaderCircleScroll;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
@@ -104,15 +105,6 @@ public class DetailSameCategoryFragment extends Fragment implements BaseQuickAda
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-//        ArrayList<CircleBean> list = new ArrayList();
-//        list.add(new CircleBean(1));
-//        list.add(new CircleBean(2));
-//        list.add(new CircleBean(3));
-//        list.add(new CircleBean(1));
-//        list.add(new CircleBean(2));
-//        list.add(new CircleBean(3));
-//        mAdapter = new CircleAdapter(list);
-//        rv.setAdapter(mAdapter);
         backData();
     }
 
@@ -127,6 +119,7 @@ public class DetailSameCategoryFragment extends Fragment implements BaseQuickAda
     private CircleAdapter1 adapter;
 
     public void backData() {
+        Debug.e("-----imagetextid-------" + imagetext_id);
         HttpHelper.Cirde_getImagetextTotype(page + "", imagetext_id, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
@@ -137,7 +130,9 @@ public class DetailSameCategoryFragment extends Fragment implements BaseQuickAda
             public void onSucceed(String succeed) {
                 Gson gson = new Gson();
                 GetImageTextBean entity = gson.fromJson(succeed, GetImageTextBean.class);
-                setAdatper(entity);
+                if (entity.getData().getArray().size() > 0) {
+                    setAdatper(entity);
+                }
             }
 
             @Override
@@ -197,7 +192,6 @@ public class DetailSameCategoryFragment extends Fragment implements BaseQuickAda
             } else {
                 i = i + (size - 1);
             }
-
             switch (random.nextInt(3)) {
                 case 0:
                     bean1 = new CircleBean1(CircleBean1.THREE_SMALL, usedata);
@@ -230,7 +224,6 @@ public class DetailSameCategoryFragment extends Fragment implements BaseQuickAda
             case R.id.RIGHT_BIG_img1:
             case R.id.LEFT_BIG_img1:
                 if (datas.get(position).getArray().size() >= 1) {
-                    Log.e("aa", "---------------" + datas.get(position).getArray().get(0).getImagetext_id());
                     intent.putExtra("imagetext_id", datas.get(position).getArray().get(0).getImagetext_id() + "");
                     datas.get(position).getArray().get(0).getImagetext_id();
                     intent.setClass(getContext(), DetailCircleImageActivity.class);
@@ -242,7 +235,6 @@ public class DetailSameCategoryFragment extends Fragment implements BaseQuickAda
             case R.id.RIGHT_BIG_img2:
             case R.id.LEFT_BIG_img2:
                 if (datas.get(position).getArray().size() >= 2) {
-                    Log.e("aa", "---------------" + datas.get(position).getArray().get(1).getImagetext_id());
                     intent.putExtra("imagetext_id", datas.get(position).getArray().get(1).getImagetext_id() + "");
                     datas.get(position).getArray().get(1).getImagetext_id();
                     intent.setClass(getContext(), DetailCircleImageActivity.class);
@@ -254,7 +246,6 @@ public class DetailSameCategoryFragment extends Fragment implements BaseQuickAda
             case R.id.RIGHT_BIG_img3:
             case R.id.LEFT_BIG_img3:
                 if (datas.get(position).getArray().size() >= 3) {
-                    Log.e("aa", "---------------" + datas.get(position).getArray().get(2).getImagetext_id());
                     intent.putExtra("imagetext_id", datas.get(position).getArray().get(2).getImagetext_id() + "");
                     datas.get(position).getArray().get(2).getImagetext_id();
                     intent.setClass(getContext(), DetailCircleImageActivity.class);

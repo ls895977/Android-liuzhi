@@ -21,6 +21,7 @@ public class SoftLanguageBean implements MultiItemEntity, Serializable {
     public static final int MORE = 6;
     public static final int IMAGE_HADER = 7;
     public static final int IMAGE_BUTTOM = 8;
+    public static final int IMAGE_GANGGAO = 9;
     private int type;
 
     public SoftLanguageBean(int type) {

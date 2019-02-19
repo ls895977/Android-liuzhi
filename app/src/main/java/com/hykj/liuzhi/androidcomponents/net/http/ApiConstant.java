@@ -37,10 +37,16 @@ public class ApiConstant {
     public static final String Home_Firstpagedatatrend = "/api/index/firstpagedatatrend";
     //首页=搜索历史
     public static final String Home_Userselecthistory = "/api/index/userselecthistory";
+    //首页=前台搜索历史
+    public static final String Home_selecthistory = "/api/index/selecthistory";
     //首页=搜索
     public static final String Home_Userselect = "/api/index/userselect";
     //首页=签到
     public static final String Home_SignIn = "/api/index/signin";
+    //首页=交易信息
+    public static final String Home_information = "/api/index/information";
+    //首页=其他用户主页 头部信息
+    public static final String Home_userfirstpagetitle = "/api/index/userfirstpagetitle";
     //我的=签名
     public static final String Min_Changeautograph = "/api/index/changeautograph";
     //我的=昵称
@@ -63,10 +69,14 @@ public class ApiConstant {
     public static final String Min_addshopaddress = "/api/index/addshopaddress";
     //我的=删除收货地址
     public static final String Min_deleteaddress = "/api/index/deleteaddress";
-    //我的=修改收货地址
+    //我的=修改默认地址
     public static final String Min_changeadderssstatus = "/api/index/changeadderssstatus";
+    //我的=修改收货地址
+    public static final String Min_modifyaddress = "/api/index/modifyaddress";
     //我的=我的订单=订单取消
     public static final String Min_cancellationOfOrder = "/api/index/cancellationOfOrder";
+    //我的=投诉意见
+    public static final String Min_addproposal = "/api/index/addproposal";
     //我的=省
     public static final String Min_getprovinces = "/api/index/getprovinces";
     //我的=市
@@ -80,7 +90,9 @@ public class ApiConstant {
     //我的=修改性别
     public static final String Min_changeusersex = "/api/index/changeusersex";
     //我的=修改出生日期
-    public static final String Min_changeuserbarth= "/api/index/changeuserbarth";
+    public static final String Min_changeuserbarth = "/api/index/changeuserbarth";
+    //我的=查看物流
+    public static final String Min_viewLogistics = "/api/index/viewLogistics";
     //图文(圈)=图文添加
     public static final String Circle_AddImageText = "/api/index/addimagetext";
     //商=获取轮播图片
@@ -103,6 +115,8 @@ public class ApiConstant {
     public static final String Shop_addorders = "/api/index/addorders";
     //商=查看用户订单
     public static final String Shop_userorders = "/api/index/userorders";
+    //商=确认订单页面中间的商品数据
+    public static final String Shop_intermediatedata = "/api/index/intermediatedata";
     //商=用户商品搜索历史
     public static final String Shop_usergoodsselecthistory = "/api/index/usergoodsselecthistory";
     //商=商品搜素历史
@@ -111,6 +125,16 @@ public class ApiConstant {
     public static final String Shop_selectgoods = "/api/index/selectgoods";
     //商=获取所有商品类别
     public static final String Shop_getgoodscates = "/api/index/getgoodscates";
+    //商=添加修改购物车数量
+    public static final String Shop_changeshopcar = "/api/index/changeshopcar";
+    //商=确认订单
+    public static final String Shop_confirmationOfOrder = "/api/index/confirmationOfOrder";
+    //商=删除订单
+    public static final String Shop_deleteorders = "/api/index/deleteorders";
+    //删除搜索记录 （首页）
+    public static final String Shop_deleteselecthistory = "/api/index/deleteselecthistory";
+    //删除搜索记录 （商城）
+    public static final String Shop_clearuserselectgoodshistory = "/api/index/clearuserselectgoodshistory";
     //视频=查看视频
     public static final String Home_videoshow = "/api/index/videoshow";
     //视频=视频收藏
@@ -186,11 +210,13 @@ public class ApiConstant {
     //用户浏览记录
     public static final String userbrowses = "/api/index/userbrowses";
     //订单详情
-    public static final String showorders = "/api/index/showorders";
+    public static final String showorders1 = "/api/index/showorders";
     //图文浏览记录添加
     public static final String imagetextbrowses = "/api/index/imagetextbrowses";
     //软文浏览记录添加
     public static final String softtextborwses = "/api/index/softtextborwses";
     //订单支付
     public static final String payOrders = "/api/index/payOrders";
+    //分享视频软文
+    public static final String partakeofvideosofttext = "/api/index/partakeofvideosofttext";
 }

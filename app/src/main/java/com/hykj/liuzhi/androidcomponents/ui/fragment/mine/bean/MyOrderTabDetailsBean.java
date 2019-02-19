@@ -88,9 +88,9 @@ public class MyOrderTabDetailsBean {
         private int orders_deliverystatus;
         private int orders_receivingstate;
         private int orders_creattime;
-        private Object orders_paymenttime;
-        private Object orders_deliverytime;
-        private Object orders_overtime;
+        private String orders_paymenttime;
+        private String orders_deliverytime;
+        private String orders_overtime;
         private String orders_message;
         private int user_id;
         private List<GoodsdataBean> goodsdata;
@@ -215,27 +215,27 @@ public class MyOrderTabDetailsBean {
             this.orders_creattime = orders_creattime;
         }
 
-        public Object getOrders_paymenttime() {
+        public String  getOrders_paymenttime() {
             return orders_paymenttime;
         }
 
-        public void setOrders_paymenttime(Object orders_paymenttime) {
+        public void setOrders_paymenttime(String orders_paymenttime) {
             this.orders_paymenttime = orders_paymenttime;
         }
 
-        public Object getOrders_deliverytime() {
+        public String getOrders_deliverytime() {
             return orders_deliverytime;
         }
 
-        public void setOrders_deliverytime(Object orders_deliverytime) {
+        public void setOrders_deliverytime(String orders_deliverytime) {
             this.orders_deliverytime = orders_deliverytime;
         }
 
-        public Object getOrders_overtime() {
+        public String getOrders_overtime() {
             return orders_overtime;
         }
 
-        public void setOrders_overtime(Object orders_overtime) {
+        public void setOrders_overtime(String orders_overtime) {
             this.orders_overtime = orders_overtime;
         }
 

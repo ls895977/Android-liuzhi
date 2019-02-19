@@ -35,21 +35,18 @@
             android:text="summer姐姐"
             android:textColor="@color/mineTextCommonColor"
             android:textSize="16sp" />
-
         <TextView
-
-            android:layout_width="42dp"
-            android:layout_height="17dp"
+            android:id="@+id/circle_Userfans"
             android:layout_below="@+id/iv_person_detail_userhead"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="7dp"
             android:layout_toRightOf="@+id/tv_person_detail_username"
-            android:background="@drawable/shape_button_regist_white"
+            android:layout_width="42dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_circle_detail_focus"
             android:gravity="center"
-            android:text="已关注"
-            android:textColor="@color/GeyTextColor"
+            android:text="+ 关注"
+            android:textColor="#000000"
             android:textSize="10sp" />
-
         <TextView
             android:id="@+id/user_lable"
             android:layout_width="wrap_content"
@@ -84,9 +81,10 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/user_follow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="288"
+                        android:text="0"
                         android:textColor="@color/mineTextCommonColor" />
 
                     <TextView
@@ -103,8 +101,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:orientation="vertical">
-
                     <TextView
+                        android:id="@+id/user_fans"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"

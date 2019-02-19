@@ -24,13 +24,14 @@ import static com.zhouyou.http.EasyHttp.getContext;
  */
 public class MyOrderTabAdapter extends BaseQuickAdapter<UserordersBean.DataBean.ArrayBean, BaseViewHolder> {
     private Context context;
+    private String type;
 
     public MyOrderTabAdapter(@Nullable List<UserordersBean.DataBean.ArrayBean> data, Context context1) {
         super(R.layout.layout_item_my_order_tab, data);
         context = context1;
     }
 
-    private int sum = 0;
+    private Double sum = 0.0;
     RelativeLayout item1, item2, item3;
     private RecyclerView recyclerView;
 
@@ -38,9 +39,9 @@ public class MyOrderTabAdapter extends BaseQuickAdapter<UserordersBean.DataBean.
     protected void convert(BaseViewHolder helper, UserordersBean.DataBean.ArrayBean item) {
         helper.setText(R.id.oder_number, "订单号:" + item.getOrders_id());
         helper.setText(R.id.oder_status, item.getOrdertype());
-        sum=0;
+        sum = 0.0;
         for (int i = 0; i < item.getGoodsdata().size(); i++) {
-            sum += Integer.valueOf(item.getGoodsdata().get(i).getOrdersgoods_money());
+            sum += Double.valueOf(item.getGoodsdata().get(i).getOrdersgoods_money());
         }
         item1 = helper.getView(R.id.oder_fukuan);
         item2 = helper.getView(R.id.oder_shouhuo);
@@ -56,6 +57,9 @@ public class MyOrderTabAdapter extends BaseQuickAdapter<UserordersBean.DataBean.
                 helper.addOnClickListener(R.id.oder_pay);
                 break;
             case "待收货":
+                if (item.getOrders_deliverystatus() == 1) {
+                    helper.setText(R.id.oder_status, "已发货");
+                }
                 item1.setVisibility(View.GONE);
                 item2.setVisibility(View.VISIBLE);
                 item3.setVisibility(View.GONE);

@@ -164,15 +164,6 @@ public class RecommendFragment extends ViewPagerFragment implements BaseQuickAda
             Toast.makeText(getContext(), "返回的参数有误不能获取该结果!", Toast.LENGTH_SHORT).show();
             return;
         }
-//        for (int i = 0; i < bean.getData().getVideodata().size(); i++) {
-//            videoList.add(bean.getData().getVideodata().get(i));
-//        }
-//        for (int i = 0; i < bean.getData().getSofttextdata().size(); i++) {
-//            imageList.add(bean.getData().getSofttextdata().get(i));
-//        }
-//        for (int i = 0; i < bean.getData().getAdvdata().size(); i++) {
-//            guangGaoList.add(bean.getData().getAdvdata().get(i));
-//        }
         SoftLanguageBean bean1 = new SoftLanguageBean(SoftLanguageBean.SECTION_HEADER);//纹理  头
         dataAll.add(bean1);
         for (int i = 0; i < bean.getData().getVideodata().size(); i++) {//视频数据
@@ -197,7 +188,7 @@ public class RecommendFragment extends ViewPagerFragment implements BaseQuickAda
         SoftLanguageBean bean5 = new SoftLanguageBean(SoftLanguageBean.IMAGE_HADER);//更多内容头
         dataAll.add(bean5);
         for (int i = 0; i < bean.getData().getAdvdata().size(); i++) {//广告数据
-            SoftLanguageBean bean6 = new SoftLanguageBean(SoftLanguageBean.IMAGE_BUTTOM);
+            SoftLanguageBean bean6 = new SoftLanguageBean(SoftLanguageBean.IMAGE_GANGGAO);
             bean6.setAdv_url( bean.getData().getAdvdata().get(i).getAdv_url());
             dataAll.add(bean6);
         }

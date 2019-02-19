@@ -38,7 +38,6 @@ android {
         exclude 'META-INF/rxjava.properties'
     }
 
-    buildToolsVersion '28.0.3'
 
     greendao {
         schemaVersion 1
@@ -98,4 +97,8 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     // 支付宝 SDK AAR 包所需的配置
     compile (name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
+    compile 'com.zyao89:zloading:1.2.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.sina.weibo.sdk:core:4.3.6:openDefaultRelease@aar'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }

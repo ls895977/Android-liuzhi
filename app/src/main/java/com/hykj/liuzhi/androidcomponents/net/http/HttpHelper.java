@@ -10,16 +10,23 @@ import com.hykj.liuzhi.androidcomponents.bean.AddContextBean;
 import com.hykj.liuzhi.androidcomponents.bean.AliiTabBean;
 import com.hykj.liuzhi.androidcomponents.bean.AppPayBean;
 import com.hykj.liuzhi.androidcomponents.bean.CartBean;
+import com.hykj.liuzhi.androidcomponents.bean.ChangeshopcarBean;
 import com.hykj.liuzhi.androidcomponents.bean.ConfirmOrderBean;
+import com.hykj.liuzhi.androidcomponents.bean.ConfirmationOfOrderBean;
+import com.hykj.liuzhi.androidcomponents.bean.DeleteSelecthisteryBean;
 import com.hykj.liuzhi.androidcomponents.bean.DetailCommetListBean;
 import com.hykj.liuzhi.androidcomponents.bean.ForgetpasswordBean;
 import com.hykj.liuzhi.androidcomponents.bean.GetgoodScatesBean;
 import com.hykj.liuzhi.androidcomponents.bean.GetreporTreasonBean;
+import com.hykj.liuzhi.androidcomponents.bean.InForMationBean;
 import com.hykj.liuzhi.androidcomponents.bean.LoginEntity;
 import com.hykj.liuzhi.androidcomponents.bean.MineFileBean;
+import com.hykj.liuzhi.androidcomponents.bean.ShearBean;
+import com.hykj.liuzhi.androidcomponents.bean.Shop_intermediatedataBean;
 import com.hykj.liuzhi.androidcomponents.bean.SignInBean;
 import com.hykj.liuzhi.androidcomponents.bean.TabBean;
 import com.hykj.liuzhi.androidcomponents.bean.VideomessageBean;
+import com.hykj.liuzhi.androidcomponents.bean.addproposalBean;
 import com.hykj.liuzhi.androidcomponents.ui.activity.circle.CircleDetailBean;
 import com.hykj.liuzhi.androidcomponents.ui.activity.circle.DetailCircleImageListBean;
 import com.hykj.liuzhi.androidcomponents.ui.activity.circle.DetailCirclelmageBean;
@@ -49,6 +56,7 @@ import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.GoodDetailDetailB
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.ShopHomeBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.ShopSeacharBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.addshopcarBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.orhanobut.logger.Logger;
 
@@ -120,6 +128,7 @@ public class HttpHelper {
 
                     @Override
                     public void onNext(String succeed) {
+                        Debug.e("----------" + succeed);
                         Logger.t("HttpHelper").i(succeed);
                         LoginEntity entity = FastJSONHelper.getPerson(succeed, LoginEntity.class);
                         if (entity.getCode() == 0) {
@@ -136,6 +145,7 @@ public class HttpHelper {
 
                     @Override
                     public void onError(Throwable e) {
+                        Debug.e("----------" + e.getMessage());
                         Logger.t("HttpHelper").i(e.getMessage());
                         callBack.onFailure(httpFailureMsg());
                     }
@@ -343,6 +353,7 @@ public class HttpHelper {
 
                     @Override
                     public void onNext(String succeed) {
+                        Debug.e("-----------succeed--" + succeed);
                         Logger.t("HttpHelper").i(succeed);
                         LoginEntity entity = FastJSONHelper.getPerson(succeed, LoginEntity.class);
                         if (entity.getCode() == 0) {
@@ -823,14 +834,60 @@ public class HttpHelper {
     }
 
     /**
+     * 首页=首页=前台搜索历史
+     *
+     * @param callBack
+     */
+    public static void Home_selecthistory(int page, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("page", String.valueOf(page));
+        map.put("number", "10");
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Home_selecthistory(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed.toString());
+                        FashionBean entity = FastJSONHelper.getPerson(succeed, FashionBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getError()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
      * 首页=搜索
      *
      * @param callBack
      */
-    public static void getuserselect(int page, String selectname, String selecttype, final HttpUtilsCallBack<String> callBack) {
+    public static void getuserselect(String user_id, int page, String selectname, String selecttype, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
-        map.put("Page", String.valueOf(page));
-        map.put("Number", "10");
+        map.put("user_id", user_id);
+        map.put("page", String.valueOf(page));
+        map.put("number", "10");
         map.put("selectname", selectname);
         map.put("selecttype", selecttype);
         HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
@@ -879,6 +936,96 @@ public class HttpHelper {
         map.put("user_id", user_id);
         HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
         httpService.getSignIn(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed.toString());
+                        SignInBean entity = FastJSONHelper.getPerson(succeed, SignInBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getError()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 首页=交易信息
+     * @param callBack
+     */
+    public static void getInformation(String user_id, String page, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        map.put("page", page);
+        map.put("number", "10");
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.getInformation(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed.toString());
+                        InForMationBean entity = FastJSONHelper.getPerson(succeed, InForMationBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getError()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 首页=其他用户主页 头部信息
+     *
+     * @param callBack
+     */
+    public static void getUserfirstpagetitle(String userid, String user_id, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("userid", userid);
+        map.put("user_id", user_id);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.getUserfirstpagetitle(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -1384,7 +1531,7 @@ public class HttpHelper {
 
 
     /**
-     * 我的=修改收货地址
+     * 我的=修改默认地址
      */
     public static void changeadderssstatus(String addressid, String userid, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
@@ -1412,6 +1559,59 @@ public class HttpHelper {
                             }
                         } else {
                             callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+
+    /**
+     * 我的=修改收货地址
+     *
+     * @param callBack
+     */
+    public static void Min_modifyaddress(String user_id, String addressid, String name, String phone, String allname, String address, String regionid, String status, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        map.put("addressid", addressid);
+        map.put("name", name);
+        map.put("phone", phone);
+        map.put("allname", allname);
+        map.put("address", address);
+        map.put("regionid", regionid);
+        map.put("status", status);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Min_modifyaddress(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed.toString());
+                        AddAddressBean entity = FastJSONHelper.getPerson(succeed, AddAddressBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getMsg()));
                         }
                     }
 
@@ -1472,6 +1672,50 @@ public class HttpHelper {
                 });
     }
 
+    /**
+     * 我的=投诉意见
+     */
+    public static void Min_addproposal(String user_id, String detail, String phone, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        map.put("detail", detail);
+        map.put("phone", phone);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Min_addproposal(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed.toString());
+                        addproposalBean entity = FastJSONHelper.getPerson(succeed, addproposalBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
 
     /**
      * 我的=省
@@ -1717,6 +1961,52 @@ public class HttpHelper {
         map.put("barthday", barthday);
         HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
         httpService.Min_changeuserbarth(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed.toString());
+                        AliiTabBean entity = FastJSONHelper.getPerson(succeed, AliiTabBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getMsg()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 我的=查看物流
+     *
+     * @param callBack
+     */
+    public static void Min_viewLogistics(String ordersid, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("ordersid", ordersid);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Min_viewLogistics(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
@@ -2242,7 +2532,7 @@ public class HttpHelper {
         HashMap<String, String> map = new HashMap<>();
         map.put("user_id", user_id);
         map.put("page", page);
-        map.put("number", "10");
+        map.put("number", "24");
         map.put("type", type);
         HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
         httpService.userorders(map)
@@ -2257,6 +2547,54 @@ public class HttpHelper {
                     @Override
                     public void onNext(String succeed) {
                         UserordersBean entity = FastJSONHelper.getPerson(succeed, UserordersBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
+    }
+
+    /**
+     * 商=确认订单页面中间的商品数据
+     *
+     * @param callBack
+     */
+    public static void Shop_intermediatedata(String goodsid, String goodsnum, String shopcarids, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("goodsid", goodsid);
+        map.put("goodsnum", goodsnum);
+        map.put("shopcarids", shopcarids);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Shop_intermediatedata(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Debug.e("------------" + succeed);
+                        Shop_intermediatedataBean entity = FastJSONHelper.getPerson(succeed, Shop_intermediatedataBean.class);
                         if (entity.getCode() == 0) {
                             if (entity.getError() == 0) {
                                 callBack.onSucceed(succeed);
@@ -2378,6 +2716,53 @@ public class HttpHelper {
 
 
     /**
+     * 商=添加修改购物车数量
+     *
+     * @param callBack
+     */
+    public static void Shop_changeshopcar(String user_id, String shopcardid, String number, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        map.put("shopcardid", shopcardid);
+        map.put("number", number);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Shop_changeshopcar(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        ChangeshopcarBean entity = FastJSONHelper.getPerson(succeed, ChangeshopcarBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
+    }
+
+    /**
      * 商=商品搜索
      *
      * @param callBack
@@ -2473,6 +2858,187 @@ public class HttpHelper {
                 });
     }
 
+    /**
+     * 商=确认订单
+     *
+     * @param callBack
+     */
+    public static void Shop_confirmationOfOrder(String user_id, String ordersid, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        map.put("ordersid", ordersid);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Shop_confirmationOfOrder(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed);
+                        ConfirmationOfOrderBean entity = FastJSONHelper.getPerson(succeed, ConfirmationOfOrderBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 商=删除订单
+     *
+     * @param callBack
+     */
+    public static void Shop_deleteorders(String user_id, String ordersid, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        map.put("ordersid", ordersid);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Shop_deleteorders(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed);
+                        ConfirmationOfOrderBean entity = FastJSONHelper.getPerson(succeed, ConfirmationOfOrderBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 删除搜索记录 （首页）
+     *
+     * @param callBack
+     */
+    public static void Shop_deleteselecthistory(String user_id, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Shop_deleteselecthistory(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed);
+                        DeleteSelecthisteryBean entity = FastJSONHelper.getPerson(succeed, DeleteSelecthisteryBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 删除搜索记录 （商城）
+     *
+     * @param callBack
+     */
+    public static void Shop_clearuserselectgoodshistory(String user_id, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", user_id);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Shop_clearuserselectgoodshistory(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed);
+                        DeleteSelecthisteryBean entity = FastJSONHelper.getPerson(succeed, DeleteSelecthisteryBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getMsg()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
 
     /**
      * 视频=查看视频
@@ -4129,7 +4695,7 @@ public class HttpHelper {
      */
     public static void showorders(String ordersid, String user_id, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
-        map.put("ordersid ", ordersid);
+        map.put("ordersid", ordersid);
         map.put("user_id", user_id);
         HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
         httpService.showorders(map)
@@ -4138,14 +4704,12 @@ public class HttpHelper {
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
                     }
 
                     @Override
                     public void onNext(String succeed) {
                         Logger.t("HttpHelper---").i(succeed);
-                        Gson gson = new Gson();
-                        MyOrderTabDetailsBean entity = gson.fromJson(succeed, MyOrderTabDetailsBean.class);
+                        MyOrderTabDetailsBean entity = FastJSONHelper.getPerson(succeed, MyOrderTabDetailsBean.class);
                         if (entity.getCode() == 0) {
                             if (entity.getError() == 0) {
                                 callBack.onSucceed(succeed);
@@ -4262,13 +4826,14 @@ public class HttpHelper {
                 });
     }
 
-
     /**
      * 订单支付
      */
     public static void payOrders(String ordersid, String paytype, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
+        Debug.e("---ordersid-----" + ordersid);
         map.put("ordersid", ordersid);
+        Debug.e("---paytype-----" + paytype);
         map.put("paytype", paytype);
         HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
         httpService.payOrders(map)
@@ -4292,7 +4857,51 @@ public class HttpHelper {
                                 callBack.onError(entity.getMsg());
                             }
                         } else {
-                            callBack.onFailure(entity.getError() + "");
+                            callBack.onFailure(entity.getMsg() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 分享视频软文
+     */
+    public static void partakeofvideosofttext(String softtext_id, String video_id, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("softtext_id", softtext_id);
+        map.put("video_id", video_id);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.partakeofvideosofttext(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed);
+                        Gson gson = new Gson();
+                        ShearBean entity = gson.fromJson(succeed, ShearBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(entity.getMsg());
+                            }
+                        } else {
+                            callBack.onFailure(entity.getMsg() + "");
                         }
                     }
 

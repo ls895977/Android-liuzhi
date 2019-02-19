@@ -64,7 +64,6 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
-
     @OnClick({R.id.iv_sign, R.id.rl_search, R.id.iv_message})
     public void onViewClicked(View view) {
         Intent intent = null;

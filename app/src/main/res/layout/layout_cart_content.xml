@@ -33,8 +33,7 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_height="match_parent"
             android:layout_marginLeft="16dp">
 
             <TextView
@@ -49,9 +48,9 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_title"
-                android:layout_marginTop="40dp"
                 android:text="¥99.00"
+                android:padding="@dimen/dip_10"
+                android:layout_alignParentBottom="true"
                 android:textColor="#ffb400"
                 android:textSize="17sp" />
         </RelativeLayout>

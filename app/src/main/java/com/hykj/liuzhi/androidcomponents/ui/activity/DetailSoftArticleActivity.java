@@ -1,6 +1,7 @@
 package com.hykj.liuzhi.androidcomponents.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,8 +20,10 @@ import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.AddCodeBean;
 import com.hykj.liuzhi.androidcomponents.bean.DetailCommentBean;
 import com.hykj.liuzhi.androidcomponents.bean.DetailCommetListBean;
+import com.hykj.liuzhi.androidcomponents.bean.ShearBean;
 import com.hykj.liuzhi.androidcomponents.bean.VideomessageBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
+import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Share;
 import com.hykj.liuzhi.androidcomponents.ui.activity.softtext.SofttextFirstPageBean;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.DetailCommentAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.detail.DetailCommentFragment;
@@ -30,6 +33,7 @@ import com.hykj.liuzhi.androidcomponents.ui.widget.SoftDetailHeader;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
+import com.hykj.liuzhi.androidcomponents.utils.WxShareUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -37,6 +41,8 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +59,7 @@ import static com.zhouyou.http.EasyHttp.getContext;
  * @date: 2018/10/25
  * @describe:
  */
-public class DetailSoftArticleActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener, View.OnClickListener {
+public class DetailSoftArticleActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener, View.OnClickListener{
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     Gson gson = new Gson();
@@ -63,6 +69,8 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
     SmartRefreshLayout refreshLayout1;
     @BindView(R.id.fragment_detail_message)
     EditText message;
+    ZLoadingDialog loding;
+    private Dlg_Share share;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,7 +80,6 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
         initView();
     }
 
-    //    private DetailCommentAdapter detailCommentAdapter;
     private void initView() {
         findViewById(R.id.iv_send).setOnClickListener(this);
         aCache = ACache.get(this);
@@ -126,6 +133,7 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
                 mAdapter = new DetailCommentAdapter(datas);
                 mAdapter.setOnItemChildClickListener(DetailSoftArticleActivity.this);
                 mAdapter.addHeaderView(new SoftDetailHeader(DetailSoftArticleActivity.this, softtextFirstPageBean));
+
                 recyclerView.setAdapter(mAdapter);
                 Advertorial_softtextmessageall();
             }
@@ -147,7 +155,11 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
         HttpHelper.Advertorial_softtextmessageall(page + "", softtextid, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
-                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+                if (page > 1) {
+                    Toast.makeText(getContext(), "暂无更多评论！", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -162,7 +174,11 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                if (page > 1) {
+                    Toast.makeText(getContext(), "暂无更多评论！", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -226,7 +242,6 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
 
             @Override
             public void onError(String error) {
-                Log.e("aa", "--------" + error);
                 Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
 
             }
@@ -256,5 +271,4 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
             }
         });
     }
-
 }

@@ -168,7 +168,9 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
                     return;
                 }
                 llDetailCircleTougao.setVisibility(View.GONE);
-                Glide.with(DetailCircleImageActivity.this).load(entity.getData().getUserdata().getUser_pic()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivAvatar);
+                if(entity.getData().getUserdata().getUser_pic()!=null) {
+                    Glide.with(DetailCircleImageActivity.this).load(entity.getData().getUserdata().getUser_pic()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivAvatar);
+                }
                 tv_context.setText(entity.getData().getImagetext_text());
                 nickName.setText(entity.getData().getUserdata().getUser_nickname());
                 table.setText(entity.getData().getUserdata().getUser_autograph());

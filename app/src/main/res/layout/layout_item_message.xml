@@ -19,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/shop_name"
             android:textColor="#3f56ae"
             android:textSize="12sp"
             android:text="DJR"
@@ -26,9 +27,11 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/shop_context"
             android:layout_marginTop="10dp"
             android:textColor="#aaaaaa"
             android:textSize="12sp"
+            android:singleLine="true"
             android:text="评论了你发表的文章"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

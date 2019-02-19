@@ -8,17 +8,30 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.hykj.liuzhi.R;
+import com.hykj.liuzhi.androidcomponents.bean.DeleteselecthistoryBean;
+import com.hykj.liuzhi.androidcomponents.bean.UserselecthistoryBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FashionBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.MessageEvent;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.seacrch.HomeSeacrchPagerAdapter;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.ShopSearchActivity;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
+import com.hykj.liuzhi.androidcomponents.ui.widget.FindSearchLayout;
+import com.hykj.liuzhi.androidcomponents.ui.widget.HistorySearchLayout;
+import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
+import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,11 +39,12 @@ import butterknife.OnClick;
 
 /**
  * 搜索页面
+ *
  * @author: lujialei
  * @date: 2018/10/22
  * @describe:
  */
-public class HomeSearchActivity extends BaseActivity {
+public class HomeSearchActivity extends BaseActivity implements HistorySearchLayout.onClick {
     @BindView(R.id.tv_homesearch_cancel)
     TextView tvHomesearchCancel;
     @BindView(R.id.et_homesearch_input)
@@ -39,6 +53,15 @@ public class HomeSearchActivity extends BaseActivity {
     SlidingTabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+    @BindView(R.id.search_history)
+    HistorySearchLayout topUser;
+    @BindView(R.id.search_find)
+    FindSearchLayout topShop;
+    @BindView(R.id.homeSearchHistory)
+    LinearLayout homeSearchHistory;
+    @BindView(R.id.ll_video)
+    LinearLayout ll_video;
+    private ACache aCache;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,10 +69,20 @@ public class HomeSearchActivity extends BaseActivity {
         setContentView(R.layout.activity_home_search);
         ButterKnife.bind(this);
         backHistoryData();
+        backselecthistory();
         initView();
     }
 
     public void initView() {
+        aCache = ACache.get(this);
+        topShop.setBackData(new FindSearchLayout.BackData() {
+            @Override
+            public void onBack(String name) {
+                input.setText(name);
+            }
+        });
+        viewPager.setAdapter(new HomeSeacrchPagerAdapter(getSupportFragmentManager()));
+        tabLayout.setViewPager(viewPager);
         input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -64,18 +97,22 @@ public class HomeSearchActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String stSerch = input.getText().toString();
+                if (stSerch.equals("")) {
+                    return;
+                }
                 if (stSerch.length() > 0) {
-                    findViewById(R.id.homeSearchHistory).setVisibility(View.GONE);
-                    findViewById(R.id.ll_video).setVisibility(View.VISIBLE);
-                    EventBus.getDefault().post(new MessageEvent(input.getText().toString()));
+                    homeSearchHistory.setVisibility(View.GONE);
+                    ll_video.setVisibility(View.VISIBLE);
                 } else {
-                    findViewById(R.id.homeSearchHistory).setVisibility(View.VISIBLE);
-                    findViewById(R.id.ll_video).setVisibility(View.GONE);
+                    backHistoryData();
+                    backselecthistory();
+                    homeSearchHistory.setVisibility(View.VISIBLE);
+                    ll_video.setVisibility(View.GONE);
                 }
             }
         });
-        viewPager.setAdapter(new HomeSeacrchPagerAdapter(getSupportFragmentManager()));
-        tabLayout.setViewPager(viewPager);
+        homeSearchHistory.setVisibility(View.VISIBLE);
+        ll_video.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.tv_homesearch_cancel)
@@ -86,6 +123,7 @@ public class HomeSearchActivity extends BaseActivity {
                 break;
         }
     }
+
     /**
      * 搜索历史
      */
@@ -98,8 +136,13 @@ public class HomeSearchActivity extends BaseActivity {
 
             @Override
             public void onSucceed(String succeed) {
-                Log.e("aa","--------"+succeed);
-//                entity = FastJSONHelper.getPerson(succeed, FashionBean.class);
+                UserselecthistoryBean entity = FastJSONHelper.getPerson(succeed, UserselecthistoryBean.class);
+                List<String> stList = new ArrayList<>();
+                for (int i = (entity.getData().getArray().size() - 1); i >= 0; i--) {
+                    stList.add(entity.getData().getArray().get(i).getSelecthistory_name());
+                }
+                topUser.setData(stList, HomeSearchActivity.this);
+                topUser.setOnClick(HomeSearchActivity.this);
             }
 
             @Override
@@ -109,4 +152,68 @@ public class HomeSearchActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 搜索历史
+     */
+    public void backselecthistory() {
+        HttpHelper.Home_selecthistory(1, new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                Toast.makeText(HomeSearchActivity.this, failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                UserselecthistoryBean entity = FastJSONHelper.getPerson(succeed, UserselecthistoryBean.class);
+                List<String> stList = new ArrayList<>();
+                for (int i = (entity.getData().getArray().size() - 1); i >= 0; i--) {
+                    stList.add(entity.getData().getArray().get(i).getSelecthistory_name());
+                }
+                topShop.setDatas(stList, HomeSearchActivity.this);
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(HomeSearchActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onDealte() {
+        Shop_deleteselecthistory();
+    }
+
+    @Override
+    public void onBackData(String name) {
+        input.setText(name);
+    }
+
+    /**
+     * 搜索历史
+     */
+    public void Shop_deleteselecthistory() {
+        HttpHelper.Shop_deleteselecthistory(aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                Toast.makeText(HomeSearchActivity.this, failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                DeleteselecthistoryBean entity = FastJSONHelper.getPerson(succeed, DeleteselecthistoryBean.class);
+                if (entity.getCode() == 0 && entity.getError() == 0) {
+                    backHistoryData();
+                    backselecthistory();
+                    Toast.makeText(HomeSearchActivity.this, entity.getMsg(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(HomeSearchActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

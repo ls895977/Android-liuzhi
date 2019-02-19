@@ -30,6 +30,7 @@ import com.hykj.liuzhi.androidcomponents.ui.activity.circle.DetailCircleImageLis
 import com.hykj.liuzhi.androidcomponents.ui.adapter.DetailCommentAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.DetailImageTextListAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.MessageAdapter;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
@@ -211,7 +212,11 @@ public class DetailCommentFragment extends Fragment implements View.OnClickListe
         HttpHelper.videomessageall(page + "", videoid, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
-                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+                if (page > 1) {
+                    Toast.makeText(getContext(),"暂无更多评论！", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -231,7 +236,11 @@ public class DetailCommentFragment extends Fragment implements View.OnClickListe
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                if (page > 1) {
+                    Toast.makeText(getContext(),"暂无更多评论！", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -333,7 +342,10 @@ public class DetailCommentFragment extends Fragment implements View.OnClickListe
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                if (page > 1) {
+                    Toast.makeText(getContext(),"暂无更多评论！", Toast.LENGTH_SHORT).show();
+                } else {
+                }
             }
         });
     }

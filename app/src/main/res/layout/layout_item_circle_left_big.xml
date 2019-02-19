@@ -5,8 +5,11 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+
+
+
     <com.hykj.liuzhi.androidcomponents.ui.widget.SquareRelativeLayout
-        android:layout_marginRight="0.5dp"
+        android:layout_marginLeft="0.5dp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2">
@@ -24,8 +27,6 @@
             android:layout_height="20dp" />
 
     </com.hykj.liuzhi.androidcomponents.ui.widget.SquareRelativeLayout>
-
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_weight="1"
@@ -52,7 +53,7 @@
         </com.hykj.liuzhi.androidcomponents.ui.widget.SquareRelativeLayout>
 
         <com.hykj.liuzhi.androidcomponents.ui.widget.SquareRelativeLayout
-            android:paddingTop="0.5dp"
+            android:layout_marginTop="0.5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -71,6 +72,5 @@
 
         </com.hykj.liuzhi.androidcomponents.ui.widget.SquareRelativeLayout>
     </LinearLayout>
-
 
 </LinearLayout>

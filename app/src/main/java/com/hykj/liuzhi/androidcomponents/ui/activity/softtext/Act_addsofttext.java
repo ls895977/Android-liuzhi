@@ -277,7 +277,7 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
         @Override
         public Dialog getDialog() {
             ProgressDialog dialog = new ProgressDialog(Act_addsofttext.this);
-            dialog.setMessage("上传中中...");
+            dialog.setMessage("上传中...");
             return dialog;
         }
     };
@@ -301,7 +301,6 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onSucceed(String succeed) {
                 getimagetextlabelsBean = gson.fromJson(succeed, GetimagetextlabelsBean.class);

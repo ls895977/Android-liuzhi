@@ -117,7 +117,9 @@ public class UserAdvertorialFragment extends Fragment implements BaseQuickAdapte
                 if (userAdapter == null) {
                     userAdapter = new UserAdvertorialAdapter(getContext(), datas);
                     userAdapter.setOnItemClickListener(UserAdvertorialFragment.this);
-                    rvMineCamera.setAdapter(userAdapter);
+                    if (rvMineCamera != null) {
+                        rvMineCamera.setAdapter(userAdapter);
+                    }
                 } else {
                     userAdapter.notifyDataSetChanged();
                 }

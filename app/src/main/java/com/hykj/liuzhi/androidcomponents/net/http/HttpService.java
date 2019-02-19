@@ -73,24 +73,28 @@ public interface HttpService {
     @FormUrlEncoded
     @POST(ApiConstant.USER_CLICK_Usernotfans)
     Observable<String> getUsernotfans(@FieldMap Map<String, String> map);
+
     /**
      * 首页=消息详情
      */
     @FormUrlEncoded
     @POST(ApiConstant.Home_systemnotificationdetail)
     Observable<String> getSystemnotificationdetail(@FieldMap Map<String, String> map);
+
     /**
      * 首页=平台通知
      */
     @FormUrlEncoded
     @POST(ApiConstant.Home_showsystemnotification)
     Observable<String> Home_showsystemnotification(@FieldMap Map<String, String> map);
+
     /**
      * 首页=用户消息
      */
     @FormUrlEncoded
     @POST(ApiConstant.Home_authorgetmessage)
     Observable<String> Home_authorgetmessage(@FieldMap Map<String, String> map);
+
     /**
      * 首页=推荐
      */
@@ -120,6 +124,13 @@ public interface HttpService {
     Observable<String> getUserselecthistory(@FieldMap Map<String, String> map);
 
     /**
+     * 首页=前台搜索历史
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Home_selecthistory)
+    Observable<String> Home_selecthistory(@FieldMap Map<String, String> map);
+
+    /**
      * 首页=搜索
      */
     @FormUrlEncoded
@@ -132,6 +143,20 @@ public interface HttpService {
     @FormUrlEncoded
     @POST(ApiConstant.Home_SignIn)
     Observable<String> getSignIn(@FieldMap Map<String, String> map);
+
+    /**
+     * 首页=交易信息
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Home_information)
+    Observable<String> getInformation(@FieldMap Map<String, String> map);
+
+    /**
+     * 首页=其他用户主页 头部信息
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Home_userfirstpagetitle)
+    Observable<String> getUserfirstpagetitle(@FieldMap Map<String, String> map);
 
     /**
      * 首页=签名
@@ -204,11 +229,18 @@ public interface HttpService {
     Observable<String> deleteaddress(@FieldMap Map<String, String> map);
 
     /**
-     * 我的=修改收货地址
+     * 我的=修改默认地址
      */
     @FormUrlEncoded
     @POST(ApiConstant.Min_changeadderssstatus)
     Observable<String> changeadderssstatus(@FieldMap Map<String, String> map);
+
+    /**
+     * 我的=修改收货地址
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Min_modifyaddress)
+    Observable<String> Min_modifyaddress(@FieldMap Map<String, String> map);
 
     /**
      * 我的=我的订单=订单取消
@@ -216,6 +248,14 @@ public interface HttpService {
     @FormUrlEncoded
     @POST(ApiConstant.Min_cancellationOfOrder)
     Observable<String> CancellationOfOrder(@FieldMap Map<String, String> map);
+
+    /**
+     * 我的=投诉意见
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Min_addproposal)
+    Observable<String> Min_addproposal(@FieldMap Map<String, String> map);
+
     /**
      * 我的=省
      */
@@ -250,18 +290,28 @@ public interface HttpService {
     @FormUrlEncoded
     @POST(ApiConstant.Min_changelabel)
     Observable<String> changelabel(@FieldMap Map<String, String> map);
+
     /**
      * 我的=修改性别
      */
     @FormUrlEncoded
     @POST(ApiConstant.Min_changeusersex)
     Observable<String> changeusersex(@FieldMap Map<String, String> map);
+
     /**
      * 我的=修改出生日期
      */
     @FormUrlEncoded
     @POST(ApiConstant.Min_changeuserbarth)
     Observable<String> Min_changeuserbarth(@FieldMap Map<String, String> map);
+
+    /**
+     * 我的=查看物流
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Min_viewLogistics)
+    Observable<String> Min_viewLogistics(@FieldMap Map<String, String> map);
+
     /**
      * 商品=获取轮播图片
      */
@@ -333,6 +383,13 @@ public interface HttpService {
     Observable<String> userorders(@FieldMap Map<String, String> map);
 
     /**
+     * 商品=确认订单页面中间的商品数据
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Shop_intermediatedata)
+    Observable<String> Shop_intermediatedata(@FieldMap Map<String, String> map);
+
+    /**
      * 商品=用户商品搜索历史
      */
     @FormUrlEncoded
@@ -347,6 +404,13 @@ public interface HttpService {
     Observable<String> goodsselecthistory(@FieldMap Map<String, String> map);
 
     /**
+     * 商=添加修改购物车数量
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Shop_changeshopcar)
+    Observable<String> Shop_changeshopcar(@FieldMap Map<String, String> map);
+
+    /**
      * 商品=商品查询
      */
     @FormUrlEncoded
@@ -359,6 +423,34 @@ public interface HttpService {
     @FormUrlEncoded
     @POST(ApiConstant.Shop_getgoodscates)
     Observable<String> getgoodscates(@FieldMap Map<String, String> map);
+
+    /**
+     * 商=确认订单
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Shop_confirmationOfOrder)
+    Observable<String> Shop_confirmationOfOrder(@FieldMap Map<String, String> map);
+
+    /**
+     * 商=删除订单
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Shop_deleteorders)
+    Observable<String> Shop_deleteorders(@FieldMap Map<String, String> map);
+
+    /**
+     * 删除搜索记录 （首页）
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Shop_deleteselecthistory)
+    Observable<String> Shop_deleteselecthistory(@FieldMap Map<String, String> map);
+
+    /**
+     * 删除搜索记录 （商城）
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Shop_clearuserselectgoodshistory)
+    Observable<String> Shop_clearuserselectgoodshistory(@FieldMap Map<String, String> map);
 
     /**
      * 视频=查看视频
@@ -596,7 +688,7 @@ public interface HttpService {
      * 订单详情
      */
     @FormUrlEncoded
-    @POST(ApiConstant.showorders)
+    @POST(ApiConstant.showorders1)
     Observable<String> showorders(@FieldMap Map<String, String> map);
 
     /**
@@ -619,10 +711,18 @@ public interface HttpService {
     @FormUrlEncoded
     @POST(ApiConstant.softtextborwses)
     Observable<String> softtextborwses(@FieldMap Map<String, String> map);
+
     /**
      * 订单支付
      */
     @FormUrlEncoded
     @POST(ApiConstant.payOrders)
     Observable<String> payOrders(@FieldMap Map<String, String> map);
+
+    /**
+     * 分享视频软文
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.partakeofvideosofttext)
+    Observable<String> partakeofvideosofttext(@FieldMap Map<String, String> map);
 }

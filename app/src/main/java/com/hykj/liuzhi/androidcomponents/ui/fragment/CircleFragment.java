@@ -47,6 +47,7 @@ import butterknife.Unbinder;
 
 /**
  * 图文
+ *
  * @author: lujialei
  * @date: 2018/9/27
  * @describe:
@@ -57,6 +58,7 @@ public class CircleFragment extends Fragment implements BaseQuickAdapter.OnItemC
     Unbinder unbinder;
     @BindView(R.id.circle_refreshLayout)
     SmartRefreshLayout refreshLayout;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class CircleFragment extends Fragment implements BaseQuickAdapter.OnItemC
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -128,7 +131,11 @@ public class CircleFragment extends Fragment implements BaseQuickAdapter.OnItemC
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                if (page > 1) {
+                    Toast.makeText(getContext(),"暂无更多美图！", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

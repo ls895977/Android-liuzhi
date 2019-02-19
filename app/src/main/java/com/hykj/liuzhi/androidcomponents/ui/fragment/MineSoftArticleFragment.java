@@ -135,7 +135,9 @@ public class MineSoftArticleFragment extends Fragment implements BaseQuickAdapte
                     bean.setSofttext_id(entity.getData().getArray().get(i).getSofttext_id());
                     bean.setSofttext_title(entity.getData().getArray().get(i).getSofttext_id() + "");
                     UserAdvertorialBean.DataBean.ArrayBean.SofttextimagedataBean  softtextimagedataBean=new   UserAdvertorialBean.DataBean.ArrayBean.SofttextimagedataBean();
-                    softtextimagedataBean.setSofttextimage_url(entity.getData().getArray().get(i).getSofttextdata().getSofttextimages().getSofttextimage_url());
+                   if(entity.getData().getArray().get(i).getSofttextdata().getSofttextimages()!=null) {
+                       softtextimagedataBean.setSofttextimage_url(entity.getData().getArray().get(i).getSofttextdata().getSofttextimages().getSofttextimage_url());
+                   }
                     bean.setSofttextimagedata(softtextimagedataBean);
                     UserAdvertorialBean.DataBean.ArrayBean.UserdataBean userdataBean = new UserAdvertorialBean.DataBean.ArrayBean.UserdataBean();
                     userdataBean.setUser_autograph(entity.getData().getArray().get(i).getSofttextdata().getUserdata().getUser_autograph());

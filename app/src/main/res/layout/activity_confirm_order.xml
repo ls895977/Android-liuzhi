@@ -46,14 +46,13 @@
                 android:elevation="5dp"
                 android:paddingLeft="@dimen/dip_5"
                 android:translationZ="5dp">
-
                 <TextView
                     android:id="@+id/oder_tv_add"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:drawableRight="@mipmap/next_grey"
-                    android:text="您还未选择默认收货地址"
+                    android:hint="您还未选择默认收货地址"
                     android:textColor="@color/bar_grey"
                     android:textSize="14sp" />
             </RelativeLayout>

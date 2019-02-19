@@ -1,6 +1,9 @@
 package com.hykj.liuzhi.androidcomponents.ui.activity;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,9 +24,12 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.DetailVideoBean;
+import com.hykj.liuzhi.androidcomponents.bean.ShearBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
+import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Share;
 import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_VideoDownload;
 import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Videoreward;
 import com.hykj.liuzhi.androidcomponents.ui.activity.video.DateUtils;
@@ -34,6 +40,14 @@ import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.DensityUtils;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
+import com.hykj.liuzhi.androidcomponents.utils.WxShareUtils;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
+
+import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +62,7 @@ import static com.zhouyou.http.EasyHttp.getContext;
  * @date: 2018/9/28
  * @describe:
  */
-public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward.OnClick {
+public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward.OnClick, Dlg_Share.OnClick {
     @BindView(R.id.tab_layout)
     SlidingTabLayout tabLayout;
     @BindView(R.id.view_pager)
@@ -77,6 +91,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
     private TextView[] ppt = new TextView[4];
     private LinearLayout myChaoQingView;
     private String definition = "0";
+    private Dlg_Share share;
+    ZLoadingDialog loding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,6 +105,15 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
     }
 
     private void initView() {
+        share = new Dlg_Share(this, this);
+        loding = new ZLoadingDialog(this);
+        loding.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
+                .setLoadingColor(Color.DKGRAY)//颜色
+                .setHintText("数据提交中...")
+                .setHintTextSize(16) // 设置字体大小 dp
+                .setHintTextColor(Color.DKGRAY)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setDialogBackgroundColor(Color.parseColor("#CCffffff")); // 设置背景色，默认白色
         viewPager.setAdapter(new DetailPagerAdapter(getSupportFragmentManager(), videoid, "video"));
         tabLayout.setViewPager(viewPager);
         mJzvdStd = findViewById(R.id.jz_video);
@@ -143,19 +168,19 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
     }
 
     @OnClick({R.id.tv_collect, R.id.ll_download, R.id.videoDetail_Collection, R.id.tv_videoDetail_Zan, R.id.videoDetail_videoreward, R.id.choseGaoqing,
-            R.id.p1, R.id.p2, R.id.p3, R.id.p4})
+            R.id.p1, R.id.p2, R.id.p3, R.id.p4, R.id.share})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_collect:
                 break;
             case R.id.ll_download:
-                if (definition.equals("0")) {
-                    Toast.makeText(getContext(), "请在视频右上角选择清晰度", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                download = new Dlg_VideoDownload(this, videoid,entity.getData().getVideo_name(),entity.getData().getVideo_image());
-                download.setDefinition(definition);
-                download.show();
+//                if (definition.equals("0")) {
+//                    Toast.makeText(getContext(), "请在视频右上角选择清晰度", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                download = new Dlg_VideoDownload(this, videoid, entity.getData().getVideo_name(), entity.getData().getVideo_image());
+//                download.setDefinition(definition);
+//                download.show();
                 break;
             case R.id.videoDetail_Collection://收藏
                 if (video_collection.isSelected()) {//取消
@@ -197,6 +222,9 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 definition = "4";
                 setChoseStatus(3);
                 myChaoQingView.setVisibility(View.GONE);
+                break;
+            case R.id.share://分享
+                share.show();
                 break;
         }
     }
@@ -285,7 +313,6 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
             }
         });
     }
-
 
     /**
      * 视频取消收藏
@@ -438,5 +465,51 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         ppt[idnex].setSelected(false);
         idnex = stauts;
     }
+
+    //分享回调
+    @Override
+    public void onItemShear(int p) {
+        loding.show();
+        partakeofvideosofttext(p);
+    }
+
+    /**
+     * 分享接口
+     */
+    public void partakeofvideosofttext(final int type) {
+        HttpHelper.partakeofvideosofttext("", videoid + "", new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                loding.dismiss();
+                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                Gson gson = new Gson();
+                ShearBean entity111 = gson.fromJson(succeed, ShearBean.class);
+                if (entity111.getCode() == 0 && entity111.getMsg().equals("访问成功")) {
+                    switch (type) {
+                        case 1://分享到微信
+                        case 2://分享到微信
+                            WxShareUtils.shareWeb(type, getContext(), "wx153551c2cce0e6a8", entity111.getUrl(), entity.getData().getVideo_name(), entity.getData().getVideo_detail(), null);
+                            break;
+                        case 3:
+                            WxShareUtils.showShare(DetailVideoActivity.this, entity.getData().getVideo_name(), entity.getData().getVideo_detail(), entity111.getUrl());
+                            break;
+                    }
+
+                }
+                loding.dismiss();
+            }
+
+            @Override
+            public void onError(String error) {
+                loding.dismiss();
+                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 }

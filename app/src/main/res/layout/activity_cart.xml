@@ -50,19 +50,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@android:color/darker_gray"></View>
-        <!--<RelativeLayout-->
-        <!--android:id="@+id/rl_bottom_right"-->
-        <!--android:layout_width="130dp"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:background="#ffea00">-->
-        <!--</RelativeLayout>-->
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -88,14 +84,16 @@
                     android:paddingLeft="@dimen/dip_10"
                     android:text="全选" />
             </LinearLayout>
+
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/shop_delte"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="right"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
+
                 <TextView
                     android:id="@+id/tv_delte"
                     android:layout_width="@dimen/dip_130"
@@ -106,6 +104,7 @@
                     android:textColor="#414141"
                     android:textSize="15sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/shop_jiesuan"
                 android:layout_width="match_parent"
@@ -124,6 +123,7 @@
                     android:text="合计: 0"
                     android:textColor="#ffb400"
                     android:textSize="15sp" />
+
                 <TextView
                     android:id="@+id/rl_bottom_right"
                     android:layout_width="@dimen/dip_130"

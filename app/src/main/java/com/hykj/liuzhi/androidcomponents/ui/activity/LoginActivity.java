@@ -2,6 +2,7 @@ package com.hykj.liuzhi.androidcomponents.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -22,6 +23,8 @@ import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.hykj.liuzhi.androidcomponents.utils.LocalInfoUtils;
 import com.hykj.liuzhi.androidcomponents.utils.TitleBuilder;
 import com.orhanobut.logger.Logger;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +50,7 @@ public class LoginActivity extends BaseActivity {
     private String mLoginPhone;
     private String mLoginPass;
     private Object userself;
+    ZLoadingDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +62,14 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
-
+        dialog = new ZLoadingDialog(this);
+        dialog.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
+                .setLoadingColor(Color.DKGRAY)//颜色
+                .setHintText("数据加载中...")
+                .setHintTextSize(16) // 设置字体大小 dp
+                .setHintTextColor(Color.DKGRAY)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setDialogBackgroundColor(Color.parseColor("#CCffffff")); // 设置背景色，默认白色
     }
 
     @OnClick({R.id.tv_login_forgetpassword, R.id.tv_login_dongcode2login, R.id.tv_login_toregist, R.id.tv_login_login})
@@ -94,9 +105,11 @@ public class LoginActivity extends BaseActivity {
         if (TextUtils.isEmpty(mLoginPhone) || TextUtils.isEmpty(mLoginPass)) {
             Toast.makeText(this, "账号密码不能为空", Toast.LENGTH_SHORT).show();
         } else {
+            dialog.show();
             HttpHelper.PhonePassWordLoGin(mLoginPhone, mLoginPass, new HttpHelper.HttpUtilsCallBack<String>() {
                 @Override
                 public void onFailure(String failure) {
+                    dialog.dismiss();
                     Toast.makeText(LoginActivity.this, failure, Toast.LENGTH_SHORT).show();
                 }
 
@@ -109,11 +122,14 @@ public class LoginActivity extends BaseActivity {
                         LocalInfoUtils.saveUserdata(succeed);
                         aCache.put("user_id", String.valueOf(entity.getUserdata().getUser_id()));
                         getUserself(entity.getUserdata().getUser_id());
+                    } else {
+                        dialog.dismiss();
                     }
                 }
 
                 @Override
                 public void onError(String error) {
+                    dialog.dismiss();
                     Toast.makeText(LoginActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -124,15 +140,16 @@ public class LoginActivity extends BaseActivity {
 
     //获取用户数据
     public void getUserself(int user_id) {
-        Log.e("aa", "---------" + user_id);
         HttpHelper.getUserself(user_id, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
+                dialog.dismiss();
                 Toast.makeText(LoginActivity.this, failure, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSucceed(String succeed) {
+                dialog.dismiss();
                 LocalInfoUtils.saveUserself(succeed);
                 aCache.put("mLoginPhone", mLoginPhone);
                 aCache.put("mLoginPass", mLoginPass);
@@ -141,6 +158,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onError(String error) {
+                dialog.dismiss();
                 Toast.makeText(LoginActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
             }
         });

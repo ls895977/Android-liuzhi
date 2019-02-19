@@ -77,7 +77,7 @@ public class GoodDetailActivity extends BaseActivity {
         });
         findViewById(R.id.tv_addshopcar).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {//添加购物车
                 addshopcar(getIntent().getStringExtra("goodsid"));
             }
         });
@@ -110,11 +110,8 @@ public class GoodDetailActivity extends BaseActivity {
         webSettings.setLoadWithOverviewMode(true);
         backShowgoods(getIntent().getStringExtra("goodsid"));
     }
-
     private GoodDetailDetailBean entity;
-
     public void backShowgoods(String goodsid) {
-        Log.e("aa", "--------------" + getIntent().getStringExtra("goodsid"));
         HttpHelper.showgoods(goodsid, aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
@@ -206,7 +203,6 @@ public class GoodDetailActivity extends BaseActivity {
 
     /**
      * 添加购物车
-     *
      * @param goodsid
      */
     public void addshopcar(String goodsid) {

@@ -38,6 +38,64 @@ public class CircleBean1 implements MultiItemEntity {
     }
 
     public static class ArrayBean {
+
+        private int user_id;
+        private int goods_id;
+        private int collection_type;
+        private String goods_pic;
+
+        public int getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(int user_id) {
+            this.user_id = user_id;
+        }
+
+        public int getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(int goods_id) {
+            this.goods_id = goods_id;
+        }
+
+        public int getCollection_type() {
+            return collection_type;
+        }
+
+        public void setCollection_type(int collection_type) {
+            this.collection_type = collection_type;
+        }
+
+        public String getGoods_pic() {
+            return goods_pic;
+        }
+
+        public void setGoods_pic(String goods_pic) {
+            this.goods_pic = goods_pic;
+        }
+
+        public String getGoods_name() {
+            return goods_name;
+        }
+
+        public void setGoods_name(String goods_name) {
+            this.goods_name = goods_name;
+        }
+
+        public String getGoods_price() {
+            return goods_price;
+        }
+
+        public void setGoods_price(String goods_price) {
+            this.goods_price = goods_price;
+        }
+
+        private String goods_name;
+        private String goods_price;
+
+
         private int imagetext_id;
         public int getImagetext_id() {
             return imagetext_id;

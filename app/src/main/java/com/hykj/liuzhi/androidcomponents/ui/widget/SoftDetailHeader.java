@@ -1,7 +1,9 @@
 package com.hykj.liuzhi.androidcomponents.ui.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +16,15 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
 import com.hykj.liuzhi.BuildConfig;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.DetailVideoBean;
+import com.hykj.liuzhi.androidcomponents.bean.ShearBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
+import com.hykj.liuzhi.androidcomponents.ui.activity.DetailSoftArticleActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.IssueClumnActivity;
+import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Share;
 import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Videoreward;
 import com.hykj.liuzhi.androidcomponents.ui.activity.softtext.Act_addsofttext;
 import com.hykj.liuzhi.androidcomponents.ui.activity.softtext.SofttextFirstPageBean;
@@ -29,6 +35,9 @@ import com.hykj.liuzhi.androidcomponents.utils.DateTimeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.hykj.liuzhi.androidcomponents.utils.TimeUtils;
+import com.hykj.liuzhi.androidcomponents.utils.WxShareUtils;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import javax.microedition.khronos.opengles.GL;
 
@@ -43,24 +52,37 @@ import static com.zhouyou.http.EasyHttp.getContext;
  * @date: 2018/10/25
  * @describe:
  */
-public class SoftDetailHeader extends LinearLayout implements View.OnClickListener, Dlg_Videoreward.OnClick {
+public class SoftDetailHeader extends LinearLayout implements View.OnClickListener, Dlg_Videoreward.OnClick, Dlg_Share.OnClick {
     @BindView(R.id.iv1)
     ImageView iv1;
     SofttextFirstPageBean bean;
     private ACache aCache;
+    private Activity activity;
 
-    public SoftDetailHeader(Context context, SofttextFirstPageBean bean1) {
+    public SoftDetailHeader(Activity context, SofttextFirstPageBean bean1) {
         super(context);
         this.bean = bean1;
+        this.activity = context;
         initView(context);
     }
 
     private TextView title, Date, nickName, tv_autograp, softtextimage, collection, userpoint;
     private Dlg_Videoreward dialog;
     private Context context;
+    Dlg_Share share;
+    private ZLoadingDialog loding;
 
     private void initView(Context context1) {
         this.context = context1;
+        loding = new ZLoadingDialog(context1);
+        loding.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
+                .setLoadingColor(Color.DKGRAY)//颜色
+                .setHintText("数据提交中...")
+                .setHintTextSize(16) // 设置字体大小 dp
+                .setHintTextColor(Color.DKGRAY)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setDialogBackgroundColor(Color.parseColor("#CCffffff")); // 设置背景色，默认白色
+        share = new Dlg_Share(context1, this);
         aCache = ACache.get(context);
         dialog = new Dlg_Videoreward(context, this);
         View view = LayoutInflater.from(context).inflate(R.layout.layout_header_soft_article_detail, this, true);
@@ -85,7 +107,7 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
         softtextimage = view.findViewById(R.id.tv_Softtextimage);
         softtextimage.setText(bean.getData().getSofttext_text());
         ImageView imv = view.findViewById(R.id.iv1);
-        if(bean.getData().getSofttextimage().size()>0) {
+        if (bean.getData().getSofttextimage().size() > 0) {
             Glide.with(getContext()).load(bean.getData().getSofttextimage().get(0).getSofttextimage_url()).into(imv);
         }
         collection = view.findViewById(R.id.softtextimage_collection);
@@ -106,6 +128,7 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
         view.findViewById(R.id.softtextimage_shear).setOnClickListener(this);
         view.findViewById(R.id.soft_tougao).setOnClickListener(this);
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -127,6 +150,8 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
                 dialog.show();
                 break;
             case R.id.softtextimage_shear://分享
+                share.show();
+
                 break;
             case R.id.soft_tougao://投稿
                 Intent intent = new Intent(context, Act_addsofttext.class);
@@ -329,4 +354,47 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
         });
     }
 
+    @Override
+    public void onItemShear(int p) {
+        loding.show();
+        partakeofvideosofttext(p);
+    }
+
+    /**
+     * 分享接口
+     */
+    public void partakeofvideosofttext(final int type) {
+        HttpHelper.partakeofvideosofttext(bean.getData().getSofttext_id() + "", "", new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                loding.dismiss();
+                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                Gson gson = new Gson();
+                ShearBean entity111 = gson.fromJson(succeed, ShearBean.class);
+                if (entity111.getCode() == 0 && entity111.getMsg().equals("访问成功")) {
+                    switch (type) {
+                        case 1://分享到微信
+                        case 2://分享到微信
+                            WxShareUtils.shareWeb(type, getContext(), "wx153551c2cce0e6a8", entity111.getUrl(), bean.getData().getSofttext_title(), bean.getData().getSofttext_text(), null);
+                            break;
+                        case 3:
+                            WxShareUtils.showShare(activity, bean.getData().getSofttext_title(), bean.getData().getSofttext_text(), entity111.getUrl());
+                            break;
+                    }
+
+                }
+                loding.dismiss();
+            }
+
+            @Override
+            public void onError(String error) {
+                loding.dismiss();
+                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

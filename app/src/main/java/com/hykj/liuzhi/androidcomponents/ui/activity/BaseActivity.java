@@ -1,5 +1,6 @@
 package com.hykj.liuzhi.androidcomponents.ui.activity;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -8,12 +9,19 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.hykj.liuzhi.androidcomponents.MainActivity;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
+
+import static com.zhouyou.http.EasyHttp.getContext;
+
 /**
  * @author: lujialei
  * @date: 2018/9/29
  * @describe:
  */
 public class BaseActivity extends AppCompatActivity {
+
     /**
      * 是否为悬浮ToolBar 默认:false
      */

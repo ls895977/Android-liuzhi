@@ -49,11 +49,29 @@ public class FindSearchLayout extends RelativeLayout {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_find_search_layout, this, true);
         ButterKnife.bind(this);
         aflCotent.setVerticalSpace(240);
+        aflCotent.removeAllViews();
         for (int i = 0; i < datas.size(); i++) {
             View item = LayoutInflater.from(context).inflate(R.layout.sub_item, null);
             TextView tvAttrTag = (TextView) item.findViewById(R.id.tv_attr_tag);
+            tvAttrTag.setTag(i);
+            tvAttrTag.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int indext = (int) v.getTag();
+                    backData.onBack(datas.get(indext));
+                }
+            });
             tvAttrTag.setText(datas.get(i));
             aflCotent.addView(item);
         }
     }
+    public  BackData backData;
+
+    public void setBackData(BackData backData) {
+        this.backData = backData;
+    }
+
+    public interface BackData{
+        void  onBack(String name);
+   }
 }

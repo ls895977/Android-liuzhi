@@ -445,7 +445,7 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
         @Override
         public Dialog getDialog() {
             ProgressDialog dialog = new ProgressDialog(EditUserDataActivity.this);
-            dialog.setMessage("上传中中...");
+            dialog.setMessage("上传中...");
             return dialog;
         }
     };

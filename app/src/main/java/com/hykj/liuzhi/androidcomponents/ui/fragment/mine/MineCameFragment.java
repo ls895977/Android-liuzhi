@@ -197,7 +197,7 @@ public class MineCameFragment extends Fragment implements BaseQuickAdapter.OnIte
         }
         if (adapter == null) {
             adapter = new CircleAdapter1(datas, getContext());
-            bannerHeader = new BannerHeader(getContext());
+            bannerHeader = new BannerHeader(getActivity());
             pics.add(entity.getData().getShowing_url());
             banner = bannerHeader.getBanner();
             banner.setImages(pics);

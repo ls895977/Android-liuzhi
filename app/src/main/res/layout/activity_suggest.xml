@@ -53,6 +53,7 @@
         android:background="@drawable/shape_btn_rectange">
 
         <EditText
+            android:id="@+id/tousuneirong"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -71,6 +72,7 @@
         android:background="@drawable/shape_btn_rectange">
 
         <EditText
+            android:id="@+id/suggest_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"

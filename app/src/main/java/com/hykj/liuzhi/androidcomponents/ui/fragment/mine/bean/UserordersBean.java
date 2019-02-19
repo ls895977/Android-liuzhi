@@ -1,8 +1,9 @@
 package com.hykj.liuzhi.androidcomponents.ui.fragment.mine.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class UserordersBean {
+public class UserordersBean implements Serializable {
 
     /**
      * code : 0
@@ -47,7 +48,7 @@ public class UserordersBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean  implements Serializable{
         /**
          * array : [{"orders_id":1,"orders_paymentstatus":0,"orders_deliverystatus":0,"orders_receivingstate":0,"orders_number":"2018110816111248505510","orders_ordersmoney":"4","ordertype":"待付款","goodsdata":[{"goods_id":1,"ordersgoods_num":4,"ordersgoods_money":"4","goods_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext/image/c430d66b16716957dd80218fceb7af21.jpg","goods_name":"羊毛毡戳戳乐手工diy新手套装蒸笼小鸡羊毛毡手作材料包"}]},{"orders_id":2,"orders_paymentstatus":0,"orders_deliverystatus":0,"orders_receivingstate":0,"orders_number":"2018110816162254539851","orders_ordersmoney":"4","ordertype":"待付款","goodsdata":[{"goods_id":1,"ordersgoods_num":4,"ordersgoods_money":"4","goods_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext/image/c430d66b16716957dd80218fceb7af21.jpg","goods_name":"羊毛毡戳戳乐手工diy新手套装蒸笼小鸡羊毛毡手作材料包"}]},{"orders_id":3,"orders_paymentstatus":0,"orders_deliverystatus":0,"orders_receivingstate":0,"orders_number":"2018110816164499975251","orders_ordersmoney":"4","ordertype":"待付款","goodsdata":[{"goods_id":1,"ordersgoods_num":4,"ordersgoods_money":"4","goods_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext/image/c430d66b16716957dd80218fceb7af21.jpg","goods_name":"羊毛毡戳戳乐手工diy新手套装蒸笼小鸡羊毛毡手作材料包"}]},{"orders_id":5,"orders_paymentstatus":0,"orders_deliverystatus":0,"orders_receivingstate":0,"orders_number":"2018110816352398565510","orders_ordersmoney":"4","ordertype":"待付款","goodsdata":[{"goods_id":1,"ordersgoods_num":4,"ordersgoods_money":"4","goods_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext/image/c430d66b16716957dd80218fceb7af21.jpg","goods_name":"羊毛毡戳戳乐手工diy新手套装蒸笼小鸡羊毛毡手作材料包"}]}]
          * total : 4
@@ -102,7 +103,7 @@ public class UserordersBean {
             this.array = array;
         }
 
-        public static class ArrayBean {
+        public static class ArrayBean implements Serializable {
             /**
              * orders_id : 1
              * orders_paymentstatus : 0
@@ -187,7 +188,7 @@ public class UserordersBean {
                 this.goodsdata = goodsdata;
             }
 
-            public static class GoodsdataBean {
+            public static class GoodsdataBean  implements Serializable{
                 /**
                  * goods_id : 1
                  * ordersgoods_num : 4
