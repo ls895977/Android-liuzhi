@@ -20,10 +20,10 @@ import com.google.gson.Gson;
 import com.hykj.liuzhi.BuildConfig;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.DetailVideoBean;
+import com.hykj.liuzhi.androidcomponents.bean.LoginEntity;
 import com.hykj.liuzhi.androidcomponents.bean.ShearBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
-import com.hykj.liuzhi.androidcomponents.ui.activity.DetailSoftArticleActivity;
-import com.hykj.liuzhi.androidcomponents.ui.activity.IssueClumnActivity;
+import com.hykj.liuzhi.androidcomponents.ui.activity.PersonDetailActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Share;
 import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Videoreward;
 import com.hykj.liuzhi.androidcomponents.ui.activity.softtext.Act_addsofttext;
@@ -34,6 +34,7 @@ import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.DateTimeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
+import com.hykj.liuzhi.androidcomponents.utils.LocalInfoUtils;
 import com.hykj.liuzhi.androidcomponents.utils.TimeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.WxShareUtils;
 import com.zyao89.view.zloading.ZLoadingDialog;
@@ -58,11 +59,13 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
     SofttextFirstPageBean bean;
     private ACache aCache;
     private Activity activity;
-
-    public SoftDetailHeader(Activity context, SofttextFirstPageBean bean1) {
+    private TextView circle_Userfans,tv_num,tv_type;
+    private String stType;
+    public SoftDetailHeader(Activity context, SofttextFirstPageBean bean1,String stType1) {
         super(context);
         this.bean = bean1;
         this.activity = context;
+        stType=stType1;
         initView(context);
     }
 
@@ -71,7 +74,6 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
     private Context context;
     Dlg_Share share;
     private ZLoadingDialog loding;
-
     private void initView(Context context1) {
         this.context = context1;
         loding = new ZLoadingDialog(context1);
@@ -86,6 +88,10 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
         aCache = ACache.get(context);
         dialog = new Dlg_Videoreward(context, this);
         View view = LayoutInflater.from(context).inflate(R.layout.layout_header_soft_article_detail, this, true);
+        circle_Userfans=view.findViewById(R.id.circle_Userfans);
+        tv_num=view.findViewById(R.id.tv_num);
+        tv_type=view.findViewById(R.id.tv_type);
+        tv_type.setText(stType);
         ButterKnife.bind(this);
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.transform(new GlideRoundTransform(context, 6)).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
@@ -96,9 +102,19 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
         String time = bean.getData().getSofttext_creattime() + "";
         Log.e("aa", time);
         if (time != null) {
-            Date.setText(TimeUtils.YearMon(time));
+            Date.setText(TimeUtils.YerMothDay(time));
         }
         CircleImageView haderimg = view.findViewById(R.id.iv_avatar);
+        haderimg.setOnClickListener(new OnClickListener() {//头像详情
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, PersonDetailActivity.class);
+                intent.putExtra("User_id", bean.getData().getUser_id() + "");
+                context.startActivity(intent);
+            }
+        });
+        circle_Userfans.setOnClickListener(this);
         Glide.with(getContext()).load(bean.getData().getUserdata().getUser_pic()).into(haderimg);
         nickName = view.findViewById(R.id.tv_nickname);
         nickName.setText(bean.getData().getUserdata().getUser_nickname());
@@ -117,12 +133,19 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
         } else {
             collection.setSelected(false);
         }
+        tv_num.setText(bean.getData().getSofttext_collection()+"");
         userpoint = view.findViewById(R.id.softtextimage_Userpoint);
         userpoint.setOnClickListener(this);
         if (bean.getData().getUserpoint() == 1) {
             userpoint.setSelected(true);
         } else {
             userpoint.setSelected(false);
+        }
+        userpoint.setText(bean.getData().getSofttext_point()+"");
+        if (bean.getData().getUserfans() == 1) {
+            circle_Userfans.setText("已关注");
+        } else {
+            circle_Userfans.setText("+ 关注");
         }
         view.findViewById(R.id.softtextimage_dashang).setOnClickListener(this);
         view.findViewById(R.id.softtextimage_shear).setOnClickListener(this);
@@ -158,6 +181,13 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
                 intent.putExtra("position", 2);
                 intent.putExtra("title", "我要投稿");
                 context.startActivity(intent);
+                break;
+            case R.id.circle_Userfans://关注
+                if (circle_Userfans.getText().toString().equals("+ 关注")) {//走关注
+                    setClick(bean.getData().getUser_id() + "");
+                } else {
+                    getUsernotfans(bean.getData().getUser_id() + "");
+                }
                 break;
         }
     }
@@ -397,4 +427,74 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
             }
         });
     }
+
+    /**
+     * 关注
+     *
+     * @param clickId
+     */
+    private void setClick(String clickId) {
+        loding.show();
+        HttpHelper.getUserClickAttention(LocalInfoUtils.getUserId() + "", clickId, new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                loding.dismiss();
+                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                loding.dismiss();
+                LoginEntity entity = FastJSONHelper.getPerson(succeed, LoginEntity.class);
+                if (entity.getCode() == 0) {
+                    if (entity.getError() == 0) {
+                        circle_Userfans.setText("已关注");
+                    }
+                    Toast.makeText(getContext(), "关注成功！", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+                loding.dismiss();
+                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 取消关注
+     *
+     * @param clickId
+     */
+    private void getUsernotfans(String clickId) {
+        loding.show();
+        HttpHelper.getUsernotfans(LocalInfoUtils.getUserId() + "", clickId, new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                loding.dismiss();
+
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                loding.dismiss();
+                LoginEntity entity = FastJSONHelper.getPerson(succeed, LoginEntity.class);
+                if (entity.getCode() == 0) {
+                    if (entity.getError() == 0) {
+                        circle_Userfans.setText("+ 关注");
+                    }
+                    Toast.makeText(getContext(), "已取消关注！", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onError(String error) {
+                loding.dismiss();
+            }
+        });
+    }
+
 }

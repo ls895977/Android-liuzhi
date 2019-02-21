@@ -24,7 +24,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.pay_result);
         api = WXAPIFactory.createWXAPI(this, "wx153551c2cce0e6a8");
         api.handleIntent(getIntent(), this);
     }
@@ -32,7 +31,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Debug.e("---11-----onNewIntent--------");
         setIntent(intent);
         api.handleIntent(intent, this);
     }
@@ -42,22 +40,28 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     }
 
     @Override
-    public void onResp(BaseResp resp) {
-        Debug.e("------onResp-------"+resp.errCode);
-        if (resp.errCode == 0) {
-            switch (actStatus) {
-                case "ConfirmOrderActivity"://确认订单页跳转
-                    Intent intent1 = new Intent();
-                    intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent1.setClass(WXPayEntryActivity.this, MainActivity.class);
-                    startActivity(intent1);
-                    break;
-                case "MyOrderTabFragment"://我的订单里
-                    EventBus.getDefault().post(new updateTextEvent("支付了"));
-                    break;
+    public void onResp(BaseResp baseResp) {
+        Debug.e("------onResp-------" + baseResp.errCode);
+        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            int errCord = baseResp.errCode;
+            if (errCord == 0) {
+                switch (actStatus) {
+                    case "ConfirmOrderActivity"://确认订单页跳转
+                        Intent intent1 = new Intent();
+                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent1.setClass(WXPayEntryActivity.this, MainActivity.class);
+                        startActivity(intent1);
+                        break;
+                    case "MyOrderTabFragment"://我的订单里
+                        EventBus.getDefault().post(new updateTextEvent("支付了"));
+                        break;
+                }
+            } else {
+                finish();
             }
-
-        } else {
+            //这里接收到了返回的状态码可以进行相应的操作，如果不想在这个页面操作可以把状态码存在本地然后finish掉这个页面，这样就回到了你调起支付的那个页面
+            //获取到你刚刚存到本地的状态码进行相应的操作就可以了
+            finish();
         }
     }
 

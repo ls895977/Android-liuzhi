@@ -1,6 +1,7 @@
 package com.hykj.liuzhi.androidcomponents.ui.activity;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -22,6 +23,8 @@ import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.hykj.liuzhi.androidcomponents.utils.TitleBuilder;
 import com.suke.widget.SwitchButton;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 public class AddAdressActivity extends BaseActivity implements View.OnClickListener, Dlg_AddChose.OnClick {
     private Dlg_AddChose addChose;
@@ -29,7 +32,7 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
     EditText name, phone, addr;
     private SwitchButton switchButton;
     AllAddBean.DataBean.ArrayBean ben;
-
+    ZLoadingDialog dialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,14 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initView() {
+        dialog = new ZLoadingDialog(this);
+        dialog.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
+                .setLoadingColor(Color.DKGRAY)//颜色
+                .setHintText("数据加载中...")
+                .setHintTextSize(16) // 设置字体大小 dp
+                .setHintTextColor(Color.DKGRAY)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setDialogBackgroundColor(Color.parseColor("#CCffffff")); // 设置背景色，默认白色
         findViewById(R.id.addr_region).setOnClickListener(this);
         addChose = new Dlg_AddChose(this, this);
         tvAddr = findViewById(R.id.tv_addr);
@@ -74,7 +85,6 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
     String st_name, st_phone, allname, address, regionid="", status;
 
     public void postAdd() {
-        Log.e("aa", "-----------" + switchButton.isChecked());
         aCache = ACache.get(this);
         st_name = name.getText().toString();
         if (TextUtils.isEmpty(st_name)) {
@@ -101,6 +111,7 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
         } else {
             status = 0 + "";
         }
+        dialog.show();
         HttpHelper.Addshopaddress(aCache.getAsString("user_id"),
                 st_name + "",
                 st_phone + "",
@@ -111,12 +122,14 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
                 new HttpHelper.HttpUtilsCallBack<String>() {
                     @Override
                     public void onFailure(String failure) {
+                        dialog.dismiss();
                         Toast.makeText(AddAdressActivity.this, failure, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onSucceed(String succeed) {
                         Log.e("aa", regionid);
+                        dialog.dismiss();
                         AddAddressBean entity = FastJSONHelper.getPerson(succeed, AddAddressBean.class);
                         if (entity.getCode() == 0) {
                             Toast.makeText(AddAdressActivity.this, entity.getMsg(), Toast.LENGTH_SHORT).show();
@@ -127,6 +140,7 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
 
                     @Override
                     public void onError(String error) {
+                        dialog.dismiss();
                         Toast.makeText(AddAdressActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -142,6 +156,7 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
                 if (getIntent().getSerializableExtra("bean") != null) {
                     changeadderssstatus();
                 } else {
+
                     postAdd();
                 }
                 break;

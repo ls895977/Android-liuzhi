@@ -91,10 +91,6 @@ public class MainActivity extends AppCompatActivity {
         return selectList;
     }
 
-    public void setSelectList(List<LocalMedia> selectList) {
-        this.selectList = selectList;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

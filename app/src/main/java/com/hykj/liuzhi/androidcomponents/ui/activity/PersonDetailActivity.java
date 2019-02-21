@@ -60,6 +60,7 @@ public class PersonDetailActivity extends BaseActivity {
     RoundImageView iv_person_detail_userhead;
     private ACache aCache;
     ZLoadingDialog dialog;
+    private String User_id;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,7 @@ public class PersonDetailActivity extends BaseActivity {
     private void initData() {
         iv_person_detail_userhead = findViewById(R.id.iv_person_detail_userhead);
         aCache = ACache.get(this);
-        userBean = (CircleFragmentBean.DataBean.UserdataBean) getIntent().getSerializableExtra("userBean");
+        User_id =getIntent().getStringExtra("User_id");
         getUserfirstpagetitle();
     }
 
@@ -95,9 +96,9 @@ public class PersonDetailActivity extends BaseActivity {
                 break;
             case R.id.circle_Userfans://关注
                 if (circle_Userfans.getText().toString().equals("+ 关注")) {//走关注
-                    setClick(userBean.getUser_id());
+                    setClick(User_id);
                 } else {
-                    getUsernotfans(userBean.getUser_id());
+                    getUsernotfans(User_id);
                 }
                 break;
         }
@@ -108,9 +109,9 @@ public class PersonDetailActivity extends BaseActivity {
      *
      * @param clickId
      */
-    private void setClick(int clickId) {
+    private void setClick(String clickId) {
         dialog.show();
-        HttpHelper.getUserClickAttention( LocalInfoUtils.getUserId(),clickId, new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUserClickAttention( LocalInfoUtils.getUserId()+"",clickId, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 dialog.dismiss();
@@ -143,9 +144,9 @@ public class PersonDetailActivity extends BaseActivity {
      *
      * @param clickId
      */
-    private void getUsernotfans(int clickId) {
+    private void getUsernotfans(String clickId) {
         dialog.show();
-        HttpHelper.getUsernotfans( LocalInfoUtils.getUserId(),clickId, new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUsernotfans( LocalInfoUtils.getUserId()+"",clickId, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 dialog.dismiss();
@@ -177,8 +178,7 @@ public class PersonDetailActivity extends BaseActivity {
      */
     private void getUserfirstpagetitle() {
         dialog.show();
-        com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug.e("------userid-----"+userBean.getUser_id()+"------------"+ aCache.getAsString("user_id"));
-        HttpHelper.getUserfirstpagetitle(userBean.getUser_id() + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUserfirstpagetitle(User_id + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 dialog.dismiss();

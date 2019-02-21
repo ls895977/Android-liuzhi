@@ -41,7 +41,9 @@ public class FashionAdapter extends BaseMultiItemQuickAdapter<FashionBase, BaseV
                 break;
             case FashionBase.FashionItem3:
                 ImageView back1 = helper.getView(R.id.button_img);
-                Glide.with(context).load(item.getAdv_url()).into(back1);
+                if(item.getAdv_url().equals("null")) {
+                    Glide.with(context).load(item.getAdv_url()).into(back1);
+                }
                 break;
         }
     }

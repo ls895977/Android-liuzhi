@@ -16,26 +16,20 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.mock.Mock;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailSoftArticleActivity;
-import com.hykj.liuzhi.androidcomponents.ui.activity.DetailVideoActivity;
-import com.hykj.liuzhi.androidcomponents.ui.adapter.RecommendAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.adapter.FashionAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.base.ViewPagerFragment;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FashionBase;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FashionBean;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FirstpagedataBean;
 import com.hykj.liuzhi.androidcomponents.ui.widget.CustomLoadMoreView;
 import com.hykj.liuzhi.androidcomponents.ui.widget.RecycleViewDivider;
-import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
@@ -53,7 +47,7 @@ import butterknife.Unbinder;
  * @date: 2018/9/27
  * @describe:
  */
-public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapter.OnItemClickListener{
+public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapter.OnItemClickListener {
     @BindView(R.id.rv)
     RecyclerView rv;
     Unbinder unbinder;
@@ -117,13 +111,13 @@ public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapt
 
             @Override
             public void onSucceed(String succeed) {
+
                 entity = FastJSONHelper.getPerson(succeed, FashionBean.class);
                 setAdapterData();
             }
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -132,6 +126,7 @@ public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapt
     List<FashionBase> datas = new ArrayList<>();
     Random random = new Random();
     private FashionBase bean;
+
     public void setAdapterData() {
         for (int i = 0; i < entity.getData().getArray().size(); i++) {
             int indext = random.nextInt(2);
@@ -145,8 +140,14 @@ public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapt
             if (entity.getData().getArray().get(i).getSofttextimage() != null) {
                 bean.setSofttextimage_url(entity.getData().getArray().get(i).getSofttextimage().getSofttextimage_url());
             }
-            bean.setUser_nickname(entity.getData().getArray().get(i).getUserdata().getUser_nickname());
-            bean.setUser_pic(entity.getData().getArray().get(i).getUserdata().getUser_pic());
+            if (bean.getUser_nickname()==null||bean.getUser_nickname().equals("null")){
+                bean.setUser_nickname("");
+            } else {
+                bean.setUser_nickname(entity.getData().getArray().get(i).getUserdata().getUser_nickname());
+            }
+            if(entity.getData().getArray().get(i).getUserdata()!=null) {
+                bean.setUser_pic(entity.getData().getArray().get(i).getUserdata().getUser_pic());
+            }
             bean.setUser_id(entity.getData().getArray().get(i).getUser_id());
             datas.add(bean);
         }
@@ -170,6 +171,7 @@ public class FashionFragment extends ViewPagerFragment implements BaseQuickAdapt
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Intent intent1 = new Intent();
         intent1.putExtra("softtextid", datas.get(position).getSofttext_id() + "");
+        intent1.putExtra("stType","潮流类型");
         intent1.setClass(getContext(), DetailSoftArticleActivity.class);
         startActivity(intent1);
     }

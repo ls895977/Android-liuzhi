@@ -6,21 +6,29 @@
 
     <include layout="@layout/activity_title" />
 
-    <ImageView
-        android:id="@+id/issue_hader"
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="105dp"
-        android:background="@mipmap/icon_person_detail_bg3"
-        android:scaleType="fitXY" />
+        android:layout_height="150dp" />
 
     <ScrollView
         android:layout_width="match_parent"
+        android:paddingBottom="@dimen/dip_20"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/dip_10"
+                android:textColor="@color/bar_grey"
+                android:text="申请标题"
+                android:textSize="@dimen/fond_16sp" />
 
             <EditText
                 android:id="@+id/addsofttext_application"
@@ -31,10 +39,19 @@
                 android:layout_marginRight="15dp"
                 android:background="@null"
                 android:gravity="left"
-                android:hint="添加软文标题"
+                android:hint="这里是申请的标题。"
                 android:inputType="textMultiLine"
                 android:minLines="2"
                 android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/dip_10"
+                android:textColor="@color/bar_grey"
+                android:text="原创文章的原文或链接"
+                android:textSize="@dimen/fond_16sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -51,7 +68,7 @@
                     android:layout_marginRight="15dp"
                     android:background="@null"
                     android:gravity="left"
-                    android:hint="添加说明..."
+                    android:hint="输入原文或者有效的原链接，通过审核的文章我们会发表在专栏板块，并且通过系统消息提醒您。"
                     android:inputType="textMultiLine"
                     android:minLines="6"
                     android:textSize="15sp" />
@@ -67,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="41dp"
                 android:layout_marginLeft="16dp"
+                android:visibility="gone"
                 android:layout_marginTop="6dp"
                 android:layout_marginRight="15dp">
 

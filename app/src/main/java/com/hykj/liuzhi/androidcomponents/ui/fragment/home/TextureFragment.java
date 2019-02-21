@@ -122,6 +122,7 @@ public class TextureFragment extends ViewPagerFragment implements BaseQuickAdapt
 
             @Override
             public void onError(String error) {
+
             }
         });
     }
@@ -189,6 +190,7 @@ public class TextureFragment extends ViewPagerFragment implements BaseQuickAdapt
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Intent intent = new Intent();
         intent.putExtra("videoid", datas.get(position).getVideo_id() + "");
+        intent.putExtra("stType","纹理类型");
         intent.setClass(getContext(), DetailVideoActivity.class);
         startActivity(intent);
     }

@@ -103,6 +103,15 @@ public class NotifyFragment extends Fragment implements BaseQuickAdapter.OnItemC
         super.onDestroyView();
         unbinder.unbind();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        page=1;
+        datas.clear();
+        backData();
+    }
+
     /**
      * 平台通知
      */

@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.ui.activity.PersonDetailActivity;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.circle.bean.CircleFragmentBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -78,7 +79,7 @@ public class HeaderCircleScroll extends RelativeLayout {
                 if (datas.size() >= 1) {
                     Intent intent = new Intent();
                     intent.setClass(context, PersonDetailActivity.class);
-                    intent.putExtra("userBean", datas.get(0));
+                    intent.putExtra("User_id", datas.get(0).getUser_id()+"");
                     context.startActivity(intent);
                 }
             }
@@ -88,7 +89,7 @@ public class HeaderCircleScroll extends RelativeLayout {
             public void onClick(View v) {
                 if (datas.size() >= 2) {
                     Intent intent = new Intent(context, PersonDetailActivity.class);
-                    intent.putExtra("userBean", datas.get(1));
+                    intent.putExtra("User_id", datas.get(1).getUser_id()+"");
                     context.startActivity(intent);
                 }
             }
@@ -98,7 +99,7 @@ public class HeaderCircleScroll extends RelativeLayout {
             public void onClick(View v) {
                 if (datas.size() >= 3) {
                     Intent intent = new Intent(context, PersonDetailActivity.class);
-                    intent.putExtra("userBean", datas.get(2));
+                    intent.putExtra("User_id", datas.get(2).getUser_id()+"");
                     context.startActivity(intent);
                 }
             }

@@ -10,7 +10,6 @@
         android:layout_weight="1">
         <ImageView
             android:id="@+id/THREE_SMALL_img1"
-            android:background="@mipmap/test1"
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -30,7 +29,6 @@
         android:layout_weight="1">
         <ImageView
             android:id="@+id/THREE_SMALL_img2"
-            android:background="@mipmap/test2"
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -50,7 +48,6 @@
         android:layout_weight="1">
         <ImageView
             android:id="@+id/THREE_SMALL_img3"
-            android:background="@mipmap/test3"
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

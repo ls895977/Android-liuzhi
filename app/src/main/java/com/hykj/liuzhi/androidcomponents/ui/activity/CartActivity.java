@@ -35,6 +35,7 @@ import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -111,7 +112,8 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 CartBean entity = FastJSONHelper.getPerson(succeed, CartBean.class);
                 for (int i = 0; i < entity.getData().getArray().size(); i++) {
                     CartBean.DataBean.ArrayBean bean = entity.getData().getArray().get(i);
-                    double dnajia = Double.valueOf(bean.getGoodsshopcar_price()) / bean.getGoodsshopcar_num();
+                    DecimalFormat df = new DecimalFormat( "0.00");
+                    double dnajia = Double.valueOf(df.format(Double.valueOf(bean.getGoodsshopcar_price()) / bean.getGoodsshopcar_num()));
                     bean.setDanjiaprice(dnajia);
                     bean.setCartShop(false);
                     datas.add(bean);
@@ -163,7 +165,7 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
         addPrice();
     }
 
-    private int zongjia = 0;
+    private Double zongjia = 0.0;
     private List<String> shopcaridList = new ArrayList<>();
     private List<String> shopgoodsidList = new ArrayList<>();
 
@@ -241,14 +243,15 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
      * 计算出总价格
      */
     public void addPrice() {
-        zongjia = 0;
+        zongjia = 0.0;
         for (int i = 0; i < datas.size(); i++) {
             if (datas.get(i).isCartShop()) {
                 zongjia += (datas.get(i).getGoodsshopcar_num() * datas.get(i).getDanjiaprice());
             }
         }
-        rl_bottom_right.setText("结算(" + zongjia + ")");
-        allPrice.setText("合计:" + zongjia);
+        DecimalFormat df = new DecimalFormat( "0.00");
+        rl_bottom_right.setText("结算(" + df.format(zongjia) + ")");
+        allPrice.setText("合计:" + df.format(zongjia));
     }
 
     private String shopcarid = "";

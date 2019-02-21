@@ -59,7 +59,7 @@
                 android:layout_width="225dp"
                 android:layout_height="35dp"
                 android:gravity="center"
-                android:text="获得7个神奇种子"
+                android:text="立即签到"
                 />
 
             <TextView
@@ -69,7 +69,7 @@
                 android:layout_below="@id/tv_button"
                 android:textSize="11sp"
                 android:textColor="#717171"
-                android:text="您已连续签到3天,再接再厉哦"
+                android:text="您已连续签到0天,再接再厉哦"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

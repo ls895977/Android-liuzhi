@@ -10,7 +10,7 @@
         android:id="@+id/issue_hader"
         android:layout_width="match_parent"
         android:layout_height="125dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:background="@mipmap/icon_person_detail_bg3" />
 
     <ScrollView

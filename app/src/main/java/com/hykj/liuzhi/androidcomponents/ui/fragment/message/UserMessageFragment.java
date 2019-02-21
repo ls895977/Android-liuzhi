@@ -68,6 +68,14 @@ public class UserMessageFragment extends Fragment implements UserMessageAdapter.
         initView();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        page=1;
+        datas.clear();
+        backData();
+    }
+
     private void initView() {
         aCache=ACache.get(getContext());
         refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));  //设置 Header 为 贝塞尔雷达 样式
@@ -140,6 +148,7 @@ public class UserMessageFragment extends Fragment implements UserMessageAdapter.
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Intent intent1 = new Intent();
         intent1.putExtra("softtextid", datas.get(position).getSofttext_id()+ "");
+        intent1.putExtra("stType", "个人类型");
         intent1.setClass(getContext(), DetailSoftArticleActivity.class);
         startActivity(intent1);
     }

@@ -26,7 +26,6 @@ public class SelectAdressListAdapter extends BaseQuickAdapter<AllAddBean.DataBea
                 .setText(R.id.item_select_phone, item.getAddress_phone())
                 .setText(R.id.item_select_addr, item.getAddress_address());
         CheckBox cb=helper.getView(R.id.ch_delete);
-        Log.e("aa","---status---------"+item.getAddress_status());
         if (item.getAddress_status() == 0) {
             cb.setChecked(false);
         } else {

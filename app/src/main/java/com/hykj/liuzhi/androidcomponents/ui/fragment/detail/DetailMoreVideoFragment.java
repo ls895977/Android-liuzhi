@@ -146,6 +146,7 @@ public class DetailMoreVideoFragment extends Fragment implements BaseQuickAdapte
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Intent intent = new Intent();
         intent.putExtra("videoid", datas.get(position).getVideo_id() + "");
+        intent.putExtra("stType", getActivity().getIntent().getStringExtra("stType"));
         intent.setClass(getContext(), DetailVideoActivity.class);
         startActivity(intent);
         getActivity().finish();

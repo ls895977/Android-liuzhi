@@ -66,6 +66,14 @@ public class TradeInfoFragment extends Fragment implements BaseQuickAdapter.OnIt
         initView();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        page=1;
+        datas.clear();
+        backData();
+    }
+
     private void initView() {
         aCache = ACache.get(getActivity());
         refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));  //设置 Header 为 贝塞尔雷达 样式

@@ -24,6 +24,7 @@ import com.hykj.liuzhi.androidcomponents.ui.adapter.CircleAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.CircleAdapter1;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.circle.bean.CircleFragmentBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FashionBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.ui.widget.BannerHeader;
 import com.hykj.liuzhi.androidcomponents.ui.widget.HeaderCircleScroll;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
@@ -126,7 +127,7 @@ public class CircleFragment extends Fragment implements BaseQuickAdapter.OnItemC
                 if (entity.getCode() != 0) {
                     return;
                 }
-                setAdatper(entity);
+                    setAdatper(entity);
             }
 
             @Override
@@ -232,6 +233,7 @@ public class CircleFragment extends Fragment implements BaseQuickAdapter.OnItemC
             case R.id.RIGHT_BIG_img1:
             case R.id.LEFT_BIG_img1:
                 if (datas.get(position).getArray().size() >= 1) {
+//                    Debug.e("-------imagetext_id---------"+datas.get(position).getArray().get(0).getImagetext_id() + "");
                     intent.putExtra("imagetext_id", datas.get(position).getArray().get(0).getImagetext_id() + "");
                     datas.get(position).getArray().get(0).getImagetext_id();
                     intent.setClass(getContext(), DetailCircleImageActivity.class);
@@ -242,6 +244,7 @@ public class CircleFragment extends Fragment implements BaseQuickAdapter.OnItemC
             case R.id.RIGHT_BIG_img2:
             case R.id.LEFT_BIG_img2:
                 if (datas.get(position).getArray().size() >= 2) {
+//                    Debug.e("-------imagetext_id---------"+datas.get(position).getArray().get(1).getImagetext_id() + "");
                     intent.putExtra("imagetext_id", datas.get(position).getArray().get(1).getImagetext_id() + "");
                     datas.get(position).getArray().get(1).getImagetext_id();
                     intent.setClass(getContext(), DetailCircleImageActivity.class);
@@ -252,6 +255,7 @@ public class CircleFragment extends Fragment implements BaseQuickAdapter.OnItemC
             case R.id.RIGHT_BIG_img3:
             case R.id.LEFT_BIG_img3:
                 if (datas.get(position).getArray().size() >= 3) {
+//                    Debug.e("-------imagetext_id---------"+datas.get(position).getArray().get(2).getImagetext_id() + "");
                     intent.putExtra("imagetext_id", datas.get(position).getArray().get(2).getImagetext_id() + "");
                     datas.get(position).getArray().get(2).getImagetext_id();
                     intent.setClass(getContext(), DetailCircleImageActivity.class);

@@ -21,12 +21,15 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.MainActivity;
+import com.hykj.liuzhi.androidcomponents.interfaces.GlideImageLoader;
 import com.hykj.liuzhi.androidcomponents.net.http.ApiConstant;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.BaseActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.issue.IssueClumnAddBean;
 import com.hykj.liuzhi.androidcomponents.ui.activity.softtext.ben.GetimagetextlabelsBean;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.GridImageAdapter;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.GetsowingBean;
+import com.hykj.liuzhi.androidcomponents.ui.widget.BannerHeader;
 import com.hykj.liuzhi.androidcomponents.ui.widget.FullyGridLayoutManager;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
@@ -36,6 +39,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.youth.banner.Banner;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.body.UIProgressResponseCallBack;
 import com.zhouyou.http.callback.ProgressDialogCallBack;
@@ -78,8 +82,9 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
         initView();
         initData();
     }
-
+    private Banner banner;
     private void initView() {
+        banner =findViewById(R.id.banner);
         Intent intent = getIntent();
         mTitle = intent.getStringExtra("title");
         themeId = R.style.picture_default_style;
@@ -126,7 +131,7 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
                 }
             }
         });
-
+        Getsowing("1", "10", "3");
     }
 
     private void initData() {
@@ -222,7 +227,6 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
      * @param imagetextlabelid
      */
     String imagetextlabelid = "";
-
     public void postAddsofTtextFile(String application, String imagetexttext) {
         aCache = ACache.get(this);
         if (selectList.size() == 0) {
@@ -237,10 +241,10 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
             Toast.makeText(getContext(), "请输入软文内容", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (imagetextlabelid.equals("")) {
-            Toast.makeText(getContext(), "请输入一个标签", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (imagetextlabelid.equals("")) {
+//            Toast.makeText(getContext(), "请输入一个标签", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         for (int i = 0; i < selectList.size(); i++) {
             File file = new File(selectList.get(i).getPath());
             params.put("files" + i, file, listener);
@@ -249,7 +253,7 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
                 .baseUrl(ApiConstant.ROOT_URL)
                 .params("user_id", aCache.getAsString("user_id"))
                 .params("application", application)
-                .params("imagetextlabelid", imagetextlabelid)
+//                .params("imagetextlabelid", imagetextlabelid)
                 .params("text", imagetexttext)
                 .params("num", selectList.size() + "")
                 .params(params)
@@ -330,5 +334,34 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+    ArrayList pics = new ArrayList();
+    public void Getsowing(String page, String number, String type) {
+        HttpHelper.Getsowing(page, number, type, new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                GetsowingBean entity = FastJSONHelper.getPerson(succeed, GetsowingBean.class);
+                if (entity.getCode() == 0) {
+                    pics.clear();
+                    for (int i = 0; i < entity.getData().getArray().size(); i++) {
+                        pics.add(entity.getData().getArray().get(i).getSowing_url());
+                    }
+                    banner.setImages(pics);
+                    banner.setImageLoader(new GlideImageLoader())
+                            .setDelayTime(5000)
+                            .start();
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

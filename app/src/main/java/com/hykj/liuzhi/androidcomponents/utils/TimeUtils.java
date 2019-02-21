@@ -53,6 +53,15 @@ public class TimeUtils {
         return str;
 
     }
+    public static String YerMothDay(String time){
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy年MM月dd日");
+        @SuppressWarnings("unused")
+        long lcc = Long.valueOf(time);
+        int i = Integer.parseInt(time);
+        String times = sdr.format(new Date(i * 1000L));
+        return times;
+    }
+
     public static String YMDHMS(String time){
         SimpleDateFormat sdr = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
         @SuppressWarnings("unused")

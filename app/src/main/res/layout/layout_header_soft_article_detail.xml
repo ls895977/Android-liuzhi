@@ -68,15 +68,32 @@
             android:layout_toRightOf="@id/iv_avatar"
             android:orientation="vertical"
             android:paddingLeft="@dimen/dip_5">
-
-            <TextView
-                android:id="@+id/tv_nickname"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="summer小姐姐"
-                android:textColor="#000000"
-                android:textSize="13sp" />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="summer小姐姐"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
 
+                <TextView
+                    android:id="@+id/circle_Userfans"
+                    android:layout_below="@+id/iv_person_detail_userhead"
+                    android:layout_toRightOf="@+id/tv_person_detail_username"
+                    android:layout_width="42dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/bg_circle_detail_focus"
+                    android:gravity="center"
+                    android:text="+ 关注"
+                    android:textColor="#000000"
+                    android:textSize="10sp" />
+            </LinearLayout>
             <TextView
                 android:id="@+id/tv_autograp"
                 android:layout_width="wrap_content"

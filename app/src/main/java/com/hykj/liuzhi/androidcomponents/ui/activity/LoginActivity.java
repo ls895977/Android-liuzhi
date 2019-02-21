@@ -110,7 +110,7 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onFailure(String failure) {
                     dialog.dismiss();
-                    Toast.makeText(LoginActivity.this, failure, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"登录失败！请稍后重试！", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -130,7 +130,7 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onError(String error) {
                     dialog.dismiss();
-                    Toast.makeText(LoginActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,"登录失败！请稍后重试！", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -144,7 +144,6 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onFailure(String failure) {
                 dialog.dismiss();
-                Toast.makeText(LoginActivity.this, failure, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -159,7 +158,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onError(String error) {
                 dialog.dismiss();
-                Toast.makeText(LoginActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,"用户信息获取失败！", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -14,20 +14,15 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.bean.CircleBean;
 import com.hykj.liuzhi.androidcomponents.bean.CircleBean1;
 import com.hykj.liuzhi.androidcomponents.interfaces.GlideImageLoader;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailCircleImageActivity;
-import com.hykj.liuzhi.androidcomponents.ui.adapter.CircleAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.CircleAdapter1;
-import com.hykj.liuzhi.androidcomponents.ui.adapter.UserAdvertorialAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.circle.bean.CircleFragmentBean;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.bean.UserAdvertorialBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.ui.widget.BannerHeader;
-import com.hykj.liuzhi.androidcomponents.ui.widget.HeaderCircleScroll;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
-import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -64,6 +59,7 @@ public class MineCameFragment extends Fragment implements BaseQuickAdapter.OnIte
     }
 
     private void initData() {
+        datas = new ArrayList();
         aCache = ACache.get(getActivity());
         rvMineCamera.setLayoutManager(new LinearLayoutManager(getContext()));
         refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));  //设置 Header 为 贝塞尔雷达 样式
@@ -90,7 +86,6 @@ public class MineCameFragment extends Fragment implements BaseQuickAdapter.OnIte
         });
         rvMineCamera.setLayoutManager(new LinearLayoutManager(getContext()));
         postBackData();
-//        CircleAdapter adapter = new CircleAdapter(list);
     }
 
     @Override
@@ -99,11 +94,11 @@ public class MineCameFragment extends Fragment implements BaseQuickAdapter.OnIte
         unbinder.unbind();
     }
 
-    //    List<UserAdvertorialBean.DataBean.ArrayBean> datas = new ArrayList<>();
     private String author;
     private int page = 1;
 
     public void postBackData() {
+
         author = getArguments().getString("userId");
         HttpHelper.showimagetexttoauthor(author, page + "", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
@@ -113,8 +108,15 @@ public class MineCameFragment extends Fragment implements BaseQuickAdapter.OnIte
 
             @Override
             public void onSucceed(String succeed) {
+                Debug.e("---------结果--" + succeed);
                 CircleFragmentBean entity = FastJSONHelper.getPerson(succeed, CircleFragmentBean.class);
                 if (entity.getCode() != 0) {
+                    return;
+                }
+                if (entity.getData() == null) {
+                    return;
+                }
+                if (entity.getData().getArray().size() == 0) {
                     return;
                 }
                 setAdatper(entity);
@@ -122,13 +124,15 @@ public class MineCameFragment extends Fragment implements BaseQuickAdapter.OnIte
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                if (page > 1) {
+                    Toast.makeText(getContext(), "暂无更多数据！", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
     CircleBean1 bean1;
-    ArrayList<CircleBean1> datas = new ArrayList();
+    ArrayList<CircleBean1> datas;
     private CircleAdapter1 adapter;
     List<String> pics = new ArrayList();
     BannerHeader bannerHeader;
@@ -195,19 +199,23 @@ public class MineCameFragment extends Fragment implements BaseQuickAdapter.OnIte
             }
             datas.add(bean1);
         }
-        if (adapter == null) {
-            adapter = new CircleAdapter1(datas, getContext());
-            bannerHeader = new BannerHeader(getActivity());
+        try {
+            if (adapter == null) {
+                adapter = new CircleAdapter1(datas, getContext());
+            bannerHeader = new BannerHeader(getContext());
             pics.add(entity.getData().getShowing_url());
             banner = bannerHeader.getBanner();
             banner.setImages(pics);
             banner.setImageLoader(new GlideImageLoader())
                     .setDelayTime(5000)
                     .start();
-            adapter.setOnItemChildClickListener(this);
-            rvMineCamera.setAdapter(adapter);
-        } else {
-            adapter.notifyDataSetChanged();
+                adapter.setOnItemChildClickListener(this);
+                rvMineCamera.setAdapter(adapter);
+            } else {
+                adapter.notifyDataSetChanged();
+            }
+        } catch (Exception s) {
+
         }
     }
 

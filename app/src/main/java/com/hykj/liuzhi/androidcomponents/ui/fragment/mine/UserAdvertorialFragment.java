@@ -127,7 +127,9 @@ public class UserAdvertorialFragment extends Fragment implements BaseQuickAdapte
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                if(page>1) {
+                    Toast.makeText(getContext(), "暂无更多数据！", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -136,6 +138,7 @@ public class UserAdvertorialFragment extends Fragment implements BaseQuickAdapte
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Intent intent1 = new Intent();
         intent1.putExtra("softtextid", datas.get(position).getSofttext_id() + "");
+        intent1.putExtra("stType", "个人类型");
         intent1.setClass(getContext(), DetailSoftArticleActivity.class);
         startActivity(intent1);
     }

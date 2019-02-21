@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.CartBean;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -36,9 +37,11 @@ public class CartAdapter extends BaseQuickAdapter<CartBean.DataBean.ArrayBean, B
         } else {
             cb.setSelected(false);
         }
+        DecimalFormat df = new DecimalFormat( "0.00");
+
         helper.setText(R.id.shop_cart_num, item.getGoodsshopcar_num() + "")
                 .setText(R.id.tv_title, item.getGoodsdata().getGoods_name())
-                .setText(R.id.tv_price, ("¥" + item.getDanjiaprice() * item.getGoodsshopcar_num()));
+                .setText(R.id.tv_price, ("¥" + df.format(Double.valueOf(item.getDanjiaprice()) * Double.valueOf(item.getGoodsshopcar_num()))));
         ImageView img = helper.getView(R.id.ch_hader);
         Glide.with(context).load(item.getGoodsdata().getGoods_pic()).into(img);
         helper.addOnClickListener(R.id.tv_jian);

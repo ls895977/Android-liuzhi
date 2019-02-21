@@ -64,12 +64,14 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+    Intent intent = null;
     @OnClick({R.id.iv_sign, R.id.rl_search, R.id.iv_message})
     public void onViewClicked(View view) {
-        Intent intent = null;
         switch (view.getId()) {
             case R.id.iv_sign:
-                postSignIn();
+                dialog = new SignDialog(getContext());
+                dialog.setCancelable(true);
+                dialog.show();
                 break;
             case R.id.rl_search:
                 intent = new Intent(getContext(), HomeSearchActivity.class);
@@ -80,41 +82,5 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
                 break;
         }
-    }
-
-    /**
-     * 签到
-     */
-    SignInBean entity;
-    ACache aCache;
-    public void postSignIn() {
-        aCache = ACache.get(getContext());
-        HttpHelper.getSignIn(aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
-            @Override
-            public void onFailure(String failure) {
-                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onSucceed(String succeed) {
-                entity = FastJSONHelper.getPerson(succeed, SignInBean.class);
-//                您已连续签到3天,再接再厉哦
-                dialog = new SignDialog(getContext(), entity.getMsg());
-                dialog.setCancelable(true);
-                dialog.show();
-            }
-
-            @Override
-            public void onError(String error) {
-                if (error.equals("1")) {
-                    Toast.makeText(getContext(), "未登录", Toast.LENGTH_SHORT).show();
-                } else if (error.equals("2")) {
-                    Toast.makeText(getContext(), "已签到", Toast.LENGTH_SHORT).show();
-                } else if (error.equals("3")) {
-                    Toast.makeText(getContext(), "签到失败", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
     }
 }

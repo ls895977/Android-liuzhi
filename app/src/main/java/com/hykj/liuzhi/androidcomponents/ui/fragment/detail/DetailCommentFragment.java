@@ -213,7 +213,7 @@ public class DetailCommentFragment extends Fragment implements View.OnClickListe
             @Override
             public void onFailure(String failure) {
                 if (page > 1) {
-                    Toast.makeText(getContext(),"暂无更多评论！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "暂无更多评论！", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
                 }
@@ -236,10 +236,13 @@ public class DetailCommentFragment extends Fragment implements View.OnClickListe
 
             @Override
             public void onError(String error) {
-                if (page > 1) {
-                    Toast.makeText(getContext(),"暂无更多评论！", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                try {
+                    if (page > 1) {
+                        Toast.makeText(getContext(), "暂无更多评论！", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception s) {
                 }
             }
         });
@@ -343,7 +346,7 @@ public class DetailCommentFragment extends Fragment implements View.OnClickListe
             @Override
             public void onError(String error) {
                 if (page > 1) {
-                    Toast.makeText(getContext(),"暂无更多评论！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "暂无更多评论！", Toast.LENGTH_SHORT).show();
                 } else {
                 }
             }

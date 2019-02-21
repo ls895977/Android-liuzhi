@@ -53,7 +53,7 @@ import static com.zhouyou.http.EasyHttp.getContext;
  */
 public class ConfirmOrderActivity extends BaseActivity implements View.OnClickListener {
     GoodDetailDetailBean DetailBean;
-    private TextView tvAdd, shopName, shopPrice, btPrice, price_num;
+    private TextView tvAdd, shopName, shopPrice, btPrice, price_num,shouhuoren,phone;
     private ImageView imageView;
     private EditText liuyan;
     private CheckBox deductibletype;
@@ -82,7 +82,9 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
     public void initView() {
         aCache = ACache.get(this);
+        shouhuoren=findViewById(R.id.shouhuoren);
         tvAdd = findViewById(R.id.oder_tv_add);
+        phone=findViewById(R.id.phone);
         llView = findViewById(R.id.shop_view);
         findViewById(R.id.oder_commit).setOnClickListener(this);
         findViewById(R.id.oder_addr).setOnClickListener(this);
@@ -311,6 +313,8 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     if (entity.getData().getArray().get(i).getAddress_status() == 1) {
                         addressid = entity.getData().getArray().get(i).getAddress_id() + "";
                         tvAdd.setText(entity.getData().getArray().get(i).getAddress_address());
+                        shouhuoren.setText("收货人："+entity.getData().getArray().get(i).getAddress_user());
+                        phone.setText(entity.getData().getArray().get(i).getAddress_phone());
                     }
                 }
 

@@ -133,7 +133,11 @@ public class RecommendFragment extends ViewPagerFragment implements BaseQuickAda
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                if (page > 1) {
+                    Toast.makeText(getContext(), "暂无更多数据！", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -177,19 +181,19 @@ public class RecommendFragment extends ViewPagerFragment implements BaseQuickAda
         dataAll.add(bean3);
         for (int i = 0; i < bean.getData().getSofttextdata().size(); i++) {//数据源软文
             SoftLanguageBean bean4 = new SoftLanguageBean(SoftLanguageBean.IMAGE_TEXT_TOP);
-            bean4.setSofttext_id( bean.getData().getSofttextdata().get(i).getSofttext_id());
-            bean4.setSofttext_title( bean.getData().getSofttextdata().get(i).getSofttext_title());
-            bean4.setSofttextimageURL( bean.getData().getSofttextdata().get(i).getSofttextimage().getSofttextimage_url());
-            bean4.setUser_id( bean.getData().getSofttextdata().get(i).getUser_id());
-            bean4.setUser_nickname( bean.getData().getSofttextdata().get(i).getUserdata().getUser_nickname());
-            bean4.setUser_pic( bean.getData().getSofttextdata().get(i).getUserdata().getUser_pic());
+            bean4.setSofttext_id(bean.getData().getSofttextdata().get(i).getSofttext_id());
+            bean4.setSofttext_title(bean.getData().getSofttextdata().get(i).getSofttext_title());
+            bean4.setSofttextimageURL(bean.getData().getSofttextdata().get(i).getSofttextimage().getSofttextimage_url());
+            bean4.setUser_id(bean.getData().getSofttextdata().get(i).getUser_id());
+            bean4.setUser_nickname(bean.getData().getSofttextdata().get(i).getUserdata().getUser_nickname());
+            bean4.setUser_pic(bean.getData().getSofttextdata().get(i).getUserdata().getUser_pic());
             dataAll.add(bean4);
         }
         SoftLanguageBean bean5 = new SoftLanguageBean(SoftLanguageBean.IMAGE_HADER);//更多内容头
         dataAll.add(bean5);
         for (int i = 0; i < bean.getData().getAdvdata().size(); i++) {//广告数据
             SoftLanguageBean bean6 = new SoftLanguageBean(SoftLanguageBean.IMAGE_GANGGAO);
-            bean6.setAdv_url( bean.getData().getAdvdata().get(i).getAdv_url());
+            bean6.setAdv_url(bean.getData().getAdvdata().get(i).getAdv_url());
             dataAll.add(bean6);
         }
         mAdapter.notifyDataSetChanged();
@@ -209,18 +213,20 @@ public class RecommendFragment extends ViewPagerFragment implements BaseQuickAda
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         switch (view.getId()) {
             case R.id.my_addadd://加载更多内窜
-                page++;
-                postBackData();
+//                page++;
+//                postBackData();
                 break;
             case R.id.video1://视频
                 Intent intent = new Intent();
                 intent.putExtra("videoid", dataAll.get(position).getVideo_id() + "");
+                intent.putExtra("stType","推荐类型");
                 intent.setClass(getContext(), DetailVideoActivity.class);
                 startActivity(intent);
                 break;
             case R.id.image1://软文
                 Intent intent1 = new Intent();
                 intent1.putExtra("softtextid", dataAll.get(position).getSofttext_id() + "");
+                intent1.putExtra("stType","推荐类型");
                 intent1.setClass(getContext(), DetailSoftArticleActivity.class);
                 startActivity(intent1);
                 break;

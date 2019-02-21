@@ -59,7 +59,7 @@ import static com.zhouyou.http.EasyHttp.getContext;
  * @date: 2018/10/25
  * @describe:
  */
-public class DetailSoftArticleActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener, View.OnClickListener{
+public class DetailSoftArticleActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener, View.OnClickListener {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     Gson gson = new Gson();
@@ -132,8 +132,7 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
                 softtextFirstPageBean = gson.fromJson(succeed, SofttextFirstPageBean.class);
                 mAdapter = new DetailCommentAdapter(datas);
                 mAdapter.setOnItemChildClickListener(DetailSoftArticleActivity.this);
-                mAdapter.addHeaderView(new SoftDetailHeader(DetailSoftArticleActivity.this, softtextFirstPageBean));
-
+                mAdapter.addHeaderView(new SoftDetailHeader(DetailSoftArticleActivity.this, softtextFirstPageBean, getIntent().getStringExtra("stType")));
                 recyclerView.setAdapter(mAdapter);
                 Advertorial_softtextmessageall();
             }
@@ -144,13 +143,11 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
             }
         });
     }
-
     /**
      * 获取评论列表
      */
     DetailCommentAdapter mAdapter;
     private List<DetailCommetListBean.DataBean.ArrayBean> datas = new ArrayList<>();
-
     public void Advertorial_softtextmessageall() {
         HttpHelper.Advertorial_softtextmessageall(page + "", softtextid, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override

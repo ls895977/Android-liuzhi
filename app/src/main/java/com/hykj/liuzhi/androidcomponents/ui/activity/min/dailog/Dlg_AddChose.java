@@ -123,7 +123,6 @@ public class Dlg_AddChose extends BaseDialog {
                 cityPage = 1;
                 postCity();
                 tv_province.setText(provinceList.get(position).getName());
-                Log.e("aa", "------itemProvince---------" + position);
             }
         };
     }
@@ -159,6 +158,7 @@ public class Dlg_AddChose extends BaseDialog {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 areaList.clear();
                 areaPage = 1;
+                if(position<=(cityList.size()-1))
                 citysPid = cityList.get(position).getId();
                 postArea();
                 tv_City.setText(cityList.get(position).getName());
@@ -194,7 +194,9 @@ public class Dlg_AddChose extends BaseDialog {
         itemArea = new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                tv_Area.setText(areaList.get(position).getName());
+                if((areaList.size()-1)<=position) {
+                    tv_Area.setText(areaList.get(position).getName());
+                }
                 onClick.onItem(tv_province.getText().toString(),tv_City.getText().toString(),tv_Area.getText().toString(),areaList.get(position).getParent_id()+"");
                 dismiss();
             }
@@ -231,7 +233,6 @@ public class Dlg_AddChose extends BaseDialog {
 
                     @Override
                     public void onSucceed(String succeed) {
-                        Log.e("aa", "--------");
                         AddContextBean entity = FastJSONHelper.getPerson(succeed, AddContextBean.class);
                         for (int i = 0; i < entity.getData().getArray().size(); i++) {
                             provinceList.add(entity.getData().getArray().get(i));

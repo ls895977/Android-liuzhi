@@ -109,13 +109,13 @@
         <!--微信支付-->
         <activity
             android:name="com.hykj.liuzhi.wxapi.WXPayEntryActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="wx153551c2cce0e6a8" />
             </intent-filter>
         </activity>

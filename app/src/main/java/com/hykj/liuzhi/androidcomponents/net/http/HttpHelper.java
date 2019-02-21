@@ -428,7 +428,7 @@ public class HttpHelper {
      *
      * @param callBack
      */
-    public static void getUserClickAttention(int click_id, int user_id, final HttpUtilsCallBack<String> callBack) {
+    public static void getUserClickAttention(String click_id, String user_id, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("coll", click_id + "");
         map.put("user_id", user_id + "");
@@ -474,7 +474,7 @@ public class HttpHelper {
      *
      * @param callBack
      */
-    public static void getUsernotfans(int click_id, int user_id, final HttpUtilsCallBack<String> callBack) {
+    public static void getUsernotfans(String click_id, String user_id, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("coll", click_id + "");
         map.put("user_id", user_id + "");
@@ -3497,7 +3497,6 @@ public class HttpHelper {
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.t("HttpHelper").i(e.getMessage());
                         callBack.onFailure(httpFailureMsg());
                     }
 

@@ -298,11 +298,13 @@ public class AdvertorialFragment extends ViewPagerFragment implements BaseQuickA
         switch (type) {
             case "1"://软文
                 intent.putExtra("softtextid", datas.get(position).getSofttext_id() + "");
+                intent.putExtra("stType", "个人类型");
                 intent.setClass(getContext(), DetailSoftArticleActivity.class);
                 startActivity(intent);
                 break;
             case "3"://视频
                 intent.putExtra("videoid", datas.get(position).getVideo_id() + "");
+                intent.putExtra("stType", "个人类型");
                 intent.setClass(getContext(), DetailVideoActivity.class);
                 startActivity(intent);
                 break;

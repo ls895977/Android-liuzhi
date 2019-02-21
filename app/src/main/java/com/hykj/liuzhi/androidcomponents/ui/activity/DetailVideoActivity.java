@@ -93,7 +93,7 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
     private String definition = "0";
     private Dlg_Share share;
     ZLoadingDialog loding;
-
+    private TextView tv_play_count,tv_collect,tv_type;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,8 +103,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         initView();
         initData();
     }
-
     private void initView() {
+        tv_type=findViewById(R.id.tv_type);
         share = new Dlg_Share(this, this);
         loding = new ZLoadingDialog(this);
         loding.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
@@ -118,6 +118,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         tabLayout.setViewPager(viewPager);
         mJzvdStd = findViewById(R.id.jz_video);
         myChaoQingView = findViewById(R.id.chaoqingstatus);
+        tv_play_count=findViewById(R.id.tv_play_count);
+        tv_collect=findViewById(R.id.tv_collect);
         pt[0] = findViewById(R.id.pt1);
         pt[1] = findViewById(R.id.pt2);
         pt[2] = findViewById(R.id.pt3);
@@ -128,8 +130,9 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         ppt[3] = findViewById(R.id.ppt4);
 
     }
-
+    String stType;
     private void initData() {
+        stType=getIntent().getStringExtra("stType");
         dialog = new Dlg_Videoreward(this, this);
         aCache = ACache.get(this);
         mJzvdStd.backButton.setOnClickListener(new View.OnClickListener() {
@@ -254,6 +257,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 video_title.setText(entity.getData().getVideo_name());
                 video_time.setText(DateUtils.timesTwo(entity.getData().getVideo_creattime() + ""));
                 video_zan.setText(entity.getData().getVideo_point() + "");
+                tv_play_count.setText(entity.getData().getVideo_videonum()+"");
+                tv_collect.setText(entity.getData().getVideo_collection()+"");
                 if (entity.getData().getUsercollection() == 0) {
                     video_collection.setSelected(false);
                 } else {

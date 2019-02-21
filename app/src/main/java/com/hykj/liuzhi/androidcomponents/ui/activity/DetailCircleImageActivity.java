@@ -1,6 +1,7 @@
 package com.hykj.liuzhi.androidcomponents.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -38,6 +39,8 @@ import com.luck.picture.lib.tools.ToastManage;
 import com.orhanobut.logger.Logger;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,8 +95,16 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
         ButterKnife.bind(this);
         initView();
     }
-
+    ZLoadingDialog dialog;
     private void initView() {
+        dialog = new ZLoadingDialog(this);
+        dialog.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
+                .setLoadingColor(Color.DKGRAY)//颜色
+                .setHintText("数据加载中...")
+                .setHintTextSize(16) // 设置字体大小 dp
+                .setHintTextColor(Color.DKGRAY)  // 设置字体颜色
+                .setDurationTime(0.5) // 设置动画时间百分比 - 0.5倍
+                .setDialogBackgroundColor(Color.parseColor("#CCffffff")); // 设置背景色，默认白色
         dlg_videoreward = new Dlg_Videoreward(this, this);
         aCache = ACache.get(this);
         imagetext_id = getIntent().getStringExtra("imagetext_id");
@@ -155,14 +166,17 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
     DetailCirclelmageBean entity;
 
     public void backData(String messageid) {
+        dialog.show();
         HttpHelper.imagetextpage(messageid + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
+                dialog.dismiss();
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSucceed(String succeed) {
+                dialog.dismiss();
                 entity = FastJSONHelper.getPerson(succeed, DetailCirclelmageBean.class);
                 if (entity.getCode() != 0) {
                     return;
@@ -205,6 +219,7 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
 
             @Override
             public void onError(String error) {
+                dialog.dismiss();
                 Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
             }
         });
@@ -412,7 +427,7 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
      * @param clickId
      */
     private void setClick(int clickId) {
-        HttpHelper.getUserClickAttention(clickId, LocalInfoUtils.getUserId(), new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUserClickAttention(clickId+"", LocalInfoUtils.getUserId()+"", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
@@ -442,7 +457,7 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
      * @param clickId
      */
     private void getUsernotfans(int clickId) {
-        HttpHelper.getUsernotfans(clickId, LocalInfoUtils.getUserId(), new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUsernotfans(clickId+"", LocalInfoUtils.getUserId()+"", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
 

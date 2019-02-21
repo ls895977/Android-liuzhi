@@ -84,7 +84,7 @@ public class AttentionAdapter extends BaseQuickAdapter<UserAttentionBean.DataBea
 
     private void setClick(int clickId) {
 
-        HttpHelper.getUserClickAttention(clickId, LocalInfoUtils.getUserId(), new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUserClickAttention(clickId+"", LocalInfoUtils.getUserId()+"", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
 
