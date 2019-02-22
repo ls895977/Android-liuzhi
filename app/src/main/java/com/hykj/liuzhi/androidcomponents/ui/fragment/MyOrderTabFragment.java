@@ -321,7 +321,6 @@ public class MyOrderTabFragment extends ViewPagerFragment implements BaseQuickAd
             @Override
             public void run() {
                 PayTask alipay = new PayTask(getActivity());
-                Debug.e("----------" + bean.getAlipay().getStr());
                 Map<String, String> result = alipay.payV2(bean.getAlipay().getStr(), true);
                 Log.i("msp", result.toString());
                 Message msg = new Message();

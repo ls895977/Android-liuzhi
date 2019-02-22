@@ -30,7 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@null"
-        android:text="13588837803"
         android:hint="请输入手机号"
         android:paddingLeft="16dp"
         android:textSize="14sp" />
@@ -46,7 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@null"
-        android:text="123456"
         android:hint="请输入密码"
         android:inputType="textPassword"
         android:paddingLeft="16dp"
