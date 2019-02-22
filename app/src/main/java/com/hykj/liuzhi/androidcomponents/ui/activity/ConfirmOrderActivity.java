@@ -41,6 +41,8 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -53,19 +55,20 @@ import static com.zhouyou.http.EasyHttp.getContext;
  */
 public class ConfirmOrderActivity extends BaseActivity implements View.OnClickListener {
     GoodDetailDetailBean DetailBean;
-    private TextView tvAdd, shopName, shopPrice, btPrice, price_num,shouhuoren,phone;
+    private TextView tvAdd, shopName, shopPrice, btPrice, price_num, shouhuoren, phone;
     private ImageView imageView;
     private EditText liuyan;
     private CheckBox deductibletype;
     private ACache aCache;
     private CheckBox cb, cb1;
     private LinearLayout llView;
-    ZLoadingDialog dialog ;
+    ZLoadingDialog dialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_order);
-        WXPayEntryActivity.actStatus="ConfirmOrderActivity";
+        WXPayEntryActivity.actStatus = "ConfirmOrderActivity";
         dialog = new ZLoadingDialog(this);
         dialog.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
                 .setLoadingColor(Color.DKGRAY)//颜色
@@ -82,9 +85,9 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
     public void initView() {
         aCache = ACache.get(this);
-        shouhuoren=findViewById(R.id.shouhuoren);
+        shouhuoren = findViewById(R.id.shouhuoren);
         tvAdd = findViewById(R.id.oder_tv_add);
-        phone=findViewById(R.id.phone);
+        phone = findViewById(R.id.phone);
         llView = findViewById(R.id.shop_view);
         findViewById(R.id.oder_commit).setOnClickListener(this);
         findViewById(R.id.oder_addr).setOnClickListener(this);
@@ -127,7 +130,8 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 price_num = shopCartView.findViewById(R.id.order_shopPrice_num);
                 Glide.with(this).load(datas.get(i).getGoodsdata().getGoods_pic()).into(imageView);
                 shopName.setText(datas.get(i).getGoodsdata().getGoods_name());
-                shopPrice.setText("¥" + datas.get(i).getGoodsshopcar_price());
+                DecimalFormat df = new DecimalFormat("#.00");
+                shopPrice.setText("¥" + df.format((Double) (datas.get(i).getGoodsshopcar_num() * datas.get(i).getDanjiaprice())));
                 price_num.setText("×" + datas.get(i).getGoodsshopcar_num());
                 llView.addView(shopCartView);
                 if (i == (datas.size() - 1)) {
@@ -140,13 +144,14 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             /**
              * 计算出总价格
              */
-            int zongjia = 0;
+            DecimalFormat df = new DecimalFormat("#.00");
+            Double zongjia = 0.0;
             for (int i = 0; i < datas.size(); i++) {
                 if (datas.get(i).isCartShop()) {
                     zongjia += (datas.get(i).getGoodsshopcar_num() * datas.get(i).getDanjiaprice());
                 }
             }
-            btPrice.setText("¥" + zongjia + "元");
+            btPrice.setText("¥" + df.format(zongjia) + "元");//正确
         }
 
     }
@@ -201,7 +206,8 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         if (requestCode == 11 && resultCode == 11) {
             addressid = data.getStringExtra("addressid");
             addrname = data.getStringExtra("addrname");
-            tvAdd.setText(addrname);
+            String Full_name = data.getStringExtra("Full_name");
+            tvAdd.setText("收货地址：" + Full_name + addrname);
         }
     }
 
@@ -212,6 +218,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
      * @param
      */
     private int goodsnum = 1;
+
     public void addorders() {
         if (TextUtils.isEmpty(addressid)) {
             Toast.makeText(getContext(), "请选择地址", Toast.LENGTH_SHORT).show();
@@ -256,6 +263,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
      * @param
      */
     ConfirmOrderBean entity;
+
     public void addorders1() {
         if (TextUtils.isEmpty(addressid)) {
             Toast.makeText(getContext(), "请选择地址", Toast.LENGTH_SHORT).show();
@@ -312,8 +320,8 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                 for (int i = 0; i < entity.getData().getArray().size(); i++) {
                     if (entity.getData().getArray().get(i).getAddress_status() == 1) {
                         addressid = entity.getData().getArray().get(i).getAddress_id() + "";
-                        tvAdd.setText(entity.getData().getArray().get(i).getAddress_address());
-                        shouhuoren.setText("收货人："+entity.getData().getArray().get(i).getAddress_user());
+                        tvAdd.setText("收货地址：" + entity.getData().getArray().get(i).getFull_name() + entity.getData().getArray().get(i).getAddress_address());
+                        shouhuoren.setText("收货人：" + entity.getData().getArray().get(i).getAddress_user());
                         phone.setText(entity.getData().getArray().get(i).getAddress_phone());
                     }
                 }
@@ -331,11 +339,12 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
      * @param paytype
      */
     AppPayBean bean;
+
     public void appPayOrders(final int paytype) {
         HttpHelper.payOrders(entity.getData().getOrders_id() + "", paytype + "", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
-                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "支付数据获取失败！稍后重试！", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -357,7 +366,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onError(String error) {
-                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "支付数据获取失败！稍后重试！", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -371,7 +380,6 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             public void run() {
                 PayTask alipay = new PayTask(ConfirmOrderActivity.this);
                 Map<String, String> result = alipay.payV2(bean.getAlipay().getStr(), true);
-                Log.i("msp", result.toString());
                 Message msg = new Message();
                 msg.what = SDK_PAY_FLAG;
                 msg.obj = result;
@@ -385,7 +393,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
     public void appPlayWX() {
         // 通过WXAPIFactory工厂，获取IWXAPI的实例
-        api =api = WXAPIFactory.createWXAPI(this, null);
+        api = api = WXAPIFactory.createWXAPI(this, null);
         // 将应用的appId注册到微信
         api.registerApp(APP_ID);
         PayReq req = new PayReq();

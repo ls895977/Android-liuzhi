@@ -8,7 +8,18 @@ public class MyOrderTabDetailsBean {
     /**
      * code : 0
      * msg : 访问成功
-     * data : {"orders_id":5,"address_id":1,"address_user":"都恒辰","address_phone":"18840518095","address_address":"东港市 五四小区 2-206","orders_goodsmoney":"4","deductible_money":"0","orders_ordersmoney":"4","orders_integral":"80","orders_number":"2018110816352398565510","orders_paymentmethod":1,"orders_paymentstatus":0,"orders_deliverystatus":0,"orders_receivingstate":0,"orders_creattime":1541666123,"orders_paymenttime":null,"orders_deliverytime":null,"orders_overtime":null,"orders_message":"快点送过来","user_id":1,"goodsdata":[{"goods_id":1,"ordersgoods_num":4,"ordersgoods_money":"4","goods_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext/image/c430d66b16716957dd80218fceb7af21.jpg","goods_name":"羊毛毡戳戳乐手工diy新手套装蒸笼小鸡羊毛毡手作材料包"}]}
+     * data : {"orders_id":5,"address_id":1,"address_user":"都恒辰",
+     * "address_phone":"18840518095","address_address":"东港市 五四小区 2-206",
+     * "orders_goodsmoney":"4","deductible_money":"0","orders_ordersmoney":"4",
+     * "orders_integral":"80","orders_number":"2018110816352398565510",
+     * "orders_paymentmethod":1,"orders_paymentstatus":0,
+     * "orders_deliverystatus":0,"orders_receivingstate":0,
+     * "orders_creattime":1541666123,"orders_paymenttime":null,
+     * "orders_deliverytime":null,"orders_overtime":null,
+     * "orders_message":"快点送过来","user_id":1,
+     * "goodsdata":[{"goods_id":1,"ordersgoods_num":4,"ordersgoods_money":"4",
+     * "goods_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext/image/c430d66b16716957dd80218fceb7af21.jpg",
+     * "goods_name":"羊毛毡戳戳乐手工diy新手套装蒸笼小鸡羊毛毡手作材料包"}]}
      */
     private int error;
 

@@ -1,6 +1,8 @@
 package com.hykj.liuzhi.androidcomponents.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.widget.RelativeLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hykj.liuzhi.R;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.MyOrderTabDetails;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.bean.UserordersBean;
 
 import java.util.List;
@@ -23,10 +26,10 @@ import static com.zhouyou.http.EasyHttp.getContext;
  * @describe:
  */
 public class MyOrderTabAdapter extends BaseQuickAdapter<UserordersBean.DataBean.ArrayBean, BaseViewHolder> {
-    private Context context;
+    private Activity context;
     private String type;
 
-    public MyOrderTabAdapter(@Nullable List<UserordersBean.DataBean.ArrayBean> data, Context context1) {
+    public MyOrderTabAdapter(@Nullable List<UserordersBean.DataBean.ArrayBean> data, Activity context1) {
         super(R.layout.layout_item_my_order_tab, data);
         context = context1;
     }
@@ -36,8 +39,10 @@ public class MyOrderTabAdapter extends BaseQuickAdapter<UserordersBean.DataBean.
     private RecyclerView recyclerView;
 
     @Override
-    protected void convert(BaseViewHolder helper, UserordersBean.DataBean.ArrayBean item) {
-        helper.setText(R.id.oder_number, "订单号:" + item.getOrders_id());
+    protected void convert(BaseViewHolder helper, final UserordersBean.DataBean.ArrayBean item) {
+        helper.addOnClickListener(R.id.oder_recyclerview);
+        helper.addOnClickListener(R.id.itemoder);
+        helper.setText(R.id.oder_number, "订单号:" + item.getOrders_number());
         helper.setText(R.id.oder_status, item.getOrdertype());
         sum = 0.0;
         for (int i = 0; i < item.getGoodsdata().size(); i++) {
@@ -75,6 +80,15 @@ public class MyOrderTabAdapter extends BaseQuickAdapter<UserordersBean.DataBean.
         }
         recyclerView = helper.getView(R.id.oder_recyclerview);
         MyOrderChlideTabAdapter adapter = new MyOrderChlideTabAdapter(item.getGoodsdata(), context);
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent();
+                intent.putExtra("bean",item);
+                intent.setClass(getContext(), MyOrderTabDetails.class);
+                context.startActivityForResult(intent, 10);
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }

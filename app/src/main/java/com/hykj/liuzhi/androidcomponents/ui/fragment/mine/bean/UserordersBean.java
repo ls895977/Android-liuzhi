@@ -202,6 +202,15 @@ public class UserordersBean implements Serializable {
                 private String ordersgoods_money;
                 private String goods_pic;
                 private String goods_name;
+                private Double danjiaprice;
+
+                public Double getDanjiaprice() {
+                    return danjiaprice;
+                }
+
+                public void setDanjiaprice(Double danjiaprice) {
+                    this.danjiaprice = danjiaprice;
+                }
 
                 public int getGoods_id() {
                     return goods_id;

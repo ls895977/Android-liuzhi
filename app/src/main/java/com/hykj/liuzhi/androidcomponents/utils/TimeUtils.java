@@ -62,6 +62,14 @@ public class TimeUtils {
         return times;
     }
 
+    public static String YMDHMSGESHI(String time){
+        SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        @SuppressWarnings("unused")
+        long lcc = Long.valueOf(time);
+        int i = Integer.parseInt(time);
+        String times = sdr.format(new Date(i * 1000L));
+        return times;
+    }
     public static String YMDHMS(String time){
         SimpleDateFormat sdr = new SimpleDateFormat("yyyy年MM月dd日HH:mm:ss");
         @SuppressWarnings("unused")

@@ -175,6 +175,7 @@ public class SelectAdressActivity extends BaseActivity implements BaseQuickAdapt
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (title.equals("ConfirmOrderActivity")) {
             Intent intent = new Intent();
+            intent.putExtra("Full_name",entity.getData().getArray().get(position).getFull_name()+"");
             intent.putExtra("addressid", entity.getData().getArray().get(position).getAddress_id() + "");
             intent.putExtra("addrname", entity.getData().getArray().get(position).getAddress_address() + "");
             setResult(11, intent);

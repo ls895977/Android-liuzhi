@@ -148,6 +148,7 @@ public class CartActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 changeshopcar(position, datas.get(position).getGoodsshopcar_id(), (datas.get(position).getGoodsshopcar_num() - 1));
                 break;
             case R.id.tv_add://加
+                dialog.show();
                 changeshopcar(position, datas.get(position).getGoodsshopcar_id(), (datas.get(position).getGoodsshopcar_num() + 1));
                 break;
         }

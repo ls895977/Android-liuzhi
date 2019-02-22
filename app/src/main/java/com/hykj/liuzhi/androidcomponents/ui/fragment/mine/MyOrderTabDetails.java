@@ -52,9 +52,16 @@ import com.zhouyou.http.subsciber.IProgressDialog;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 
@@ -67,10 +74,11 @@ public class MyOrderTabDetails extends BaseActivity implements View.OnClickListe
     private ACache aCache;
     private UserordersBean.DataBean.ArrayBean bean;
     private RelativeLayout item1, item2, item3;
-    private TextView oder_status, address_user, address_phone, address_address, orders_goodsmoney, deductible_money, orders_ordersmoney, orders_integral, orders_number, orders_creattime, orders_paymenttime, orders_deliverytime;
+    private TextView daojishi, oder_status, address_user, address_phone, address_address, orders_goodsmoney, deductible_money, orders_ordersmoney, orders_integral, orders_number, orders_creattime, orders_paymenttime, orders_deliverytime;
     private RecyclerView recyclerView;
     ZLoadingDialog dialog;
-     @Override
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_myordertabdetails);
@@ -103,6 +111,7 @@ public class MyOrderTabDetails extends BaseActivity implements View.OnClickListe
         orders_number = findViewById(R.id.orders_number);
         orders_integral = findViewById(R.id.orders_integral);
         orders_creattime = findViewById(R.id.orders_creattime);
+        daojishi = findViewById(R.id.daojishi);
         orders_deliverytime = findViewById(R.id.orders_deliverytime);
         recyclerView = findViewById(R.id.myRecyclerView);
         item1 = findViewById(R.id.oder_fukuan);
@@ -141,20 +150,25 @@ public class MyOrderTabDetails extends BaseActivity implements View.OnClickListe
     }
 
     String curre = "";
+    MyOrderTabDetailsBean entity;
 
     public void showorders() {
+        dialog.show();
         HttpHelper.showorders(bean.getOrders_id() + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
+                dialog.dismiss();
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSucceed(String succeed) {
-                MyOrderTabDetailsBean entity = FastJSONHelper.getPerson(succeed, MyOrderTabDetailsBean.class);
+                dialog.dismiss();
+                entity = FastJSONHelper.getPerson(succeed, MyOrderTabDetailsBean.class);
                 address_user.setText("收货人：" + entity.getData().getAddress_user());
                 address_phone.setText(entity.getData().getAddress_phone());
                 address_address.setText(entity.getData().getAddress_address());
+
                 List<UserordersBean.DataBean.ArrayBean.GoodsdataBean> data = new ArrayList<>();
                 for (int i = 0; i < entity.getData().getGoodsdata().size(); i++) {
                     UserordersBean.DataBean.ArrayBean.GoodsdataBean bean = new UserordersBean.DataBean.ArrayBean.GoodsdataBean();
@@ -163,9 +177,12 @@ public class MyOrderTabDetails extends BaseActivity implements View.OnClickListe
                     bean.setOrdersgoods_money(entity.getData().getGoodsdata().get(i).getOrdersgoods_money());
                     bean.setGoods_pic(entity.getData().getGoodsdata().get(i).getGoods_pic());
                     bean.setGoods_name(entity.getData().getGoodsdata().get(i).getGoods_name());
+                    Double danjia = Double.valueOf(entity.getData().getGoodsdata().get(i).getOrdersgoods_money()) / Double.valueOf(entity.getData().getGoodsdata().get(i).getOrdersgoods_num());
+                    bean.setDanjiaprice(danjia);
                     data.add(bean);
                 }
                 MyOrderChlideTabAdapter adapter = new MyOrderChlideTabAdapter(data, getContext());
+                orders_ordersmoney.setText("￥" + addPrice(data));
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(adapter);
                 orders_goodsmoney.setText("￥" + entity.getData().getOrders_goodsmoney());
@@ -174,18 +191,26 @@ public class MyOrderTabDetails extends BaseActivity implements View.OnClickListe
                 orders_integral.setText("返神奇种子" + entity.getData().getOrders_integral() + "颗");
                 orders_number.setText(entity.getData().getOrders_number());
                 orders_creattime.setText(TimeUtils.YMDHMS(entity.getData().getOrders_creattime() + ""));
-                orders_paymenttime.setText(entity.getData().getOrders_paymenttime());
-                orders_deliverytime.setText(entity.getData().getOrders_deliverytime());
+                if (entity.getData().getOrders_paymenttime() != null) {
+                    orders_paymenttime.setText(TimeUtils.YMDHMS(entity.getData().getOrders_paymenttime()));
+                }
+                if (entity.getData().getOrders_deliverytime() != null) {
+                    orders_deliverytime.setText(TimeUtils.YMDHMS(entity.getData().getOrders_deliverytime()));
+                }
+                startRun();
+//                getTimeDuring(TimeUtils.YMDHMSGESHI(entity.getData().getOrders_creattime() + ""));
             }
 
             @Override
             public void onError(String error) {
+                dialog.dismiss();
                 Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     Dlg_Play play;
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -418,8 +443,6 @@ public class MyOrderTabDetails extends BaseActivity implements View.OnClickListe
                     break;
             }
         }
-
-        ;
     };
 
     /**
@@ -449,5 +472,154 @@ public class MyOrderTabDetails extends BaseActivity implements View.OnClickListe
                 Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    /**
+     * 计算出总价格
+     */
+    private Double zongjia = 0.0;
+
+    public String addPrice(List<UserordersBean.DataBean.ArrayBean.GoodsdataBean> data) {
+        zongjia = 0.0;
+        for (int i = 0; i < data.size(); i++) {
+            zongjia += (data.get(i).getOrdersgoods_num() * data.get(i).getDanjiaprice());
+        }
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(zongjia);
+    }
+
+    // 倒计时
+    private long mDay = 7;// 天
+    private long mHour = 0;//小时,
+    private long mMin = 0;//分钟,
+    private long mSecond = 0;//秒
+    private Timer mTimer;
+    private boolean kaiguan = true;
+    private Handler timeHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 1) {
+                computeTime();
+                if (kaiguan) {
+                    Date currentTime = new Date();
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String date1 = formatter.format(currentTime);
+                    String date2 = formatData("yyyy-MM-dd HH:mm:ss", entity.getData().getOrders_creattime());
+                    jisuanshijiancha(date1, date2);
+                    kaiguan = false;
+                }
+                daojishi.setText("还剩" + mDay + "天" + getTv(mHour )+ "小时"+getTv(mMin )+"分" + getTv(mSecond )+ "秒自动确认");
+                if (mSecond == 0 && mDay == 0 && mHour == 0 && mMin == 0) {
+                    mTimer.cancel();
+                }
+            }
+        }
+    };
+
+    private String getTv(long l) {
+        if (l >= 10) {
+            return l + "";
+        } else {
+            return "0" + l;//小于10,,前面补位一个"0"
+        }
+    }
+
+    /**
+     * 开启倒计时
+     * //time为Date类型：在指定时间执行一次。
+     * timer.schedule(task, time);
+     * //firstTime为Date类型,period为long，表示从firstTime时刻开始，每隔period毫秒执行一次。
+     * timer.schedule(task, firstTime,period);
+     * //delay 为long类型：从现在起过delay毫秒执行一次。
+     * timer.schedule(task, delay);
+     * //delay为long,period为long：从现在起过delay毫秒以后，每隔period毫秒执行一次。
+     * timer.schedule(task, delay,period);
+     */
+    private void startRun() {
+        mTimer = new Timer();
+        TimerTask mTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Message message = Message.obtain();
+                message.what = 1;
+                timeHandler.sendMessage(message);
+            }
+        };
+        mTimer.schedule(mTimerTask, 0, 1000);
+    }
+    /**
+     * 倒计时计算
+     */
+    private void computeTime() {
+        mSecond--;
+        if (mSecond < 0) {
+            mMin--;
+            mSecond = 59;
+            if (mMin < 0) {
+                mMin = 59;
+                mHour--;
+                if (mHour < 0) {
+                    // 倒计时结束
+                    mHour = 23;
+                    mDay--;
+                    if(mDay < 0){
+                        // 倒计时结束
+                        mDay = 0;
+                        mHour= 0;
+                        mMin = 0;
+                        mSecond = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 服务器获取时间转换
+     *
+     * @param dataFormat
+     * @param timeStamp
+     * @return
+     */
+    public static String formatData(String dataFormat, long timeStamp) {
+        if (timeStamp == 0) {
+            return "";
+        }
+        timeStamp = timeStamp * 1000;
+        String result = "";
+        SimpleDateFormat format = new SimpleDateFormat(dataFormat);
+        result = format.format(new Date(timeStamp));
+        return result;
+    }
+
+    // 计算的时间差
+    public void jisuanshijiancha(String date1, String date2) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date d1 = df.parse(date1);
+            Date d2 = df.parse(date2);
+            long diff = d1.getTime() - d2.getTime();// 这样得到的差值是微秒级别
+            long days = diff / (1000 * 60 * 60 * 24);
+            long hours = (diff - days * (1000 * 60 * 60 * 24))
+                    / (1000 * 60 * 60);
+            long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours
+                    * (1000 * 60 * 60))
+                    / (1000 * 60);
+            mDay = mDay - days;
+            mHour = mHour - hours;
+            mMin = mMin - minutes;
+            if (days >= 7) {
+                oder_status.setText("订单已确认收货");
+                daojishi.setText("");
+                item1.setVisibility(View.GONE);
+                item2.setVisibility(View.GONE);
+                item3.setVisibility(View.VISIBLE);
+                findViewById(R.id.oder_delete).setOnClickListener(this);
+                return;
+            }
+            Debug.e("-------计算结果已经过的时间--days-" + days + "--hours--" + hours + "--minutes-" + minutes);
+        } catch (Exception e) {
+        }
     }
 }

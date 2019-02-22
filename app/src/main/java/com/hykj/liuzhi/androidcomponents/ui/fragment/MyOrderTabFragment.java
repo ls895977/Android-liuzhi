@@ -55,6 +55,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -167,17 +168,8 @@ public class MyOrderTabFragment extends ViewPagerFragment implements BaseQuickAd
                     datas.add(entity.getData().getArray().get(i));
                 }
                 if (adapter == null) {
-                    adapter = new MyOrderTabAdapter(datas, getContext());
+                    adapter = new MyOrderTabAdapter(datas, getActivity());
                     adapter.setOnItemChildClickListener(MyOrderTabFragment.this);
-                    adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {//订单详情
-                            Intent intent = new Intent();
-                            intent.putExtra("bean", datas.get(position));
-                            intent.setClass(getContext(), MyOrderTabDetails.class);
-                            startActivityForResult(intent, 10);
-                        }
-                    });
                     recyclerView.setAdapter(adapter);
                 } else {
                     adapter.notifyDataSetChanged();
@@ -208,13 +200,14 @@ public class MyOrderTabFragment extends ViewPagerFragment implements BaseQuickAd
             case R.id.oder_pay://立即付款
                 curre = "1";
                 WXPayEntryActivity.actStatus = "MyOrderTabFragment";
+                DecimalFormat df = new DecimalFormat("#.00");
                 Double sum = 0.0;
                 for (int i = 0; i < datas.get(position).getGoodsdata().size(); i++) {
                     sum += Double.valueOf(datas.get(position).getGoodsdata().get(i).getOrdersgoods_money());
                 }
                 money = sum + "";
                 play = new Dlg_Play(getContext(), this);
-                play.setTvPrice(money);
+                play.setTvPrice(df.format(money));
                 play.show();
                 break;
             case R.id.oder_wuliu://物流
@@ -238,6 +231,12 @@ public class MyOrderTabFragment extends ViewPagerFragment implements BaseQuickAd
                 Debug.e("----------" + datas.get(position).getOrders_id());
                 dialog.show();
                 Shop_deleteorders();
+                break;
+            case R.id.itemoder://我着了。。
+                Intent intent = new Intent();
+                intent.putExtra("bean", datas.get(position));
+                intent.setClass(getContext(), MyOrderTabDetails.class);
+                startActivityForResult(intent, 10);
                 break;
         }
     }

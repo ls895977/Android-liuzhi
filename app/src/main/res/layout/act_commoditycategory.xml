@@ -6,6 +6,7 @@
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/rl_top"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dip_50">
 
@@ -38,7 +39,12 @@
             android:textCursorDrawable="@null"
             android:textSize="13sp" />
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:background="#f0f0f0"
+        android:layout_height="@dimen/dip_1" />
     <RelativeLayout
+        android:background="@color/white"
         android:id="@+id/commodity_category_status"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dip_40"
@@ -58,13 +64,16 @@
             android:drawablePadding="@dimen/dip_5"
             android:text="" />
     </RelativeLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:background="#f0f0f0"
+        android:layout_height="@dimen/dip_1" />
     <LinearLayout
         android:id="@+id/shop_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical">
-
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/shop_refreshLayout"
             android:layout_width="match_parent"
