@@ -49,16 +49,13 @@ public class Act_CommodityCategory extends BaseActivity implements View.OnClickL
     private SmartRefreshLayout shop_refreshLayout;
     private RecyclerView mRecyclerView;
     private ACache aCache;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_commoditycategory);
         initView();
     }
-
     private int page = 1;
-
     public void initView() {
         aCache = ACache.get(this);
         findViewById(R.id.tv_homesearch_cancel).setOnClickListener(this);

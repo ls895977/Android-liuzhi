@@ -190,8 +190,6 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
             Toast.makeText(AddAdressActivity.this, "请重新选择省市区！", Toast.LENGTH_SHORT).show();
             return;
         }
-
-
         address = addr.getText().toString();
         if (TextUtils.isEmpty(address)) {
             Toast.makeText(AddAdressActivity.this, "请输入详细地址！", Toast.LENGTH_SHORT).show();
@@ -202,6 +200,7 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
         } else {
             status = 0 + "";
         }
+        dialog.show();
         HttpHelper.Min_modifyaddress(aCache.getAsString("user_id"),
                 ben.getAddress_id() + "",
                 st_name + "",
@@ -213,12 +212,12 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
                 new HttpHelper.HttpUtilsCallBack<String>() {
                     @Override
                     public void onFailure(String failure) {
+                        dialog.dismiss();
                         Toast.makeText(AddAdressActivity.this, failure, Toast.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onSucceed(String succeed) {
-                        Debug.e("--------" + succeed);
+                        dialog.dismiss();
                         AddAddressBean entity = FastJSONHelper.getPerson(succeed, AddAddressBean.class);
                         if (entity.getCode() == 0) {
                             Toast.makeText(AddAdressActivity.this, entity.getMsg(), Toast.LENGTH_SHORT).show();
@@ -228,7 +227,6 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
                             Toast.makeText(AddAdressActivity.this, entity.getMsg(), Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     @Override
                     public void onError(String error) {
                         Toast.makeText(AddAdressActivity.this, ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();

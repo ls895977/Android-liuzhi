@@ -145,7 +145,6 @@ public class HttpHelper {
 
                     @Override
                     public void onError(Throwable e) {
-                        Debug.e("----------" + e.getMessage());
                         Logger.t("HttpHelper").i(e.getMessage());
                         callBack.onFailure(httpFailureMsg());
                     }

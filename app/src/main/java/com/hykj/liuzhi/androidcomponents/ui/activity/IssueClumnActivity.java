@@ -264,7 +264,7 @@ public class IssueClumnActivity extends BaseActivity implements View.OnClickList
         @Override
         public Dialog getDialog() {
             ProgressDialog dialog = new ProgressDialog(IssueClumnActivity.this);
-            dialog.setMessage("上传中中...");
+            dialog.setMessage("上传中...");
             return dialog;
         }
     };
