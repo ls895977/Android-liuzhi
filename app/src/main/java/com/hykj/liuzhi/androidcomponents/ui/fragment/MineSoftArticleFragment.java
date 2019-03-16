@@ -125,7 +125,6 @@ public class MineSoftArticleFragment extends Fragment implements BaseQuickAdapte
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onSucceed(String succeed) {
                 Gson gson = new Gson();

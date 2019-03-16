@@ -231,19 +231,16 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 break;
         }
     }
-
     /**
      * 获取详情数据
      */
     DetailVideoBean entity;
-
     public void postBackData() {
         HttpHelper.videoshow(videoid + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onSucceed(String succeed) {
                 entity = FastJSONHelper.getPerson(succeed, DetailVideoBean.class);

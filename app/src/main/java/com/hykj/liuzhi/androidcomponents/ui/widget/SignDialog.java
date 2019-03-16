@@ -89,6 +89,7 @@ public class SignDialog extends Dialog {
 
             @Override
             public void onSucceed(String succeed) {
+
                 entity = FastJSONHelper.getPerson(succeed, SignInBean.class);
                 msg.setText("您已连续签到" + entity.getContinuity() + "天,再接再厉哦");
                 Toast.makeText(getContext(), entity.getMsg(), Toast.LENGTH_SHORT).show();

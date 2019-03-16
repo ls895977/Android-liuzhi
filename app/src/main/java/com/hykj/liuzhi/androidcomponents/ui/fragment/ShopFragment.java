@@ -134,9 +134,6 @@ public class ShopFragment extends Fragment {
                 intent = new Intent(getContext(), CartActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.rl_search:
-
-                break;
             case R.id.search_area:
                 intent = new Intent(getContext(), ShopSearchActivity.class);
                 startActivity(intent);
@@ -149,7 +146,6 @@ public class ShopFragment extends Fragment {
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onSucceed(String succeed) {
                 GetsowingBean entity = FastJSONHelper.getPerson(succeed, GetsowingBean.class);
@@ -180,7 +176,6 @@ public class ShopFragment extends Fragment {
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onSucceed(String succeed) {
                 ShopHomeBean entity = FastJSONHelper.getPerson(succeed, ShopHomeBean.class);
@@ -189,7 +184,6 @@ public class ShopFragment extends Fragment {
                 }
                 mAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onError(String error) {
                 Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();

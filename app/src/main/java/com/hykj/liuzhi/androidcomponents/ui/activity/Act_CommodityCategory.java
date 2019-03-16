@@ -134,7 +134,6 @@ public class Act_CommodityCategory extends BaseActivity implements View.OnClickL
      */
     private int popuAdapterindext = 0;
     List<GetgoodScatesBean.DataBean.ArrayBean> popuDatas = new ArrayList<>();
-
     public void getgoodscates() {
         HttpHelper.getgoodscates(popuPage + "", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override

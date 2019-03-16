@@ -34,9 +34,7 @@ import java.util.TimerTask;
  * On 2016/04/18 16:15
  */
 public class JzvdStd extends Jzvd {
-
     protected static Timer DISMISS_CONTROL_VIEW_TIMER;
-
     public ImageView backButton;
     public ProgressBar bottomProgressBar, loadingProgressBar;
     public TextView titleTextView;

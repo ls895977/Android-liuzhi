@@ -25,6 +25,10 @@ public class ApiConstant {
     public static final String USER_CLICK_Usernotfans = "/api/index/usernotfans";
     //首页=消息详情接口
     public static final String Home_systemnotificationdetail = "/api/index/systemnotificationdetail";
+    //首页=模块数据
+    public static final String Home_modeltodata="/api/index/modeltodata";
+    //首页=系统应用导航栏
+    public static final String Home_appmodel = "/api/index/appmodel";
     //首页=平台通知
     public static final String Home_showsystemnotification = "/api/index/showsystemnotification";
     //首页=用户消息

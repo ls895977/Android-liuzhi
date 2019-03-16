@@ -129,7 +129,9 @@ public class DetailMoreVideoFragment extends Fragment implements BaseQuickAdapte
                 if (mAdapter == null) {
                     mAdapter = new DetailMoreVideoAdapter(datas, getContext());
                     mAdapter.setOnItemClickListener(DetailMoreVideoFragment.this);
-                    rv.setAdapter(mAdapter);
+                    if (rv != null && mAdapter != null) {
+                        rv.setAdapter(mAdapter);
+                    }
                 } else {
                     mAdapter.notifyDataSetChanged();
                 }

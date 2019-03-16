@@ -54,12 +54,17 @@ public interface HttpService {
     Observable<String> phonecode(@FieldMap Map<String, String> map);
 
     /**
+     * 系统应用导航栏
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Home_appmodel)
+    Observable<String> getHome_appmodel(@FieldMap Map<String, String> map);
+    /**
      * 获取用户粉丝
      */
     @FormUrlEncoded
     @POST(ApiConstant.USER_FAN)
     Observable<String> getUserFan(@FieldMap Map<String, String> map);
-
     /**
      * 用户点击按钮 关注
      */
@@ -80,7 +85,12 @@ public interface HttpService {
     @FormUrlEncoded
     @POST(ApiConstant.Home_systemnotificationdetail)
     Observable<String> getSystemnotificationdetail(@FieldMap Map<String, String> map);
-
+    /**
+     * 首页=模块数据
+     */
+    @FormUrlEncoded
+    @POST(ApiConstant.Home_modeltodata)
+    Observable<String> Home_modeltodata(@FieldMap Map<String, String> map);
     /**
      * 首页=平台通知
      */

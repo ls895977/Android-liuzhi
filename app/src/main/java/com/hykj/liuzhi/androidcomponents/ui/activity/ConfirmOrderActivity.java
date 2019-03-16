@@ -208,6 +208,11 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             addrname = data.getStringExtra("addrname");
             String Full_name = data.getStringExtra("Full_name");
             tvAdd.setText("收货地址：" + Full_name + addrname);
+            shouhuoren.setText("收货人：" + data.getStringExtra("name"));
+            phone.setText(data.getStringExtra("phone"));
+        }
+        if (requestCode == 11 && resultCode == 10) {
+            postBackAddData();
         }
     }
 
@@ -237,7 +242,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     @Override
                     public void onFailure(String failure) {
                         dialog.dismiss();
-                        Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "订单生成失败！", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -251,7 +256,12 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     @Override
                     public void onError(String error) {
                         dialog.dismiss();
-                        Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                        if (error.equals("0")) {
+                            Toast.makeText(getContext(), "订单生成失败！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 });
     }
@@ -297,7 +307,11 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     @Override
                     public void onError(String error) {
                         dialog.dismiss();
-                        Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                        if (error.equals("0")) {
+                            Toast.makeText(getContext(), "订单生成失败！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }
@@ -306,13 +320,16 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
      * 获取默认地址
      */
     public void postBackAddData() {
+        dialog.show();
         HttpHelper.getUserAddress(aCache.getAsString("user_id"), "1", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
+                dialog.dismiss();
             }
 
             @Override
             public void onSucceed(String succeed) {
+                dialog.dismiss();
                 AllAddBean entity = FastJSONHelper.getPerson(succeed, AllAddBean.class);
                 if (entity.getData().getArray().size() == 0) {
                     return;
@@ -325,17 +342,18 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                         phone.setText(entity.getData().getArray().get(i).getAddress_phone());
                     }
                 }
-
             }
 
             @Override
             public void onError(String error) {
+                dialog.dismiss();
             }
         });
     }
 
     /**
      * 支付接口
+     *
      * @param paytype
      */
     AppPayBean bean;
@@ -375,7 +393,6 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
 
     public void appPlayZFB() {
         Runnable payRunnable = new Runnable() {
-
             @Override
             public void run() {
                 PayTask alipay = new PayTask(ConfirmOrderActivity.this);
@@ -392,12 +409,9 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void appPlayWX() {
-        // 通过WXAPIFactory工厂，获取IWXAPI的实例
-        api = api = WXAPIFactory.createWXAPI(this, null);
-        // 将应用的appId注册到微信
+        api = WXAPIFactory.createWXAPI(this, null);
         api.registerApp(APP_ID);
         PayReq req = new PayReq();
-//给req对象赋值
         req.appId = bean.getWxpay().getData().getAppid();//APPID
         req.partnerId = bean.getWxpay().getData().getPartnerid();//    商户号
         req.prepayId = bean.getWxpay().getData().getPrepayid();//  预付款ID
@@ -428,14 +442,12 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        Log.e("aa", "-------------支付成功--");
                         Intent intent1 = new Intent();
                         intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent1.setClass(ConfirmOrderActivity.this, MainActivity.class);
                         startActivity(intent1);
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        Log.e("aa", "-------------支付失败--");
                     }
                     break;
                 }
@@ -449,10 +461,8 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
                     if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
                         // 获取alipay_open_id，调支付时作为参数extern_token 的value
                         // 传入，则支付账户为该授权账户
-                        Log.e("aa", "-------------授权成功--");
                     } else {
                         // 其他状态值则为授权失败
-                        Log.e("aa", "-------------其他状态值则为授权失败--");
                     }
                     break;
                 }

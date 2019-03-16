@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.TextureBase;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.view.FixGridLayout;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;

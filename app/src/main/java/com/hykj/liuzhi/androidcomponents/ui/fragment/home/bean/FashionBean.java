@@ -7,7 +7,25 @@ public class FashionBean {
     /**
      * code : 0
      * msg : 访问成功
-     * data : {"array":[{"softtext_id":1,"softtext_title":"测试标题","user_id":1,"softtextimage":{"softtextimage_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext1/image/bfa5296e04f07c9151f8bfda8957b9e4.jpg"},"userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user1/userpic/02ced9b994088598aceae34bb8b895f5.jpg","user_nickname":"姓王名小贱"}},{"softtext_id":2,"softtext_title":"测试标题","user_id":1,"softtextimage":{"softtextimage_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext2/image/a1c8c4795b1ee70941169a6d07212062.jpg"},"userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user1/userpic/02ced9b994088598aceae34bb8b895f5.jpg","user_nickname":"姓王名小贱"}},{"softtext_id":3,"softtext_title":"测试标题","user_id":1,"softtextimage":{"softtextimage_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext3/image/427d8a89e6e86012d38b82f58ad93a63.jpg"},"userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user1/userpic/02ced9b994088598aceae34bb8b895f5.jpg","user_nickname":"姓王名小贱"}},{"softtext_id":4,"softtext_title":"测试标题","user_id":1,"softtextimage":{"softtextimage_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext4/image/d656979e04b918b3610bf9681210318c.jpeg"},"userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user1/userpic/02ced9b994088598aceae34bb8b895f5.jpg","user_nickname":"姓王名小贱"}},{"softtext_id":5,"softtext_title":"测试标题","user_id":1,"softtextimage":{"softtextimage_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext5/image/ebefe87a74c86e59df1ff6f1cd763a36.jpg"},"userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user1/userpic/02ced9b994088598aceae34bb8b895f5.jpg","user_nickname":"姓王名小贱"}},{"softtext_id":6,"softtext_title":null,"user_id":4,"softtextimage":null,"userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user4/userpic/66fd01a5ebeef2a1627d47d254c6f4f5.png","user_nickname":"萌萌哒醉了"}}],"advdata":[{"adv_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/firstpage/advertisement/image/ed455cfb85485888486ce6843f4b24e3.jpg"},{"adv_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/firstpage/advertisement/image/de2437b9e25731389923d2bbf32e3d54.jpg"}],"total":6,"amount":1,"page":1,"number":10}
+     * data : {"array":[{"softtext_id":1,
+     * "softtext_title":"测试标题",
+     * "user_id":1,
+     * "softtextimage":{"softtextimage_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext1/image/bfa5296e04f07c9151f8bfda8957b9e4.jpg"},
+     * "userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user1/userpic/02ced9b994088598aceae34bb8b895f5.jpg",
+     * "user_nickname":"姓王名小贱"}},{"softtext_id":2,"softtext_title":"测试标题",
+     * "user_id":1,
+     * "softtextimage":{"softtextimage_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext2/image/a1c8c4795b1ee70941169a6d07212062.jpg"},
+     * "userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user1/userpic/02ced9b994088598aceae34bb8b895f5.jpg",
+     * "user_nickname":"姓王名小贱"}},{"softtext_id":3,"softtext_title":"测试标题","user_id":1,
+     * "softtextimage":{"softtextimage_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext3/image/427d8a89e6e86012d38b82f58ad93a63.jpg"},
+     * "userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user1/userpic/02ced9b994088598aceae34bb8b895f5.jpg","user_nickname":"姓王名小贱"}},
+     * {"softtext_id":4,"softtext_title":"测试标题","user_id":1,"softtextimage":{"softtextimage_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext4/image/d656979e04b918b3610bf9681210318c.jpeg"},
+     * "userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user1/userpic/02ced9b994088598aceae34bb8b895f5.jpg","user_nickname":"姓王名小贱"}},{"softtext_id":5,"softtext_title":"测试标题",
+     * "user_id":1,"softtextimage":{"softtextimage_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext5/image/ebefe87a74c86e59df1ff6f1cd763a36.jpg"},
+     * "userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user1/userpic/02ced9b994088598aceae34bb8b895f5.jpg","user_nickname":"姓王名小贱"}},
+     * {"softtext_id":6,"softtext_title":null,"user_id":4,"softtextimage":null,"userdata":{"user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user4/userpic/66fd01a5ebeef2a1627d47d254c6f4f5.png","user_nickname":"萌萌哒醉了"}}],
+     * "advdata":[{"adv_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/firstpage/advertisement/image/ed455cfb85485888486ce6843f4b24e3.jpg"},{"adv_url":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/firstpage/advertisement/image/de2437b9e25731389923d2bbf32e3d54.jpg"}],
+     * "total":6,"amount":1,"page":1,"number":10}
      */
 
     private int code;

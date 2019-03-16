@@ -48,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initListener();
     }
-
     private RxPermissions rxPermissions;
-
     private void initListener() {
         bottomView.setListener(new BottomNavigationView.Listener() {
             @Override
