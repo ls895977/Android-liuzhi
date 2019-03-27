@@ -334,6 +334,43 @@ public class HttpHelper {
                 });
     }
 
+    //发送手机验证码
+    public static void getHome_appmodel(String page, String number, final HttpUtilsCallBack<String> callBack) {
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("page", page + "");
+        map.put("number", number + "");
+        httpService.getHome_appmodel(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper").i(succeed);
+                        ForgetpasswordBean entity = FastJSONHelper.getPerson(succeed, ForgetpasswordBean.class);
+                        if (entity.getCode() == 0) {
+                            callBack.onSucceed(succeed);
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
 
     /**
      * 获取用户信息
@@ -558,6 +595,53 @@ public class HttpHelper {
                 });
     }
 
+
+    /**
+     * 首页=消息
+     *
+     * @param callBack
+     */
+    public static void Home_modeltodata(String page, String modelid, String modeltype, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("page", page);
+        map.put("number", "15");
+        map.put("modelid", modelid);
+        map.put("modeltype", modeltype);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.Home_modeltodata(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper").i(succeed.toString());
+                        SystemNotiFicationdetailBean entity = FastJSONHelper.getPerson(succeed, SystemNotiFicationdetailBean.class);
+                        if (entity.getCode() == 0) {
+                            if (entity.getError() == 0) {
+                                callBack.onSucceed(succeed);
+                            } else {
+                                callBack.onError(String.valueOf(entity.getError()));
+                            }
+                        } else {
+                            callBack.onFailure(String.valueOf(entity.getError()));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
 
     /**
      * 首页=平台通知
@@ -971,6 +1055,7 @@ public class HttpHelper {
 
     /**
      * 首页=交易信息
+     *
      * @param callBack
      */
     public static void getInformation(String user_id, String page, final HttpUtilsCallBack<String> callBack) {

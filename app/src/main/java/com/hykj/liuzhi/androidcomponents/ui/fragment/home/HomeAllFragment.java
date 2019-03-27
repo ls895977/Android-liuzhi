@@ -114,7 +114,6 @@ public class HomeAllFragment extends ViewPagerFragment implements BaseQuickAdapt
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onSucceed(String succeed) {
                 if (modeltype.equals("1")) {//以前潮流
