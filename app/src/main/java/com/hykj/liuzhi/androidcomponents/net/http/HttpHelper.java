@@ -3,6 +3,7 @@ package com.hykj.liuzhi.androidcomponents.net.http;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.hykj.liuzhi.androidcomponents.bean.AddAddressBean;
 import com.hykj.liuzhi.androidcomponents.bean.AddCodeBean;
@@ -37,8 +38,12 @@ import com.hykj.liuzhi.androidcomponents.ui.activity.softtext.SofttextFirstPageB
 import com.hykj.liuzhi.androidcomponents.ui.activity.softtext.ben.GetimagetextlabelsBean;
 import com.hykj.liuzhi.androidcomponents.ui.activity.video.bean.VideoPointBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.circle.bean.CircleFragmentBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.collect.bean.CollectBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.detail.bean.GetImageTextBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.detail.bean.VideoDetailBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FashionBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FirstpagedataBean;
+import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.VideoContextBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.message.bean.NotifyFragmentBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.message.bean.SystemNotiFicationdetailBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.bean.MyOrderTabDetailsBean;
@@ -48,10 +53,6 @@ import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.bean.WatchHistoryBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.bean.WatchHistoryBean1;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.CollectionBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.GetsowingBean;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.collect.bean.CollectBean;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FashionBean;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FirstpagedataBean;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.VideoContextBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.GoodDetailDetailBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.ShopHomeBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.ShopSeacharBean;
@@ -3402,6 +3403,47 @@ public class HttpHelper {
                 });
     }
 
+    /**
+     * 视频=视频评论回复
+     *
+     * @param callBack
+     */
+    public static void videomessagereply(String userId, String messageId, String message, String ruserid, final HttpUtilsCallBack<String> callBack) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
+        map.put("messageid", messageId);
+        map.put("message", message);
+        map.put("ruserid", ruserid);
+        HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
+        httpService.videomessagereply(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(String succeed) {
+                        Logger.t("HttpHelper---").i(succeed);
+                        JSONObject entity = FastJSONHelper.getPerson(succeed, JSONObject.class);
+                        if (entity.getIntValue("code") == 0) {
+                                callBack.onSucceed(succeed);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t("HttpHelper").i(e.getMessage());
+                        callBack.onFailure(httpFailureMsg());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
 
     /**
      * 视频=获取所有视频评论

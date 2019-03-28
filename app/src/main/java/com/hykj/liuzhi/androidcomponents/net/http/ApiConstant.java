@@ -153,6 +153,8 @@ public class ApiConstant {
     public static final String Home_videolist = "/api/index/videolist";
     //视频=视频评论
     public static final String Home_videomessage = "/api/index/videomessage";
+    //视频=视频评论回复
+    public static final String Home_videomessagereply = "/api/index/messagereply";
     //视频=视频下载
     public static final String Home_videodownloadvideo = "/api/index/downloadvideo";
     //视频=获取所有的视频评论

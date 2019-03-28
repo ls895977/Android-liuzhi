@@ -43,4 +43,9 @@
         <!-- 模糊 -->
         <item name="android:backgroundDimAmount">0.5</item>
     </style>
+
+    <style name="AnimationBottomFade">
+        <item name="android:windowEnterAnimation">@anim/in_bottomtotop</item>
+        <item name="android:windowExitAnimation">@anim/out_toptobottom</item>
+    </style>
 </resources>

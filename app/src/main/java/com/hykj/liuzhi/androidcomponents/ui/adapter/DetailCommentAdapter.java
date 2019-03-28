@@ -1,6 +1,7 @@
 package com.hykj.liuzhi.androidcomponents.ui.adapter;
 
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -25,11 +26,18 @@ public class DetailCommentAdapter extends BaseQuickAdapter<DetailCommetListBean.
 
     @Override
     protected void convert(final BaseViewHolder helper, DetailCommetListBean.DataBean.ArrayBean item) {
-            ImageView avatar = helper.getView(R.id.iv_icon);
-            Glide.with(helper.itemView.getContext()).load(item.getUserdata().getUser_pic()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(avatar);
-            helper.addOnClickListener(R.id.iv_report);
-            helper.setText(R.id.iv_name, item.getUserdata().getUser_nickname());
-            helper.setText(R.id.iv_neirong, item.getMessage_message());
-            helper.setText(R.id.iv_time, com.hykj.liuzhi.androidcomponents.ui.activity.video.DateUtils.timesTwo(item.getMessage_creattime() + ""));
+        ImageView avatar = helper.getView(R.id.iv_icon);
+        Glide.with(helper.itemView.getContext()).load(item.getUserdata().getUser_pic()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(avatar);
+        helper.addOnClickListener(R.id.iv_more);
+        helper.setText(R.id.iv_name, item.getUserdata().getUser_nickname());
+        helper.setText(R.id.iv_neirong, item.getMessage_message());
+        helper.setText(R.id.iv_time, com.hykj.liuzhi.androidcomponents.ui.activity.video.DateUtils.timesTwo(item.getMessage_creattime() + ""));
+
+        helper.setGone(R.id.rv_reply, false);
+        if (item.reply != null && !item.reply.isEmpty()) {
+            helper.setGone(R.id.rv_reply, true);
+            RecyclerView rv = helper.getView(R.id.rv_reply);
+            rv.setAdapter(new ReplyAdapter(item.reply));
+        }
     }
 }

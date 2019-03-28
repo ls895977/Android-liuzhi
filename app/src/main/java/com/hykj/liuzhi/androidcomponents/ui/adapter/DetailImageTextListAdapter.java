@@ -9,7 +9,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.bean.DetailCommetListBean;
 import com.hykj.liuzhi.androidcomponents.ui.activity.circle.DetailCircleImageListBean;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class DetailImageTextListAdapter extends BaseQuickAdapter<DetailCircleIma
     protected void convert(final BaseViewHolder helper, DetailCircleImageListBean.DataBean item) {
         ImageView avatar = helper.getView(R.id.iv_icon);
         Glide.with(helper.itemView.getContext()).load(item.getUserdata().getUser_pic()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(avatar);
-        helper.addOnClickListener(R.id.iv_report);
+        helper.addOnClickListener(R.id.iv_more);
         helper.setText(R.id.iv_name, item.getUserdata().getUser_nickname());
         helper.setText(R.id.iv_neirong, item.getMessage_message());
         helper.setText(R.id.iv_time, com.hykj.liuzhi.androidcomponents.ui.activity.video.DateUtils.timesTwo(item.getMessage_creattime() + ""));

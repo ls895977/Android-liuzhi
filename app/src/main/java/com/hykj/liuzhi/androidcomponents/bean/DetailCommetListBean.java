@@ -21,9 +21,11 @@ public class DetailCommetListBean {
 
     private String msg;
     private DataBean data;
+
     public int getCode() {
         return code;
     }
+
     public void setCode(int code) {
         this.code = code;
     }
@@ -128,6 +130,7 @@ public class DetailCommetListBean {
             private int message_replyuser;
             private UserdataBean userdata;
             private String creattime;
+            public List<ArrayBean> reply;
 
             public int getMessage_id() {
                 return message_id;

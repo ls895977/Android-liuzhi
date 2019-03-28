@@ -1,6 +1,5 @@
 package com.hykj.liuzhi.androidcomponents.ui.activity;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,8 +15,6 @@ import com.hykj.liuzhi.androidcomponents.bean.AddAddressBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.bean.AllAddBean;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.dailog.Dlg_AddChose;
-import com.hykj.liuzhi.androidcomponents.ui.adapter.SelectAdressListAdapter;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
@@ -154,7 +151,7 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.add_commit:
                 if (getIntent().getSerializableExtra("bean") != null) {
-                    changeadderssstatus();
+                    changeAdderssStatus();
                 } else {
 
                     postAdd();
@@ -173,7 +170,7 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
     /**
      * 修改收货地址
      */
-    public void changeadderssstatus() {
+    public void changeAdderssStatus() {
         aCache = ACache.get(this);
         st_name = name.getText().toString();
         if (TextUtils.isEmpty(st_name)) {

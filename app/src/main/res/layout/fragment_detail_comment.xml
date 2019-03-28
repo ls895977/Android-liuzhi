@@ -37,6 +37,7 @@
             android:textSize="12sp"
             android:theme="@style/MyEditText" />
     </RelativeLayout>
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/fragment_detail_refreshLayout"
         android:layout_width="match_parent"

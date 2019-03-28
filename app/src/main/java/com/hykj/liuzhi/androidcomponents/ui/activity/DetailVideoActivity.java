@@ -1,24 +1,15 @@
 package com.hykj.liuzhi.androidcomponents.ui.activity;
 
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,19 +26,12 @@ import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Videoreward;
 import com.hykj.liuzhi.androidcomponents.ui.activity.video.DateUtils;
 import com.hykj.liuzhi.androidcomponents.ui.activity.video.bean.VideoPointBean;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.DetailPagerAdapter;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FirstpagedataBean;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
-import com.hykj.liuzhi.androidcomponents.utils.DensityUtils;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.hykj.liuzhi.androidcomponents.utils.WxShareUtils;
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
-
-import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +55,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
     LinearLayout llContent;
     @BindView(R.id.video_title)
     TextView video_title;
+    @BindView(R.id.video_detail)
+    TextView video_detail;
     @BindView(R.id.video_time)
     TextView video_time;
     @BindView(R.id.video_zan)
@@ -93,7 +79,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
     private String definition = "0";
     private Dlg_Share share;
     ZLoadingDialog loding;
-    private TextView tv_play_count,tv_collect,tv_type;
+    private TextView tv_play_count, tv_collect, tv_type;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,8 +90,9 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         initView();
         initData();
     }
+
     private void initView() {
-        tv_type=findViewById(R.id.tv_type);
+        tv_type = findViewById(R.id.tv_type);
         share = new Dlg_Share(this, this);
         loding = new ZLoadingDialog(this);
         loding.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
@@ -118,8 +106,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         tabLayout.setViewPager(viewPager);
         mJzvdStd = findViewById(R.id.jz_video);
         myChaoQingView = findViewById(R.id.chaoqingstatus);
-        tv_play_count=findViewById(R.id.tv_play_count);
-        tv_collect=findViewById(R.id.tv_collect);
+        tv_play_count = findViewById(R.id.tv_play_count);
+        tv_collect = findViewById(R.id.tv_collect);
         pt[0] = findViewById(R.id.pt1);
         pt[1] = findViewById(R.id.pt2);
         pt[2] = findViewById(R.id.pt3);
@@ -130,9 +118,11 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         ppt[3] = findViewById(R.id.ppt4);
 
     }
+
     String stType;
+
     private void initData() {
-        stType=getIntent().getStringExtra("stType");
+        stType = getIntent().getStringExtra("stType");
         dialog = new Dlg_Videoreward(this, this);
         aCache = ACache.get(this);
         mJzvdStd.backButton.setOnClickListener(new View.OnClickListener() {
@@ -231,16 +221,19 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 break;
         }
     }
+
     /**
      * 获取详情数据
      */
     DetailVideoBean entity;
+
     public void postBackData() {
         HttpHelper.videoshow(videoid + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onSucceed(String succeed) {
                 entity = FastJSONHelper.getPerson(succeed, DetailVideoBean.class);
@@ -252,10 +245,11 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 Jzvd.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
                 Jzvd.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
                 video_title.setText(entity.getData().getVideo_name());
+                video_detail.setText(entity.getData().getVideo_detail());
                 video_time.setText(DateUtils.timesTwo(entity.getData().getVideo_creattime() + ""));
                 video_zan.setText(entity.getData().getVideo_point() + "");
-                tv_play_count.setText(entity.getData().getVideo_videonum()+"");
-                tv_collect.setText(entity.getData().getVideo_collection()+"");
+                tv_play_count.setText(entity.getData().getVideo_videonum() + "");
+                tv_collect.setText(entity.getData().getVideo_collection() + "");
                 if (entity.getData().getUsercollection() == 0) {
                     video_collection.setSelected(false);
                 } else {

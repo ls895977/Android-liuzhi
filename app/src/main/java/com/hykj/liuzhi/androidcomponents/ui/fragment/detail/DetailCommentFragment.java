@@ -1,5 +1,6 @@
 package com.hykj.liuzhi.androidcomponents.ui.fragment.detail;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,32 +9,32 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.bean.DetailCommentBean;
 import com.hykj.liuzhi.androidcomponents.bean.DetailCommetListBean;
-import com.hykj.liuzhi.androidcomponents.bean.DetailVideoBean;
 import com.hykj.liuzhi.androidcomponents.bean.VideomessageBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.ReportActivity;
-import com.hykj.liuzhi.androidcomponents.ui.activity.circle.CircleDetailBean;
 import com.hykj.liuzhi.androidcomponents.ui.activity.circle.DetailCircleImageListBean;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.DetailCommentAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.DetailImageTextListAdapter;
-import com.hykj.liuzhi.androidcomponents.ui.adapter.MessageAdapter;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
+import com.hykj.liuzhi.androidcomponents.ui.popup.CommentMorePopup;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
+import com.hykj.liuzhi.androidcomponents.utils.DensityUtils;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
+import com.hykj.liuzhi.androidcomponents.utils.LocalInfoUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -57,7 +58,7 @@ import butterknife.Unbinder;
  */
 
 
-public class DetailCommentFragment extends Fragment implements View.OnClickListener, BaseQuickAdapter.OnItemChildClickListener {
+public class DetailCommentFragment extends Fragment implements View.OnClickListener, BaseQuickAdapter.OnItemChildClickListener, CommentMorePopup.Callback {
     @BindView(R.id.rv)
     RecyclerView rv;
     Unbinder unbinder;
@@ -72,6 +73,8 @@ public class DetailCommentFragment extends Fragment implements View.OnClickListe
     @BindView(R.id.iv_send)
     ImageView send;
     String status = "", imagetext_id = "";
+
+    private int mCurrentPosition;
 
     @Nullable
     @Override
@@ -251,29 +254,11 @@ public class DetailCommentFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        mCurrentPosition = position;
         switch (view.getId()) {
-            case R.id.iv_report:
-                if (status.equals("video")) {
-                    if (aCache.getAsString("user_id").equals(datas.get(position).getUser_id())) {
-                        Toast.makeText(getContext(), "自己不能举报自己！", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Intent intent = new Intent();
-                        intent.putExtra("title", "video");
-                        intent.putExtra("reportuserid", (datas.get(position).getUser_id() + ""));
-                        intent.setClass(getContext(), ReportActivity.class);
-                        startActivity(intent);
-                    }
-                } else {
-                    if (aCache.getAsString("user_id").equals(imagetextList.get(position).getUser_id())) {
-                        Toast.makeText(getContext(), "自己不能举报自己！", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Intent intent = new Intent();
-                        intent.putExtra("title", "image");
-                        intent.putExtra("reportuserid", (imagetextList.get(position).getUser_id() + ""));
-                        intent.setClass(getContext(), ReportActivity.class);
-                        startActivity(intent);
-                    }
-                }
+            case R.id.iv_more:
+                new CommentMorePopup(getContext(), this)
+                        .showAsDropDown(view, DensityUtils.dip2px(getContext(), -105), DensityUtils.dip2px(getContext(), -25));
                 break;
         }
     }
@@ -351,5 +336,92 @@ public class DetailCommentFragment extends Fragment implements View.OnClickListe
                 }
             }
         });
+    }
+
+    @Override
+    public void comment() {
+        View writeCommentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_back_comment, null);
+        final PopupWindow popCommentWindow = new PopupWindow(writeCommentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popCommentWindow.setAnimationStyle(R.style.AnimationBottomFade);
+        popCommentWindow.setBackgroundDrawable(null);
+        popCommentWindow.setOutsideTouchable(true);
+        popCommentWindow.update();
+        //软键盘不会挡着popupwindow
+        popCommentWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        popCommentWindow.setFocusable(true);
+        final EditText et_back_comment = writeCommentView.findViewById(R.id.et_reply);
+        et_back_comment.requestFocus();
+        et_back_comment.setFocusable(true);
+        et_back_comment.setFocusableInTouchMode(true);
+        ImageView iv_send_comment = writeCommentView.findViewById(R.id.iv_send);
+        iv_send_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String comment = et_back_comment.getText().toString();
+                if (TextUtils.isEmpty(comment)) {
+                    Toast.makeText(getContext(), "请输入回复内容！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                popCommentWindow.dismiss();
+                HttpHelper.videomessagereply(aCache.getAsString("user_id"), String.valueOf(datas.get(mCurrentPosition).getMessage_id()),
+                        et_back_comment.getText().toString(), String.valueOf(datas.get(mCurrentPosition).getUser_id()), new HttpHelper.HttpUtilsCallBack<String>() {
+                            @Override
+                            public void onFailure(String failure) {
+                                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onSucceed(String succeed) {
+                                Toast.makeText(getContext(), "回复成功", Toast.LENGTH_SHORT).show();
+                                DetailCommetListBean.DataBean.ArrayBean bean = new DetailCommetListBean.DataBean.ArrayBean();
+                                bean.setMessage_message("回复: " + et_back_comment.getText().toString());
+                                DetailCommetListBean.DataBean.ArrayBean.UserdataBean userdataBean = new DetailCommetListBean.DataBean.ArrayBean.UserdataBean();
+                                userdataBean.setUser_nickname(LocalInfoUtils.getUserself("user_nickname"));
+                                bean.setUser_id(Integer.parseInt(aCache.getAsString("user_id")));
+                                bean.setUserdata(userdataBean);
+                                datas.get(mCurrentPosition).reply.add(bean);
+                                mAdapter.notifyItemChanged(mCurrentPosition);
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+        popCommentWindow.showAtLocation(writeCommentView, Gravity.BOTTOM, 0, 0);
+        et_back_comment.post(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(et_back_comment, 0);
+            }
+        });
+    }
+
+    @Override
+    public void report() {
+        if (status.equals("video")) {
+            if (aCache.getAsString("user_id").equals(datas.get(mCurrentPosition).getUser_id())) {
+                Toast.makeText(getContext(), "自己不能举报自己！", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent();
+                intent.putExtra("title", "video");
+                intent.putExtra("reportuserid", (datas.get(mCurrentPosition).getUser_id() + ""));
+                intent.setClass(getContext(), ReportActivity.class);
+                startActivity(intent);
+            }
+        } else {
+            if (aCache.getAsString("user_id").equals(imagetextList.get(mCurrentPosition).getUser_id())) {
+                Toast.makeText(getContext(), "自己不能举报自己！", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent();
+                intent.putExtra("title", "image");
+                intent.putExtra("reportuserid", (imagetextList.get(mCurrentPosition).getUser_id() + ""));
+                intent.setClass(getContext(), ReportActivity.class);
+                startActivity(intent);
+            }
+        }
     }
 }

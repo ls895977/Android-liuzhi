@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.ui.adapter.AttentionAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.AddFragment;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.CircleFragment;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.HomeFragment;
@@ -67,6 +66,7 @@ public class BottomNavigationView extends RelativeLayout {
 
     private ArrayList<Fragment> fragmentList;
     private FragmentManager supportFragmentManager;
+
     public void initFragment(int container, FragmentManager supportFragmentManager) {
         this.supportFragmentManager = supportFragmentManager;
         HomeFragment homeFragment = new HomeFragment();
@@ -81,11 +81,11 @@ public class BottomNavigationView extends RelativeLayout {
         fragmentList.add(messageFragment);
         fragmentList.add(mineFragment);
         supportFragmentManager.beginTransaction()
-                .add(R.id.container,fragmentList.get(0),"home")
-                .add(R.id.container,fragmentList.get(1),"circle")
-                .add(R.id.container,fragmentList.get(2),"add")
-                .add(R.id.container,fragmentList.get(3),"message")
-                .add(R.id.container,fragmentList.get(4),"mine")
+                .add(R.id.container, fragmentList.get(0), "home")
+                .add(R.id.container, fragmentList.get(1), "circle")
+                .add(R.id.container, fragmentList.get(2), "add")
+                .add(R.id.container, fragmentList.get(3), "message")
+                .add(R.id.container, fragmentList.get(4), "mine")
                 .hide(fragmentList.get(1))
                 .hide(fragmentList.get(2))
                 .hide(fragmentList.get(3))
@@ -93,11 +93,13 @@ public class BottomNavigationView extends RelativeLayout {
                 .commitAllowingStateLoss();
     }
 
-    public interface Listener{
+    public interface Listener {
         void onClick(int index);
     }
+
     private Listener listener;
-    public void setListener(Listener listener){
+
+    public void setListener(Listener listener) {
         this.listener = listener;
     }
 
@@ -148,13 +150,12 @@ public class BottomNavigationView extends RelativeLayout {
                 iv4.setSelected(true);
                 changeTab(4);
                 listener.onClick(4);
-
                 break;
         }
     }
 
     private void changeTab(int index) {
-        if (index==0){
+        if (index == 0) {
             supportFragmentManager.beginTransaction()
                     .show(fragmentList.get(0))
                     .hide(fragmentList.get(1))
@@ -162,7 +163,7 @@ public class BottomNavigationView extends RelativeLayout {
                     .hide(fragmentList.get(3))
                     .hide(fragmentList.get(4))
                     .commitAllowingStateLoss();
-        } else if (index==1){
+        } else if (index == 1) {
             supportFragmentManager.beginTransaction()
                     .hide(fragmentList.get(0))
                     .show(fragmentList.get(1))
@@ -170,7 +171,7 @@ public class BottomNavigationView extends RelativeLayout {
                     .hide(fragmentList.get(3))
                     .hide(fragmentList.get(4))
                     .commitAllowingStateLoss();
-        } else if (index==2){
+        } else if (index == 2) {
 //            supportFragmentManager.beginTransaction()
 //                    .hide(fragmentList.get(0))
 //                    .hide(fragmentList.get(1))
@@ -178,7 +179,7 @@ public class BottomNavigationView extends RelativeLayout {
 //                    .hide(fragmentList.get(3))
 //                    .hide(fragmentList.get(4))
 //                    .commitAllowingStateLoss();
-        } else if (index==3){
+        } else if (index == 3) {
             supportFragmentManager.beginTransaction()
                     .hide(fragmentList.get(0))
                     .hide(fragmentList.get(1))
@@ -186,7 +187,7 @@ public class BottomNavigationView extends RelativeLayout {
                     .show(fragmentList.get(3))
                     .hide(fragmentList.get(4))
                     .commitAllowingStateLoss();
-        } else if (index==4){
+        } else if (index == 4) {
             supportFragmentManager.beginTransaction()
                     .hide(fragmentList.get(0))
                     .hide(fragmentList.get(1))

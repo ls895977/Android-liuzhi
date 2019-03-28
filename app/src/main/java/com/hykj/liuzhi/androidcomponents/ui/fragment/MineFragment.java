@@ -8,8 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.bean.UserData;
 import com.hykj.liuzhi.androidcomponents.ui.activity.AttentionActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.EditUserDataActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.MyCollectActivity;
-import com.hykj.liuzhi.androidcomponents.ui.activity.MyJiFenActivity;
-import com.hykj.liuzhi.androidcomponents.ui.activity.OffLineVideoActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.SetUpActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.Act_MyOrder;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.Act_WatchHistory;
-import com.hykj.liuzhi.androidcomponents.ui.adapter.MinePagerAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.MineCameFragment;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.UserAdvertorialFragment;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.RxPermissions;
@@ -48,6 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.reactivex.functions.Consumer;
+
 /**
  * @author: lujialei
  * @date: 2018/9/27
@@ -153,7 +148,7 @@ public class MineFragment extends Fragment {
             case R.id.iv_mine_userhead:
             case R.id.tv_mine_edit_userdata:
                 rxPermissions
-                        .request(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA)
+                        .request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                         .subscribe(new Consumer<Boolean>() {
                             @Override
                             public void accept(Boolean aBoolean) {
@@ -213,7 +208,10 @@ public class MineFragment extends Fragment {
 
     public void seetingUser() {
         Glide.with(getContext()).load(LocalInfoUtils.getUserself("user_pic")).into(ivMineUserhead);
-        tvMineuserNike.setText(LocalInfoUtils.getUserself("user_nickname"));
+        String user_nickname = LocalInfoUtils.getUserself("user_nickname");
+        if (!TextUtils.isEmpty(user_nickname) && !"null".equals(user_nickname)) {
+            tvMineuserNike.setText(user_nickname);
+        }
         tvMineuserId.setText("ID:" + LocalInfoUtils.getUserself("user_id"));
         tvConllection.setText(LocalInfoUtils.getUserself("user_collection"));
         tvMyFocus.setText(LocalInfoUtils.getUserself("user_follow"));

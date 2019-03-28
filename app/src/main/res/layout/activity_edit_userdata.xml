@@ -45,6 +45,32 @@
             android:layout_marginRight="15dp"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:id="@+id/rl_id"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:paddingRight="13dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="ID" />
+
+                <TextView
+                    android:id="@+id/tv_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:drawablePadding="@dimen/dip_10"
+                    android:gravity="center" />
+            </RelativeLayout>
+
+            <View
+                style="@style/commonDiciderStyle"
+                android:layout_marginTop="5dp" />
 
             <RelativeLayout
                 android:id="@+id/rl_edit_userdata_nick"
@@ -57,14 +83,16 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="姓名" />
+
                 <TextView
                     android:id="@+id/nickName"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:drawablePadding="@dimen/dip_10"
                     android:layout_centerVertical="true"
-                    android:drawableRight="@mipmap/next_grey" />
+                    android:drawablePadding="@dimen/dip_10"
+                    android:drawableRight="@mipmap/next_grey"
+                    android:gravity="center" />
             </RelativeLayout>
 
             <View
@@ -87,9 +115,9 @@
                     android:id="@+id/item_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/dip_10"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:drawablePadding="@dimen/dip_10"
                     android:drawableRight="@mipmap/next_grey" />
 
             </RelativeLayout>
@@ -181,17 +209,19 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="邮箱" />
+
                 <TextView
                     android:id="@+id/tv_edit_userdata_mail"
-                    android:layout_toLeftOf="@+id/tv_edit_userdata_rigt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/tv_edit_userdata_rigt"
                     android:background="@null"
                     android:focusable="false"
                     android:text="90后月光族"
                     android:textSize="15sp" />
+
                 <ImageView
                     android:id="@+id/tv_edit_userdata_rigt"
                     android:layout_width="10dp"

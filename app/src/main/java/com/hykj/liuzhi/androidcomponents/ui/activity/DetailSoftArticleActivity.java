@@ -1,39 +1,31 @@
 package com.hykj.liuzhi.androidcomponents.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.AddCodeBean;
-import com.hykj.liuzhi.androidcomponents.bean.DetailCommentBean;
 import com.hykj.liuzhi.androidcomponents.bean.DetailCommetListBean;
-import com.hykj.liuzhi.androidcomponents.bean.ShearBean;
 import com.hykj.liuzhi.androidcomponents.bean.VideomessageBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Share;
 import com.hykj.liuzhi.androidcomponents.ui.activity.softtext.SofttextFirstPageBean;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.DetailCommentAdapter;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.detail.DetailCommentFragment;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FirstpagedataBean;
 import com.hykj.liuzhi.androidcomponents.ui.widget.DefaultTopBar;
 import com.hykj.liuzhi.androidcomponents.ui.widget.SoftDetailHeader;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
-import com.hykj.liuzhi.androidcomponents.utils.WxShareUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -42,7 +34,6 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zyao89.view.zloading.ZLoadingDialog;
-import com.zyao89.view.zloading.Z_TYPE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,7 +174,7 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         switch (view.getId()) {
-            case R.id.iv_report:
+            case R.id.iv_more:
                 if (aCache.getAsString("user_id").equals(datas.get(position).getUser_id())) {
                     Toast.makeText(getContext(), "自己不能举报自己！", Toast.LENGTH_SHORT).show();
                 } else {

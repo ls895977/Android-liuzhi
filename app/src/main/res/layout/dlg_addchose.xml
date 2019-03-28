@@ -16,8 +16,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:text="所在地区"
+            android:textColor="@color/black"
             android:textSize="@dimen/fond_16sp"
             android:textStyle="bold" />
 
@@ -25,9 +25,9 @@
             android:id="@+id/add_shutdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@mipmap/btn_close_reward"
-            android:padding="@dimen/dip_10" />
+            android:layout_alignParentEnd="true"
+            android:padding="5dp"
+            android:src="@mipmap/btn_close_reward" />
     </RelativeLayout>
 
     <LinearLayout
@@ -38,39 +38,41 @@
 
         <TextView
             android:id="@+id/tv_province"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:textSize="@dimen/fond_16sp"
             android:layout_width="@dimen/dip_100"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingRight="@dimen/dip_10"
-            android:text="请选择" />
+            android:text="请选择"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fond_16sp" />
 
         <TextView
             android:id="@+id/tv_City"
-            android:textSize="@dimen/fond_16sp"
-            android:textColor="@color/black"
-            android:gravity="center"
             android:layout_width="@dimen/dip_100"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingRight="@dimen/dip_10"
-            android:text="请选择" />
+            android:text="请选择"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fond_16sp" />
 
         <TextView
             android:id="@+id/tv_Area"
-            android:textColor="@color/black"
-            android:gravity="center"
             android:layout_width="@dimen/dip_100"
-            android:textSize="@dimen/fond_16sp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingRight="@dimen/dip_10"
-            android:text="请选择" />
+            android:text="请选择"
+            android:textColor="@color/black"
+            android:textSize="@dimen/fond_16sp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/dip_10"
         android:orientation="horizontal">
+
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/refreshLayout_province"
             android:layout_width="@dimen/dip_100"
@@ -78,6 +80,7 @@
             app:srlAccentColor="#00000000"
             app:srlEnablePreviewInEditMode="true"
             app:srlPrimaryColor="#00000000">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/add_Re_province"
                 android:layout_width="match_parent"

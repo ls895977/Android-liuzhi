@@ -14,7 +14,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.AddContextBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
-import com.hykj.liuzhi.androidcomponents.ui.activity.AddAdressActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.BaseDialog;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.adapter.AddChoseAdapter;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
@@ -158,8 +157,8 @@ public class Dlg_AddChose extends BaseDialog {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 areaList.clear();
                 areaPage = 1;
-                if(position<=(cityList.size()-1))
-                citysPid = cityList.get(position).getId();
+                if (position <= (cityList.size() - 1))
+                    citysPid = cityList.get(position).getId();
                 postArea();
                 tv_City.setText(cityList.get(position).getName());
             }
@@ -170,6 +169,7 @@ public class Dlg_AddChose extends BaseDialog {
      * 区
      */
     private BaseQuickAdapter.OnItemClickListener itemArea;
+
     public void areaInit() {
         areaRefresh.setEnableRefresh(true);//启用刷新
         areaRefresh.setEnableLoadmore(true);//启用加载
@@ -194,10 +194,8 @@ public class Dlg_AddChose extends BaseDialog {
         itemArea = new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if((areaList.size()-1)<=position) {
-                    tv_Area.setText(areaList.get(position).getName());
-                }
-                onClick.onItem(tv_province.getText().toString(),tv_City.getText().toString(),tv_Area.getText().toString(),areaList.get(position).getParent_id()+"");
+                tv_Area.setText(areaList.get(position).getName());
+                onClick.onItem(tv_province.getText().toString(), tv_City.getText().toString(), tv_Area.getText().toString(), areaList.get(position).getParent_id() + "");
                 dismiss();
             }
         };
@@ -213,7 +211,7 @@ public class Dlg_AddChose extends BaseDialog {
     }
 
     public interface OnClick {
-        void onItem(String province,String city,String area,String regionid);
+        void onItem(String province, String city, String area, String regionid);
     }
 
     /**

@@ -8,8 +8,6 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -35,22 +33,12 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.MainActivity;
-import com.hykj.liuzhi.androidcomponents.bean.AliiTabBean;
 import com.hykj.liuzhi.androidcomponents.bean.MineFileBean;
 import com.hykj.liuzhi.androidcomponents.bean.SexBean;
-import com.hykj.liuzhi.androidcomponents.bean.SignInBean;
-import com.hykj.liuzhi.androidcomponents.bean.UserData;
 import com.hykj.liuzhi.androidcomponents.bean.UserTableBean;
-import com.hykj.liuzhi.androidcomponents.constant.AppConstant;
-import com.hykj.liuzhi.androidcomponents.constant.ComParamContact;
-import com.hykj.liuzhi.androidcomponents.model.AuthModel;
-import com.hykj.liuzhi.androidcomponents.model.LoginCache;
 import com.hykj.liuzhi.androidcomponents.net.http.ApiConstant;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
-import com.hykj.liuzhi.androidcomponents.token.TokenManager;
 import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Photograph;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.RxPermissions;
@@ -59,7 +47,6 @@ import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.hykj.liuzhi.androidcomponents.utils.LocalInfoUtils;
-import com.hykj.liuzhi.androidcomponents.utils.MD5;
 import com.hykj.liuzhi.androidcomponents.utils.RoundImageView;
 import com.hykj.liuzhi.androidcomponents.utils.TitleBuilder;
 import com.zhouyou.http.EasyHttp;
@@ -68,33 +55,17 @@ import com.zhouyou.http.callback.ProgressDialogCallBack;
 import com.zhouyou.http.exception.ApiException;
 import com.zhouyou.http.subsciber.IProgressDialog;
 import com.zhouyou.http.utils.HttpLog;
-import com.zhouyou.http.utils.HttpUtil;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
@@ -118,6 +89,10 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
     RelativeLayout rlEditUserdataSignname;
     @BindView(R.id.rl_edit_userdata_sex)
     RelativeLayout rlEditUserdataSex;
+    @BindView(R.id.tv_id)
+    TextView mTvId;
+    @BindView(R.id.nickName)
+    TextView mTvNickName;
     @BindView(R.id.tv_edit_userdata_sex)
     TextView tvEditUserdataSex;
     @BindView(R.id.rl_edit_userdata_email)
@@ -155,9 +130,7 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
     private void getOptionSexData() {
         tableSexList.add(new UserTableBean(2, "女"));
         tableSexList.add(new UserTableBean(1, "男"));
-
     }
-
 
     private void initView() {
         new TitleBuilder(this).setTitleText("编辑主页").setLeftIco(R.mipmap.common_black_back).setLeftIcoListening(new View.OnClickListener() {
@@ -166,7 +139,6 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
                 finish();
             }
         });
-
     }
 
     private Dlg_Photograph photo;
@@ -187,7 +159,6 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
                 intent.putExtra("position", 1);
                 startActivityForResult(intent, 1);
                 break;
-
             case R.id.rl_edit_userdata_signname:
                 intent = new Intent(EditUserDataActivity.this, ChangeNameActivity.class);
                 intent.putExtra("position", 2);
@@ -232,6 +203,8 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
 
     public void seetingUser() {
         Glide.with(this).load(LocalInfoUtils.getUserself("user_pic")).into(haderImage);
+        mTvId.setText(LocalInfoUtils.getUserself("user_id"));
+        mTvNickName.setText(LocalInfoUtils.getUserself("user_nickname"));
         tvEditUserdataSex.setText(LocalInfoUtils.getUserself("user_sex"));
         String lablist = LocalInfoUtils.getUserself("user_label");
         if (lablist.contains("]")) {
@@ -349,7 +322,6 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
                 Avatar();
                 break;
         }
-
     }
 
     /**
