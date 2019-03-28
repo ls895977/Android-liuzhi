@@ -1,45 +1,45 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
-INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
-INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
-INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
-INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
-INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
-INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
+ADDED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
+INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
+INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
+INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
+INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
+INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
+INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
 	package
-		ADDED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:11-37
-		INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		ADDED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:11-37
+		INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
-		INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		ADDED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
+		INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
-		INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		ADDED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:1:1-12:12
+		INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:2:11-69
+		ADDED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:5:5-10:19
+ADDED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:5:5-10:19
 	android:supportsRtl
-		ADDED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:8:9-35
+		ADDED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:8:9-35
 	android:label
-		ADDED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:7:9-41
+		ADDED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:7:9-41
 	android:allowBackup
-		ADDED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:6:9-35
+		ADDED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml:6:9-35
 uses-sdk
-INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
-INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
-INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
-INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		ADDED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\Administrator\Desktop\MyProject\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		ADDED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml
+		INJECTED from F:\Android code\Android-liuzhi\libraryAdapter\src\main\AndroidManifest.xml

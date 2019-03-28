@@ -3408,9 +3408,10 @@ public class HttpHelper {
      *
      * @param callBack
      */
-    public static void videomessagereply(String userId, String messageId, String message, String ruserid, final HttpUtilsCallBack<String> callBack) {
+    public static void videomessagereply(String videoId, String userId, String messageId, String message, String ruserid, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("user_id", userId);
+        map.put("videoid",videoId);
         map.put("messageid", messageId);
         map.put("message", message);
         map.put("ruserid", ruserid);
@@ -3429,7 +3430,7 @@ public class HttpHelper {
                         Logger.t("HttpHelper---").i(succeed);
                         JSONObject entity = FastJSONHelper.getPerson(succeed, JSONObject.class);
                         if (entity.getIntValue("code") == 0) {
-                                callBack.onSucceed(succeed);
+                            callBack.onSucceed(succeed);
                         }
                     }
 
