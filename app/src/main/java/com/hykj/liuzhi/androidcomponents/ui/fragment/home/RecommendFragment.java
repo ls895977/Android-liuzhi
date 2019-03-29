@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,21 +17,21 @@ import com.hykj.liuzhi.androidcomponents.interfaces.GlideImageLoader;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailSoftArticleActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailVideoActivity;
+import com.hykj.liuzhi.androidcomponents.ui.activity.WebViewActivity;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.adapter.FirstpageAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.base.ViewPagerFragment;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FirstpagedataBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.SoftLanguageBean;
 import com.hykj.liuzhi.androidcomponents.ui.widget.BannerHeader;
-import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,13 +142,38 @@ public class RecommendFragment extends ViewPagerFragment implements BaseQuickAda
     /**
      * 设置sBanner
      */
-    public void setBanner(List<FirstpagedataBean.DataBean.ImagedataBean> FirstpagedataBean) {
+    public void setBanner(final List<FirstpagedataBean.DataBean.ImagedataBean> FirstpagedataBean) {
         ArrayList<String> picList = new ArrayList();
         for (int i = 0; i < FirstpagedataBean.size(); i++) {
             picList.add(FirstpagedataBean.get(i).getSowing_url());
         }
         banner.setImages(picList);
         banner.setImageLoader(new GlideImageLoader())
+                .setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(int position) {
+                        FirstpagedataBean.DataBean.ImagedataBean imagesBean = FirstpagedataBean.get(position);
+                        //1为软文，2为视频，3为H5
+                        Intent intent = new Intent();
+                        switch (imagesBean.sowing_class) {
+                            case 1:
+                                intent.putExtra("videoid", imagesBean.sowing_link);
+                                intent.putExtra("stType", "纹理类型");
+                                intent.setClass(getContext(), DetailVideoActivity.class);
+                                break;
+                            case 2:
+                                intent.putExtra("softtextid", imagesBean.sowing_link);
+                                intent.putExtra("stType", "推荐类型");
+                                intent.setClass(getContext(), DetailSoftArticleActivity.class);
+                                break;
+                            case 3:
+                                intent.putExtra("url", imagesBean.sowing_link);
+                                intent.setClass(getContext(), WebViewActivity.class);
+                                break;
+                        }
+                        startActivity(intent);
+                    }
+                })
                 .setDelayTime(5000)
                 .start();
     }

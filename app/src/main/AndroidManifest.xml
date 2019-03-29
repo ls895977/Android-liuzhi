@@ -2,15 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.hykj.liuzhi">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name="com.hykj.liuzhi.androidcomponents.MyApplication"
         android:allowBackup="true"
@@ -19,9 +21,9 @@
         android:roundIcon="@mipmap/icon_liuzhi"
         android:supportsRtl="true"
         android:testOnly="false"
-        tools:replace="android:label"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:label">
         <!--欢迎页-->
         <activity android:name=".androidcomponents.ui.activity.Act_Loding">
             <intent-filter>
@@ -30,8 +32,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <!--登录-->
-        <activity android:name=".androidcomponents.ui.activity.LoginActivity"/>
+        <!--登录-->
+        <activity android:name=".androidcomponents.ui.activity.LoginActivity" />
         <activity
             android:name="com.hykj.liuzhi.androidcomponents.ui.activity.DetailVideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -102,10 +104,10 @@
         <activity android:name="com.hykj.liuzhi.androidcomponents.ui.activity.softtext.Act_addsofttext" />
         <activity android:name="com.hykj.liuzhi.androidcomponents.ui.activity.Act_CommodityCategory" />
         <activity android:name=".androidcomponents.ui.activity.min.Act_WatchHistory" />
-        <activity android:name=".androidcomponents.ui.activity.min.Act_MyOrder"/>
+        <activity android:name=".androidcomponents.ui.activity.min.Act_MyOrder" />
         <!--订单详情-->
-        <activity android:name=".androidcomponents.ui.fragment.mine.MyOrderTabDetails"/>
-        <activity android:name=".androidcomponents.ui.fragment.message.MeaageDetails"/>
+        <activity android:name=".androidcomponents.ui.fragment.mine.MyOrderTabDetails" />
+        <activity android:name=".androidcomponents.ui.fragment.message.MeaageDetails" />
         <!--微信支付-->
         <activity
             android:name="com.hykj.liuzhi.wxapi.WXPayEntryActivity"
@@ -124,12 +126,15 @@
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"/>
+            android:screenOrientation="behind" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"/>
+            android:screenOrientation="behind" />
+        <activity
+            android:name=".androidcomponents.ui.activity.WebViewActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

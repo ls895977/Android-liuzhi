@@ -119,8 +119,8 @@ public class TextureFragBean {
              * video_image : http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/softtext/image/18398c1971451d9bf18a136fb76cc7c8.jpg
              * video_labels : 1
              * video_detail : 在衡山·和集X爱马仕#奇境漫步#系列讲座第四场“傍晚五点的巴黎”上，我们邀请到了书评人、专栏作者btr作为主讲。关于btr，在网络上有一段很好玩的评价：“btr代表‘鼻涕人’之意，鼻涕人会对一切事物保持敏感，或者反过来说，有很多事物会令他感冒。”在讲座现场，巴黎在btr各种幽默搞怪的描述之下更添魅力 ，小编恐怕不能展现十之一二！
-
-             就让btr用他敏锐而又独到的眼光，带领我们感受傍晚五点真实与虚构之间的巴黎吧
+             * <p>
+             * 就让btr用他敏锐而又独到的眼光，带领我们感受傍晚五点真实与虚构之间的巴黎吧
              * labelsdata : [{"videolabel_id":1,"videolabel_name":"好看","videolabel_creattime":1542080807,"videolabel_status":1}]
              */
 
@@ -230,8 +230,13 @@ public class TextureFragBean {
             /**
              * sowing_url : http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/firstpage/image/7bff55cc466b974ce54479a1e2deecf3.jpg
              */
-
-            private String sowing_url;
+            public String sowing_id;
+            public String sowing_url;
+            public int sowing_type;
+            public String sowing_creattime;
+            public String sowing_status;
+            public int sowing_class;
+            public String sowing_link;
 
             public String getSowing_url() {
                 return sowing_url;

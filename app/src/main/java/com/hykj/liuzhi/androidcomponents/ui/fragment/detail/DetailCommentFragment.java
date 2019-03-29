@@ -363,7 +363,7 @@ public class DetailCommentFragment extends Fragment implements View.OnClickListe
                     return;
                 }
                 popCommentWindow.dismiss();
-                HttpHelper.videomessagereply(videoid, aCache.getAsString("user_id"), String.valueOf(datas.get(mCurrentPosition).getMessage_id()),
+                HttpHelper.messagereply(null, videoid, aCache.getAsString("user_id"), String.valueOf(datas.get(mCurrentPosition).getMessage_id()),
                         et_back_comment.getText().toString(), String.valueOf(datas.get(mCurrentPosition).getUser_id()), new HttpHelper.HttpUtilsCallBack<String>() {
                             @Override
                             public void onFailure(String failure) {

@@ -3404,14 +3404,19 @@ public class HttpHelper {
     }
 
     /**
-     * 视频=视频评论回复
+     * 评论回复
      *
      * @param callBack
      */
-    public static void videomessagereply(String videoId, String userId, String messageId, String message, String ruserid, final HttpUtilsCallBack<String> callBack) {
+    public static void messagereply(String softtextId, String videoId, String userId, String messageId, String message,
+                                    String ruserid, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
         map.put("user_id", userId);
-        map.put("videoid",videoId);
+        if (TextUtils.isEmpty(softtextId)) {
+            map.put("videoid", videoId);
+        } else {
+            map.put("softtextid", softtextId);
+        }
         map.put("messageid", messageId);
         map.put("message", message);
         map.put("ruserid", ruserid);

@@ -89,7 +89,13 @@ public class FirstpagedataBean {
              * sowing_url : http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/firstpage/image/44c7a34751bf79f2ec6dc76995e77158.jpg
              */
 
-            private String sowing_url;
+            public String sowing_id;
+            public String sowing_url;
+            public int sowing_type;
+            public String sowing_creattime;
+            public String sowing_status;
+            public int sowing_class;
+            public String sowing_link;
 
             public String getSowing_url() {
                 return sowing_url;

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.hykj.liuzhi.androidcomponents.interfaces.GlideImageLoader;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailSoftArticleActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailVideoActivity;
+import com.hykj.liuzhi.androidcomponents.ui.activity.WebViewActivity;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.adapter.FashionAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.adapter.TextureAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.base.ViewPagerFragment;
@@ -38,6 +38,7 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +115,7 @@ public class HomeAllFragment extends ViewPagerFragment implements BaseQuickAdapt
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onSucceed(String succeed) {
                 if (modeltype.equals("1")) {//以前潮流
@@ -257,13 +259,38 @@ public class HomeAllFragment extends ViewPagerFragment implements BaseQuickAdapt
     /**
      * 设置sBanner
      */
-    public void setBanner(List<TextureFragBean.DataBean.ImagesBean> images) {
-        ArrayList<String> picList = new ArrayList();
+    public void setBanner(final List<TextureFragBean.DataBean.ImagesBean> images) {
+        List<String> picList = new ArrayList<>();
         for (int i = 0; i < images.size(); i++) {
             picList.add(images.get(i).getSowing_url());
         }
         banner.setImages(picList);
         banner.setImageLoader(new GlideImageLoader())
+                .setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(int position) {
+                        TextureFragBean.DataBean.ImagesBean imagesBean = images.get(position);
+                        //1为软文，2为视频，3为H5
+                        Intent intent = new Intent();
+                        switch (imagesBean.sowing_class) {
+                            case 1:
+                                intent.putExtra("videoid", imagesBean.sowing_link);
+                                intent.putExtra("stType", "纹理类型");
+                                intent.setClass(getContext(), DetailVideoActivity.class);
+                                break;
+                            case 2:
+                                intent.putExtra("softtextid", imagesBean.sowing_link);
+                                intent.putExtra("stType", "推荐类型");
+                                intent.setClass(getContext(), DetailSoftArticleActivity.class);
+                                break;
+                            case 3:
+                                intent.putExtra("url", imagesBean.sowing_link);
+                                intent.setClass(getContext(), WebViewActivity.class);
+                                break;
+                        }
+                        startActivity(intent);
+                    }
+                })
                 .setDelayTime(5000)
                 .start();
     }

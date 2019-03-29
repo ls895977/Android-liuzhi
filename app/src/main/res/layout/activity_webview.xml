@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:padding="13dp"
+            android:src="@mipmap/common_black_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <View
+            style="@style/commonDiciderStyle"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <WebView
+            android:id="@+id/wv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+
+        <com.hykj.liuzhi.androidcomponents.view.HProgressBarLoading
+            android:id="@+id/top_progress"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            app:max="100"
+            app:progressColor="#0AC416"
+            app:progressHeight="8" />
+
+        <TextView
+            android:id="@+id/tv_center_badnet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="轻触屏幕重新加载"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="18sp"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+</LinearLayout>
