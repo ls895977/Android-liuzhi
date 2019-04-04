@@ -7,12 +7,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.bean.CircleBean;
 import com.hykj.liuzhi.androidcomponents.bean.UserAttentionBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.AttentionAdapter;
@@ -22,8 +20,6 @@ import com.hykj.liuzhi.androidcomponents.utils.TitleBuilder;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
-import com.luck.picture.lib.tools.ToastManage;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +52,6 @@ public class AttentionActivity extends BaseActivity {
         iniData();
         initView();
         initListener();
-
-
     }
 
     private void initListener() {
@@ -83,6 +77,11 @@ public class AttentionActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(AttentionActivity.this, PersonDetailActivity.class);
+//                if ("0".equals(type)) {
+//                    intent.putExtra("User_id", list.get(position).getUser_collid() + "");
+//                } else {
+//                    intent.putExtra("User_id", String.valueOf(list.get(position).user_id));
+//                }
                 startActivity(intent);
             }
         });
@@ -173,7 +172,6 @@ public class AttentionActivity extends BaseActivity {
      * 关注列表
      */
     public void getusercollection() {
-
         HttpHelper.getusercollection(pageIndex, pageSize, LocalInfoUtils.getUserId(), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
@@ -219,7 +217,6 @@ public class AttentionActivity extends BaseActivity {
             }
         });
     }
-
 
 }
 

@@ -467,8 +467,8 @@ public class HttpHelper {
      */
     public static void getUserClickAttention(String click_id, String user_id, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
-        map.put("coll", click_id + "");
-        map.put("user_id", user_id + "");
+        map.put("coll", click_id);
+        map.put("user_id", user_id);
         HttpService httpService = RetrofitFactory.getRetrofit(15l, 15l).create(HttpService.class);
         httpService.getUserClickAttention(map)
                 .subscribeOn(Schedulers.io())

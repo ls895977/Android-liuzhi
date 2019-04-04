@@ -42,7 +42,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#aaaaaa"></View>
+        android:background="#aaaaaa"/>
 
     <LinearLayout
         android:id="@+id/shop_tab"

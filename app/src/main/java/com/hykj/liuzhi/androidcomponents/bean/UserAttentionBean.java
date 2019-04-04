@@ -103,7 +103,7 @@ public class UserAttentionBean {
              * user_collid : 4
              * userdata : {"user_nickname":"萌萌哒醉了","user_pic":"http://liuzhiapp.oss-cn-beijing.aliyuncs.com/uploads/user4/userpic/66fd01a5ebeef2a1627d47d254c6f4f5.png","user_autograph":"有颜值！任性！"}
              */
-
+            public int user_id;
             private int user_collid;
 
             public String getUserfans() {

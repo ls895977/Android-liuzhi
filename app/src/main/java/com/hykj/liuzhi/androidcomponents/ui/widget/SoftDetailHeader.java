@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
-import com.hykj.liuzhi.BuildConfig;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.DetailVideoBean;
 import com.hykj.liuzhi.androidcomponents.bean.LoginEntity;
@@ -31,7 +29,6 @@ import com.hykj.liuzhi.androidcomponents.ui.activity.softtext.SofttextFirstPageB
 import com.hykj.liuzhi.androidcomponents.ui.activity.video.bean.VideoPointBean;
 import com.hykj.liuzhi.androidcomponents.ui.glide.GlideRoundTransform;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
-import com.hykj.liuzhi.androidcomponents.utils.DateTimeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.hykj.liuzhi.androidcomponents.utils.LocalInfoUtils;
@@ -40,13 +37,8 @@ import com.hykj.liuzhi.androidcomponents.utils.WxShareUtils;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
-import javax.microedition.khronos.opengles.GL;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import freemarker.template.utility.DateUtil;
-
-import static com.zhouyou.http.EasyHttp.getContext;
 
 /**
  * @author: lujialei
@@ -59,13 +51,14 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
     SofttextFirstPageBean bean;
     private ACache aCache;
     private Activity activity;
-    private TextView circle_Userfans,tv_num,tv_type;
+    private TextView circle_Userfans, tv_num, tv_type;
     private String stType;
-    public SoftDetailHeader(Activity context, SofttextFirstPageBean bean1,String stType1) {
+
+    public SoftDetailHeader(Activity context, SofttextFirstPageBean bean1, String stType1) {
         super(context);
         this.bean = bean1;
         this.activity = context;
-        stType=stType1;
+        stType = stType1;
         initView(context);
     }
 
@@ -74,6 +67,7 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
     private Context context;
     Dlg_Share share;
     private ZLoadingDialog loding;
+
     private void initView(Context context1) {
         this.context = context1;
         loding = new ZLoadingDialog(context1);
@@ -88,9 +82,9 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
         aCache = ACache.get(context);
         dialog = new Dlg_Videoreward(context, this);
         View view = LayoutInflater.from(context).inflate(R.layout.layout_header_soft_article_detail, this, true);
-        circle_Userfans=view.findViewById(R.id.circle_Userfans);
-        tv_num=view.findViewById(R.id.tv_num);
-        tv_type=view.findViewById(R.id.tv_type);
+        circle_Userfans = view.findViewById(R.id.circle_Userfans);
+        tv_num = view.findViewById(R.id.tv_num);
+        tv_type = view.findViewById(R.id.tv_type);
         tv_type.setText(stType);
         ButterKnife.bind(this);
         RequestOptions requestOptions = new RequestOptions();
@@ -115,12 +109,14 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
             }
         });
         circle_Userfans.setOnClickListener(this);
-        Glide.with(getContext()).load(bean.getData().getUserdata().getUser_pic()).into(haderimg);
         nickName = view.findViewById(R.id.tv_nickname);
-        nickName.setText(bean.getData().getUserdata().getUser_nickname());
         tv_autograp = view.findViewById(R.id.tv_autograp);
-        tv_autograp.setText(bean.getData().getUserdata().getUser_autograph());
         softtextimage = view.findViewById(R.id.tv_Softtextimage);
+        if (bean.getData().getUserdata() != null) {
+            Glide.with(getContext()).load(bean.getData().getUserdata().getUser_pic()).into(haderimg);
+            nickName.setText(bean.getData().getUserdata().getUser_nickname());
+            tv_autograp.setText(bean.getData().getUserdata().getUser_autograph());
+        }
         softtextimage.setText(bean.getData().getSofttext_text());
         ImageView imv = view.findViewById(R.id.iv1);
         if (bean.getData().getSofttextimage().size() > 0) {
@@ -133,7 +129,7 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
         } else {
             collection.setSelected(false);
         }
-        tv_num.setText(bean.getData().getSofttext_collection()+"");
+        tv_num.setText(bean.getData().getSofttext_collection() + "");
         userpoint = view.findViewById(R.id.softtextimage_Userpoint);
         userpoint.setOnClickListener(this);
         if (bean.getData().getUserpoint() == 1) {
@@ -141,7 +137,7 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
         } else {
             userpoint.setSelected(false);
         }
-        userpoint.setText(bean.getData().getSofttext_point()+"");
+        userpoint.setText(bean.getData().getSofttext_point() + "");
         if (bean.getData().getUserfans() == 1) {
             circle_Userfans.setText("已关注");
         } else {
@@ -196,7 +192,8 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
      * 软文收藏
      */
     public void Advertorial_softtextcollection() {
-        HttpHelper.Advertorial_softtextcollection(aCache.getAsString("user_id"), bean.getData().getSofttext_id() + "", new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.Advertorial_softtextcollection(aCache.getAsString("user_id"),
+                bean.getData().getSofttext_id() + "", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
@@ -240,7 +237,8 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
     DetailVideoBean entity;
 
     public void Advertorial_softtextnotcollection() {
-        HttpHelper.Advertorial_softtextnotcollection(aCache.getAsString("user_id"), bean.getData().getSofttext_id() + "", new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.Advertorial_softtextnotcollection(aCache.getAsString("user_id"),
+                bean.getData().getSofttext_id() + "", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();

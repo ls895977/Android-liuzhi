@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,11 +17,8 @@ import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.DeleteselecthistoryBean;
 import com.hykj.liuzhi.androidcomponents.bean.UserselecthistoryBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FashionBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.MessageEvent;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.seacrch.HomeSeacrchPagerAdapter;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.ShopSearchActivity;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.ui.widget.FindSearchLayout;
 import com.hykj.liuzhi.androidcomponents.ui.widget.HistorySearchLayout;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
@@ -45,6 +42,7 @@ import butterknife.OnClick;
  * @describe:
  */
 public class HomeSearchActivity extends BaseActivity implements HistorySearchLayout.onClick {
+
     @BindView(R.id.tv_homesearch_cancel)
     TextView tvHomesearchCancel;
     @BindView(R.id.et_homesearch_input)
@@ -97,12 +95,13 @@ public class HomeSearchActivity extends BaseActivity implements HistorySearchLay
             @Override
             public void afterTextChanged(Editable s) {
                 String stSerch = input.getText().toString();
-                if (stSerch.equals("")) {
+                if (TextUtils.isEmpty(stSerch)) {
                     return;
                 }
                 if (stSerch.length() > 0) {
                     homeSearchHistory.setVisibility(View.GONE);
                     ll_video.setVisibility(View.VISIBLE);
+                    EventBus.getDefault().post(new MessageEvent(stSerch));
                 } else {
                     backHistoryData();
                     backselecthistory();

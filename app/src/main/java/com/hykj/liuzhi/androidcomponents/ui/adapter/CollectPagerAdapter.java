@@ -19,10 +19,10 @@ public class CollectPagerAdapter extends FragmentPagerAdapter {
         list = new ArrayList<>();
         titleList = new ArrayList<>();
 
-        list.add(new AdvertorialFragment().newInstance(1 + ""));
-        list.add(new AdvertorialFragment().newInstance(2 + ""));
-        list.add(new AdvertorialFragment().newInstance(3 + ""));
-        list.add(new AdvertorialFragment().newInstance(4 + ""));
+        list.add(new AdvertorialFragment().newInstance("1"));
+        list.add(new AdvertorialFragment().newInstance("2"));
+        list.add(new AdvertorialFragment().newInstance("3"));
+        list.add(new AdvertorialFragment().newInstance("4"));
 
         titleList.add("软文");
         titleList.add("美图");

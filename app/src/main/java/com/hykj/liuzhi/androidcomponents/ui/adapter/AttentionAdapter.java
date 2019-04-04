@@ -16,7 +16,6 @@ import com.hykj.liuzhi.androidcomponents.utils.LocalInfoUtils;
 import com.luck.picture.lib.tools.ToastManage;
 import com.orhanobut.logger.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AttentionAdapter extends BaseQuickAdapter<UserAttentionBean.DataBean.ArrayBean, BaseViewHolder> {
@@ -29,7 +28,6 @@ public class AttentionAdapter extends BaseQuickAdapter<UserAttentionBean.DataBea
         this.list = data;
         this.mContext = context;
         this.type = type;
-
     }
 
     @Override
@@ -60,45 +58,63 @@ public class AttentionAdapter extends BaseQuickAdapter<UserAttentionBean.DataBea
             textView.setTextColor(mContext.getResources().getColor(R.color.public_aaaaaa));
             textView.setText("已关注");
         }
-        textView.setTag(false);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean tag = (boolean) textView.getTag();
-                tag = !tag;
-                if (tag) {
+                boolean isAttention = "关注".equals(textView.getText().toString());
+                if (!isAttention) {
                     textView.setBackground(mContext.getDrawable(R.drawable.bg_button_ffb400_2dp));
                     textView.setTextColor(mContext.getResources().getColor(R.color.white));
                     textView.setText("关注");
-                    setClick(item.getUser_collid());
                 } else {
                     textView.setBackground(mContext.getDrawable(R.drawable.bg_button_el_2dp));
                     textView.setTextColor(mContext.getResources().getColor(R.color.public_aaaaaa));
                     textView.setText("已关注");
-                    setClick(item.getUser_collid());
                 }
-                textView.setTag(tag);
+                if ("0".equals(type)) {
+                    setClick(item.getUser_collid(), isAttention);
+                } else {
+                    setClick(item.user_id, isAttention);
+                }
             }
         });
     }
 
-    private void setClick(int clickId) {
+    private void setClick(int clickId, boolean isAttention) {
+        if (isAttention) {
+            HttpHelper.getUserClickAttention(clickId + "", LocalInfoUtils.getUserId() + "", new HttpHelper.HttpUtilsCallBack<String>() {
+                @Override
+                public void onFailure(String failure) {
 
-        HttpHelper.getUserClickAttention(clickId+"", LocalInfoUtils.getUserId()+"", new HttpHelper.HttpUtilsCallBack<String>() {
-            @Override
-            public void onFailure(String failure) {
+                }
 
-            }
+                @Override
+                public void onSucceed(String succeed) {
+                    Logger.t("点击按钮是否关注").i(succeed);
+                }
 
-            @Override
-            public void onSucceed(String succeed) {
-                Logger.t("点击按钮是否关注").i(succeed);
-            }
+                @Override
+                public void onError(String error) {
+                    ToastManage.s(mContext, error);
+                }
+            });
+        } else {
+            HttpHelper.getUsernotfans(clickId + "", LocalInfoUtils.getUserId() + "", new HttpHelper.HttpUtilsCallBack<String>() {
+                @Override
+                public void onFailure(String failure) {
 
-            @Override
-            public void onError(String error) {
-                ToastManage.s(mContext, error);
-            }
-        });
+                }
+
+                @Override
+                public void onSucceed(String succeed) {
+                    Logger.t("点击按钮是否关注").i(succeed);
+                }
+
+                @Override
+                public void onError(String error) {
+                    ToastManage.s(mContext, error);
+                }
+            });
+        }
     }
 }
