@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.bean.AddCodeBean;
 import com.hykj.liuzhi.androidcomponents.bean.DetailCommetListBean;
 import com.hykj.liuzhi.androidcomponents.bean.VideomessageBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
@@ -110,7 +109,7 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
             }
         });
         postBackData();
-        postAdd();
+//        postAdd();
     }
 
     @Override
@@ -238,7 +237,6 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
             @Override
             public void onError(String error) {
                 Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-
             }
         });
     }
@@ -246,27 +244,26 @@ public class DetailSoftArticleActivity extends BaseActivity implements BaseQuick
     /**
      * 添加到图文瀏覽记录
      */
-    public void postAdd() {
-        HttpHelper.softtextborwses(softtextid + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
-            @Override
-            public void onFailure(String failure) {
-                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onSucceed(String succeed) {
-                AddCodeBean bean = gson.fromJson(succeed, AddCodeBean.class);
-
-//                softtextFirstPageBean = gson.fromJson(succeed, SofttextFirstPageBean.class);
-            }
-
-            @Override
-            public void onError(String error) {
-                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
+//    public void postAdd() {
+//        HttpHelper.softtextborwses(softtextid + "", aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
+//            @Override
+//            public void onFailure(String failure) {
+//                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onSucceed(String succeed) {
+//                AddCodeBean bean = gson.fromJson(succeed, AddCodeBean.class);
+//
+////                softtextFirstPageBean = gson.fromJson(succeed, SofttextFirstPageBean.class);
+//            }
+//
+//            @Override
+//            public void onError(String error) {
+//                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
     @Override
     public void comment() {
         View writeCommentView = LayoutInflater.from(this).inflate(R.layout.pop_back_comment, null);

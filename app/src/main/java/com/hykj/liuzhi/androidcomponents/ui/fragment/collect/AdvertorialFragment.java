@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,27 +13,17 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.bean.CircleBean;
 import com.hykj.liuzhi.androidcomponents.bean.CircleBean1;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailCircleImageActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailSoftArticleActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailVideoActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.GoodDetailActivity;
-import com.hykj.liuzhi.androidcomponents.ui.activity.PersonDetailActivity;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.AdvertorialAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.collect.bean.CollectBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.collect.bean.Collectbase;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.home.adapter.FashionAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.base.ViewPagerFragment;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FashionBase;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.FashionBean;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
-import com.hykj.liuzhi.androidcomponents.ui.widget.CustomLoadMoreView;
-import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
-import com.hykj.liuzhi.androidcomponents.utils.LocalInfoUtils;
-import com.orhanobut.logger.Logger;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -151,14 +140,15 @@ public class AdvertorialFragment extends ViewPagerFragment implements BaseQuickA
     public void setAdapterData() {
         switch (type) {
             case "1"://软文
-                for (int i = 0; i < entity.getData().getArray().size(); i++) {
+                for (CollectBean.DataBean.ArrayBean arrayBean : entity.getData().getArray()) {
                     bean = new Collectbase(Collectbase.FashionItem1);
-                    bean.setSofttext_id(entity.getData().getArray().get(i).getSofttext_id());
-                    bean.setUser_nickname(entity.getData().getArray().get(i).getAuthordata().getUser_nickname());
-                    bean.setUser_pic(entity.getData().getArray().get(i).getAuthordata().getUser_pic());
-                    bean.setUser_id(entity.getData().getArray().get(i).getUser_id());
-                    bean.setUser_autograph(entity.getData().getArray().get(i).getAuthordata().getUser_autograph());
-                    bean.setSofttextimage_url(entity.getData().getArray().get(i).getSofttextimage().getSofttextimage_url());
+                    bean.setSofttext_id(arrayBean.getSofttext_id());
+                    bean.setUser_nickname(arrayBean.getAuthordata().getUser_nickname());
+                    bean.setUser_pic(arrayBean.getAuthordata().getUser_pic());
+                    bean.setUser_id(arrayBean.getUser_id());
+                    bean.setUser_autograph(arrayBean.getAuthordata().getUser_autograph());
+                    if (arrayBean.getSofttextimage() != null)
+                        bean.setSofttextimage_url(arrayBean.getSofttextimage().getSofttextimage_url());
                     datas.add(bean);
                 }
                 break;

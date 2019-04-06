@@ -34,6 +34,7 @@
             android:drawablePadding="5dp"
             android:hint="搜索"
             android:paddingLeft="10dp"
+            android:singleLine="true"
             android:textColor="#aaaaaa"
             android:textCursorDrawable="@null"
             android:textSize="13sp" />
@@ -42,13 +43,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#aaaaaa"/>
+        android:background="#aaaaaa" />
 
     <LinearLayout
         android:id="@+id/shop_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <com.hykj.liuzhi.androidcomponents.ui.widget.HistorySearchLayout
             android:id="@+id/shop_search_history"
             android:layout_width="match_parent"

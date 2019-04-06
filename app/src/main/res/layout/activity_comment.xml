@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_title" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#3333" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/sfl_comment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:srlAccentColor="#00000000"
+        app:srlEnablePreviewInEditMode="true"
+        app:srlPrimaryColor="#00000000">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e1e1e1" />
+
+        <ImageView
+            android:id="@+id/iv_send"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="11dp"
+            android:src="@mipmap/send_message" />
+
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="15dp"
+            android:layout_toStartOf="@id/iv_send"
+            android:hint="说点什么哦"
+            android:paddingStart="10dp"
+            android:textSize="12sp"
+            android:theme="@style/MyEditText" />
+    </RelativeLayout>
+
+</LinearLayout>

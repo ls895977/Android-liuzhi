@@ -10,27 +10,18 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.AppmodelBean;
-import com.hykj.liuzhi.androidcomponents.bean.SignInBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.HomeSearchActivity;
-import com.hykj.liuzhi.androidcomponents.ui.activity.LoginActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.MessageActivity;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.HomeFragmentPagerAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.HomeAllFragment;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.RecommendFragment;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.home.bean.VideoContextBean;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.ui.widget.SignDialog;
-import com.hykj.liuzhi.androidcomponents.utils.ACache;
-import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
-import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
@@ -125,19 +116,16 @@ public class HomeFragment extends Fragment {
                 loding.dismiss();
                 Gson gson = new Gson();
                 AppmodelBean bean = gson.fromJson(succeed, AppmodelBean.class);
+                titleList.add("推荐");
+                list.add(new RecommendFragment());
                 for (int i = 0; i < bean.getData().getArray().size(); i++) {
-                    if(i==0){
-                        titleList.add("推荐");
-                        list.add(new RecommendFragment());
-                    }else {
-                        titleList.add(bean.getData().getArray().get(i).getModel_name());
-                        HomeAllFragment homeAllFragment = new HomeAllFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("modelid", bean.getData().getArray().get(i).getModel_id() + "");
-                        bundle.putString("modeltype", bean.getData().getArray().get(i).getModel_type() + "");
-                        homeAllFragment.setArguments(bundle);
-                        list.add(homeAllFragment);
-                    }
+                    titleList.add(bean.getData().getArray().get(i).getModel_name());
+                    HomeAllFragment homeAllFragment = new HomeAllFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("modelid", bean.getData().getArray().get(i).getModel_id() + "");
+                    bundle.putString("modeltype", bean.getData().getArray().get(i).getModel_type() + "");
+                    homeAllFragment.setArguments(bundle);
+                    list.add(homeAllFragment);
                 }
 
                 viewPager.setAdapter(new HomeFragmentPagerAdapter(titleList, list, getChildFragmentManager()));

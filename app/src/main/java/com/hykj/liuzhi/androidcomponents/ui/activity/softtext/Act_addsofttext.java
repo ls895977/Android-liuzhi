@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -29,7 +28,6 @@ import com.hykj.liuzhi.androidcomponents.ui.activity.issue.IssueClumnAddBean;
 import com.hykj.liuzhi.androidcomponents.ui.activity.softtext.ben.GetimagetextlabelsBean;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.GridImageAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.GetsowingBean;
-import com.hykj.liuzhi.androidcomponents.ui.widget.BannerHeader;
 import com.hykj.liuzhi.androidcomponents.ui.widget.FullyGridLayoutManager;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
@@ -61,9 +59,13 @@ import static com.zhouyou.http.EasyHttp.getContext;
  * 软文添加
  * Created by user on 2018/10/10.
  */
-public class Act_addsofttext extends BaseActivity implements View.OnClickListener,Spinner.OnItemSelectedListener {
+public class Act_addsofttext extends BaseActivity implements View.OnClickListener, Spinner.OnItemSelectedListener {
+
+    @BindView(R.id.ll_submit_success)
+    View mLlSubmitSuccess;
     @BindView(R.id.recycler_issue_column)
     RecyclerView recyclerIssueColumn;
+
     private int maxSelectNum = 9;
     private int chooseMode = PictureMimeType.ofImage();
     private List<LocalMedia> selectList = new ArrayList<>();
@@ -82,9 +84,11 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
         initView();
         initData();
     }
+
     private Banner banner;
+
     private void initView() {
-        banner =findViewById(R.id.banner);
+        banner = findViewById(R.id.banner);
         Intent intent = getIntent();
         mTitle = intent.getStringExtra("title");
         themeId = R.style.picture_default_style;
@@ -138,7 +142,8 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
         new TitleBuilder(Act_addsofttext.this).setTitleText(mTitle).setLeftIco(R.mipmap.common_black_back).setLeftIcoListening(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();     }
+                finish();
+            }
         });
         getimagetextlabels();
     }
@@ -227,6 +232,7 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
      * @param imagetextlabelid
      */
     String imagetextlabelid = "";
+
     public void postAddsofTtextFile(String application, String imagetexttext) {
         aCache = ACache.get(this);
         if (selectList.size() == 0) {
@@ -266,7 +272,7 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
                             return;
                         }
                         Toast.makeText(getContext(), "上传成功", Toast.LENGTH_SHORT).show();
-                        finish();
+                        mLlSubmitSuccess.setVisibility(View.VISIBLE);
                     }
 
                     @Override
@@ -299,12 +305,14 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
 
     Gson gson = new Gson();
     private GetimagetextlabelsBean getimagetextlabelsBean;
+
     public void getimagetextlabels() {
         HttpHelper.Advertorial_getimagetextlabels(new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onSucceed(String succeed) {
                 getimagetextlabelsBean = gson.fromJson(succeed, GetimagetextlabelsBean.class);
@@ -331,11 +339,14 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         imagetextlabelid = getimagetextlabelsBean.getData().getArray().get(position).getImagetextlabel_id() + "";
     }
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
     ArrayList pics = new ArrayList();
+
     public void Getsowing(String page, String number, String type) {
         HttpHelper.Getsowing(page, number, type, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override

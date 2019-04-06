@@ -21,6 +21,7 @@ import com.hykj.liuzhi.androidcomponents.bean.DetailVideoBean;
 import com.hykj.liuzhi.androidcomponents.bean.LoginEntity;
 import com.hykj.liuzhi.androidcomponents.bean.ShearBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
+import com.hykj.liuzhi.androidcomponents.ui.activity.CommentActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.PersonDetailActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Share;
 import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Videoreward;
@@ -146,10 +147,12 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
         view.findViewById(R.id.softtextimage_dashang).setOnClickListener(this);
         view.findViewById(R.id.softtextimage_shear).setOnClickListener(this);
         view.findViewById(R.id.soft_tougao).setOnClickListener(this);
+        findViewById(R.id.tv_more).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.softtextimage_collection://收藏
                 if (collection.isSelected()) {
@@ -173,7 +176,7 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
 
                 break;
             case R.id.soft_tougao://投稿
-                Intent intent = new Intent(context, Act_addsofttext.class);
+                intent = new Intent(context, Act_addsofttext.class);
                 intent.putExtra("position", 2);
                 intent.putExtra("title", "我要投稿");
                 context.startActivity(intent);
@@ -185,6 +188,11 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
                     getUsernotfans(bean.getData().getUser_id() + "");
                 }
                 break;
+            case R.id.tv_more:
+                intent = new Intent(context, CommentActivity.class);
+                intent.putExtra("soft_text_id", String.valueOf(bean.getData().getSofttext_id()));
+                context.startActivity(intent);
+                break;
         }
     }
 
@@ -194,40 +202,40 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
     public void Advertorial_softtextcollection() {
         HttpHelper.Advertorial_softtextcollection(aCache.getAsString("user_id"),
                 bean.getData().getSofttext_id() + "", new HttpHelper.HttpUtilsCallBack<String>() {
-            @Override
-            public void onFailure(String failure) {
-                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
-            }
+                    @Override
+                    public void onFailure(String failure) {
+                        Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+                    }
 
-            @Override
-            public void onSucceed(String succeed) {
-                VideoPointBean entity = FastJSONHelper.getPerson(succeed, VideoPointBean.class);
-                if (entity.getCode() != 0) {
-                    return;
-                }
-                if (entity.getCode() == 0) {
-                    Toast.makeText(getContext(), "收藏成功！", Toast.LENGTH_SHORT).show();
-                    collection.setSelected(true);
-                    return;
-                }
-                switch (entity.getError()) {
-                    case 1:
-                        Toast.makeText(getContext(), "未登录！", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 2:
-                        Toast.makeText(getContext(), "您已经收藏了该视频，无法重复收藏！", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 3:
-                        Toast.makeText(getContext(), "收藏失败，请稍后重试！", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
+                    @Override
+                    public void onSucceed(String succeed) {
+                        VideoPointBean entity = FastJSONHelper.getPerson(succeed, VideoPointBean.class);
+                        if (entity.getCode() != 0) {
+                            return;
+                        }
+                        if (entity.getCode() == 0) {
+                            Toast.makeText(getContext(), "收藏成功！", Toast.LENGTH_SHORT).show();
+                            collection.setSelected(true);
+                            return;
+                        }
+                        switch (entity.getError()) {
+                            case 1:
+                                Toast.makeText(getContext(), "未登录！", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 2:
+                                Toast.makeText(getContext(), "您已经收藏了该视频，无法重复收藏！", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 3:
+                                Toast.makeText(getContext(), "收藏失败，请稍后重试！", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
 
-            @Override
-            public void onError(String error) {
-                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onError(String error) {
+                        Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 
@@ -239,37 +247,37 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
     public void Advertorial_softtextnotcollection() {
         HttpHelper.Advertorial_softtextnotcollection(aCache.getAsString("user_id"),
                 bean.getData().getSofttext_id() + "", new HttpHelper.HttpUtilsCallBack<String>() {
-            @Override
-            public void onFailure(String failure) {
-                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
-            }
+                    @Override
+                    public void onFailure(String failure) {
+                        Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+                    }
 
-            @Override
-            public void onSucceed(String succeed) {
-                entity = FastJSONHelper.getPerson(succeed, DetailVideoBean.class);
-                if (entity.getCode() != 0) {
-                    return;
-                }
-                if (entity.getCode() == 0) {
-                    Toast.makeText(getContext(), "取消成功！", Toast.LENGTH_SHORT).show();
-                    collection.setSelected(false);
-                    return;
-                }
-                switch (entity.getError()) {
-                    case 1:
-                        Toast.makeText(getContext(), "未登录！", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 2:
-                        Toast.makeText(getContext(), "取消收藏失败！", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
+                    @Override
+                    public void onSucceed(String succeed) {
+                        entity = FastJSONHelper.getPerson(succeed, DetailVideoBean.class);
+                        if (entity.getCode() != 0) {
+                            return;
+                        }
+                        if (entity.getCode() == 0) {
+                            Toast.makeText(getContext(), "取消成功！", Toast.LENGTH_SHORT).show();
+                            collection.setSelected(false);
+                            return;
+                        }
+                        switch (entity.getError()) {
+                            case 1:
+                                Toast.makeText(getContext(), "未登录！", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 2:
+                                Toast.makeText(getContext(), "取消收藏失败！", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
 
-            @Override
-            public void onError(String error) {
-                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onError(String error) {
+                        Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 

@@ -135,6 +135,9 @@
         <activity
             android:name=".androidcomponents.ui.activity.WebViewActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".androidcomponents.ui.activity.CommentActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

@@ -145,7 +145,7 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
 
     @OnClick({R.id.rl_edit_userdata_changehead, R.id.rl_edit_userdata_label, R.id.rl_edit_userdata_nick,
             R.id.rl_edit_userdata_signname, R.id.rl_edit_userdata_sex, R.id.rl_edit_userdata_email,
-            R.id.iv_edituser_head1,R.id.riqi_item})
+            R.id.iv_edituser_head1, R.id.riqi_item})
     public void onViewClicked(View view) {
         Intent intent = null;
         switch (view.getId()) {
@@ -179,14 +179,16 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
                 break;
         }
     }
+
     String tx;
+
     private void ChangeUserSexTble() {
         //条件选择器
         OptionsPickerView pvOptions = new OptionsPickerBuilder(EditUserDataActivity.this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
                 //返回的分别是三个级别的选中位置
-                 tx = tableSexList.get(options1).getPickerViewText();
+                tx = tableSexList.get(options1).getPickerViewText();
                 tvSex = options1;
                 setSex(tvSex + "");
             }
@@ -391,6 +393,7 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
         Debug.e("postFile--------" + files.getPath());
         EasyHttp.post(ApiConstant.Min_ChangeUserPic)
                 .baseUrl(ApiConstant.ROOT_URL)
+                .params("user_id", aCache.getAsString("user_id"))
                 .params("userpic", files, files.getName(), listener)
                 .execute(new ProgressDialogCallBack<String>(mProgressDialog, true, true) {
                     @Override
@@ -480,14 +483,14 @@ public class EditUserDataActivity extends BaseActivity implements Dlg_Photograph
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                Min_changeuserbarth( getTime(date));
+                Min_changeuserbarth(getTime(date));
             }
-        }) .setTimeSelectChangeListener(new OnTimeSelectChangeListener() {
-                    @Override
-                    public void onTimeSelectChanged(Date date) {
-                        Log.i("pvTime", "onTimeSelectChanged");
-                    }
-                })
+        }).setTimeSelectChangeListener(new OnTimeSelectChangeListener() {
+            @Override
+            public void onTimeSelectChanged(Date date) {
+                Log.i("pvTime", "onTimeSelectChanged");
+            }
+        })
                 .setType(new boolean[]{true, true, true, false, false, false})
                 .isDialog(true)
                 .build();

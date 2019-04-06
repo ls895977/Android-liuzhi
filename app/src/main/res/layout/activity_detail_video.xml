@@ -105,7 +105,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="720P"
                     android:textColor="@drawable/fond_selecte"
-                    android:textSize="@dimen/fond_25sp" />
+                    android:textSize="@dimen/fond_20sp" />
 
                 <TextView
                     android:id="@+id/ppt3"
@@ -115,7 +115,7 @@
                     android:paddingTop="@dimen/dip_5"
                     android:text="超清"
                     android:textColor="@drawable/fond_selecte"
-                    android:textSize="@dimen/fond_18sp" />
+                    android:textSize="@dimen/fond_16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -132,7 +132,7 @@
                     android:layout_gravity="center_horizontal"
                     android:text="1080P"
                     android:textColor="@drawable/fond_selecte"
-                    android:textSize="@dimen/fond_25sp" />
+                    android:textSize="@dimen/fond_20sp" />
 
                 <TextView
                     android:id="@+id/ppt4"
@@ -142,7 +142,7 @@
                     android:paddingTop="@dimen/dip_5"
                     android:text="蓝光"
                     android:textColor="@drawable/fond_selecte"
-                    android:textSize="@dimen/fond_18sp" />
+                    android:textSize="@dimen/fond_16sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -319,7 +319,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="14dp"
@@ -373,12 +374,12 @@
             app:tl_tab_space_equal="true"
             app:tl_textSelectColor="@android:color/black"
             app:tl_textUnselectColor="@android:color/darker_gray"
-            app:tl_textsize="14sp"/>
+            app:tl_textsize="14sp" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 </LinearLayout>

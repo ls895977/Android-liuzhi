@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.ui.activity.AttentionActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.EditUserDataActivity;
@@ -78,7 +77,7 @@ public class MineFragment extends Fragment {
     TextView tvMyFocus;
     @BindView(R.id.mineTvmyfans)
     TextView tvMyFans;
-    Gson gson = new Gson();
+
     private RxPermissions rxPermissions;
     TextView[] tvItem;
     private ACache aCache;
@@ -98,6 +97,7 @@ public class MineFragment extends Fragment {
     private void initView(View view) {
         aCache = ACache.get(getActivity());
         restoreInfo();
+        tvMineOfflineDown.setVisibility(View.INVISIBLE);
         tvItem = new TextView[3];
         tvItem[0] = view.findViewById(R.id.tab_Camer);
         tvItem[1] = view.findViewById(R.id.tab_Img);

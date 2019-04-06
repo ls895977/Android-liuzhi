@@ -19,11 +19,9 @@ import com.hykj.liuzhi.androidcomponents.bean.DeleteSelecthisteryBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.BaseActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.GoodDetailActivity;
-import com.hykj.liuzhi.androidcomponents.ui.adapter.CommodityCategoryAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.GoodsAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.ShopHomeBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.ShopSeacharBean;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.ui.widget.FindSearchLayout;
 import com.hykj.liuzhi.androidcomponents.ui.widget.HistorySearchLayout;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
@@ -47,6 +45,7 @@ import butterknife.OnClick;
 import static com.zhouyou.http.EasyHttp.getContext;
 
 public class ShopSearchActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
+
     @BindView(R.id.shop_refreshLayout)
     SmartRefreshLayout shop_refreshLayout;
     @BindView(R.id.shop_search)

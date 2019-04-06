@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -30,18 +29,16 @@ import com.hykj.liuzhi.androidcomponents.bean.PayResult;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.bean.AllAddBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.GoodDetailDetailBean;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
-import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.hykj.liuzhi.wxapi.WXPayEntryActivity;
+import com.suke.widget.SwitchButton;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
@@ -54,14 +51,16 @@ import static com.zhouyou.http.EasyHttp.getContext;
  * @describe:
  */
 public class ConfirmOrderActivity extends BaseActivity implements View.OnClickListener {
+
     GoodDetailDetailBean DetailBean;
     private TextView tvAdd, shopName, shopPrice, btPrice, price_num, shouhuoren, phone;
     private ImageView imageView;
     private EditText liuyan;
-    private CheckBox deductibletype;
+    private SwitchButton deductibletype;
     private ACache aCache;
     private CheckBox cb, cb1;
     private LinearLayout llView;
+    private View mRlUser;
     ZLoadingDialog dialog;
 
     @Override
@@ -89,6 +88,7 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
         tvAdd = findViewById(R.id.oder_tv_add);
         phone = findViewById(R.id.phone);
         llView = findViewById(R.id.shop_view);
+        mRlUser = findViewById(R.id.rl_user);
         findViewById(R.id.oder_commit).setOnClickListener(this);
         findViewById(R.id.oder_addr).setOnClickListener(this);
         btPrice = findViewById(R.id.order_bt_price);
@@ -204,11 +204,11 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 11 && resultCode == 11) {
-            addressid = data.getStringExtra("addressid");
-            addrname = data.getStringExtra("addrname");
-            String Full_name = data.getStringExtra("Full_name");
-            tvAdd.setText("收货地址：" + Full_name + addrname);
-            shouhuoren.setText("收货人：" + data.getStringExtra("name"));
+            addressid = data.getStringExtra("address_id");
+            addrname = data.getStringExtra("address_name");
+            tvAdd.setText("收货地址：" + addrname);
+            mRlUser.setVisibility(View.VISIBLE);
+            shouhuoren.setText("收货人：" + data.getStringExtra("address_user"));
             phone.setText(data.getStringExtra("phone"));
         }
         if (requestCode == 11 && resultCode == 10) {

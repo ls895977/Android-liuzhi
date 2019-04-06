@@ -6,6 +6,43 @@
 
     <include layout="@layout/activity_title" />
 
+    <LinearLayout
+        android:id="@+id/ll_submit_success"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:src="@mipmap/icon_success" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="23dp"
+            android:text="提交成功"
+            android:textColor="@color/mineTextCommonColor"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="17dp"
+            android:gravity="center"
+            android:text="我们将会在48小时内进行评审,结果会以系统通知形式通知您,请耐心等待"
+            android:textColor="@color/GeyTextColor"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
     <com.youth.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
@@ -13,8 +50,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:paddingBottom="@dimen/dip_20"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/dip_20">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="@dimen/dip_10"
+                android:text="申请条例"
                 android:textColor="@color/bar_grey"
-                android:text="申请标题"
                 android:textSize="@dimen/fond_16sp" />
 
             <EditText
@@ -35,10 +72,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="15dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
                 android:background="@null"
-                android:gravity="left"
+                android:enabled="false"
+                android:gravity="center"
                 android:hint="这里是申请的标题。"
                 android:inputType="textMultiLine"
                 android:minLines="2"
@@ -49,8 +87,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="@dimen/dip_10"
-                android:textColor="@color/bar_grey"
                 android:text="原创文章的原文或链接"
+                android:textColor="@color/bar_grey"
                 android:textSize="@dimen/fond_16sp" />
 
             <RelativeLayout
@@ -64,8 +102,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="15dp"
                     android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp"
                     android:background="@null"
                     android:gravity="left"
                     android:hint="输入原文或者有效的原链接，通过审核的文章我们会发表在专栏板块，并且通过系统消息提醒您。"
@@ -84,9 +122,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="41dp"
                 android:layout_marginLeft="16dp"
-                android:visibility="gone"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="6dp"
-                android:layout_marginRight="15dp">
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -148,11 +186,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
                 android:background="#ffea00"
                 android:gravity="center"
-                android:text="立即发布"
+                android:text="立即申请"
                 android:textColor="@color/colorPrimaryDark" />
         </LinearLayout>
 

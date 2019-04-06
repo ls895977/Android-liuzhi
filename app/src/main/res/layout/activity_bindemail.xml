@@ -83,7 +83,6 @@
             android:layout_below="@+id/rl_mine_bindemail_input"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="10dp"
-
             android:text="填写邮箱保存后,平台会发送一封验证邮箱,请注意查收"
             android:textColor="#aaaaaa"
             android:textSize="12sp" />
@@ -130,8 +129,6 @@
 
         </LinearLayout>
 
-
     </RelativeLayout>
-
 
 </LinearLayout>

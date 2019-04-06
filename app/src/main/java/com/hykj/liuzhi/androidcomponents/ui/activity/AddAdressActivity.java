@@ -153,7 +153,6 @@ public class AddAdressActivity extends BaseActivity implements View.OnClickListe
                 if (getIntent().getSerializableExtra("bean") != null) {
                     changeAdderssStatus();
                 } else {
-
                     postAdd();
                 }
                 break;

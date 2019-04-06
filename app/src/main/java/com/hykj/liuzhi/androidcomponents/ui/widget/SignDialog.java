@@ -12,12 +12,8 @@ import android.widget.Toast;
 import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.bean.SignInBean;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
-import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +54,7 @@ public class SignDialog extends Dialog {
                 }
             }
         });
+        msg.setVisibility(View.INVISIBLE);
         findViewById(R.id.tv_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,11 +86,12 @@ public class SignDialog extends Dialog {
 
             @Override
             public void onSucceed(String succeed) {
-
                 entity = FastJSONHelper.getPerson(succeed, SignInBean.class);
+                msg.setVisibility(View.VISIBLE);
                 msg.setText("您已连续签到" + entity.getContinuity() + "天,再接再厉哦");
                 Toast.makeText(getContext(), entity.getMsg(), Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onError(String error) {
                 if (error.equals("1")) {

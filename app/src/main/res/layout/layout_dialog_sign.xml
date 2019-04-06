@@ -1,88 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:roundiv="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    xmlns:roundiv="http://schemas.android.com/apk/res-auto">
+    android:background="@android:color/transparent">
 
     <RelativeLayout
-        android:layout_centerInParent="true"
         android:layout_width="245dp"
-        android:layout_height="288dp">
-    <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:id="@+id/ll_content"
-        android:orientation="vertical"
-        android:layout_width="245dp"
-        android:layout_height="250dp" >
-        <com.hykj.liuzhi.androidcomponents.ui.widget.CustomRoundAngleImageView
-            android:id="@+id/iv_top"
+        android:layout_height="288dp"
+        android:layout_centerInParent="true">
 
-            android:src="@mipmap/sign_bg"
-            roundiv:left_top_radius="20dp"
-            roundiv:right_top_radius="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="98dp" />
-        <RelativeLayout
-            android:background="@drawable/bg_sign_dialog"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/ll_content"
+            android:layout_width="245dp"
+            android:layout_height="250dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv1"
-                android:textSize="12sp"
-                android:textColor="#000000"
-                android:text="早上好,亲爱的"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="19dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/tv2"
-                android:layout_below="@id/tv1"
-                android:textSize="12sp"
-                android:textColor="#000000"
-                android:text="愿你每天都有好心情"
-                android:layout_marginLeft="19dp"
-                android:layout_marginTop="6dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            
-            <TextView
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/bg_sign_text_button"
-                android:textSize="14sp"
-                android:textColor="#000000"
-                android:layout_marginTop="15dp"
-                android:layout_below="@id/tv2"
-                android:id="@+id/tv_button"
-                android:layout_width="225dp"
-                android:layout_height="35dp"
-                android:gravity="center"
-                android:text="立即签到"
-                />
+            <com.hykj.liuzhi.androidcomponents.ui.widget.CustomRoundAngleImageView
+                android:id="@+id/iv_top"
 
-            <TextView
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:id="@+id/tv_hint"
-                android:layout_below="@id/tv_button"
-                android:textSize="11sp"
-                android:textColor="#717171"
-                android:text="您已连续签到0天,再接再厉哦"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="98dp"
+                android:src="@mipmap/sign_bg"
+                roundiv:left_top_radius="20dp"
+                roundiv:right_top_radius="20dp" />
 
-        </RelativeLayout>
-        
-    </LinearLayout>
-    <ImageView
-        android:id="@+id/iv_close"
-        android:layout_marginRight="19dp"
-        android:layout_alignParentRight="true"
-        android:src="@mipmap/btn_close_sign"
-        android:layout_width="20dp"
-        android:layout_height="38dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_sign_dialog">
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="19dp"
+                    android:layout_marginTop="25dp"
+                    android:text="早上好,亲爱的"
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv1"
+                    android:layout_marginLeft="19dp"
+                    android:layout_marginTop="6dp"
+                    android:text="愿你每天都有好心情"
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_button"
+                    android:layout_width="225dp"
+                    android:layout_height="35dp"
+                    android:layout_below="@id/tv2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_sign_text_button"
+                    android:gravity="center"
+                    android:text="立即签到"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_button"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="您已连续签到0天,再接再厉哦"
+                    android:textColor="#717171"
+                    android:textSize="11sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="20dp"
+            android:layout_height="38dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="19dp"
+            android:src="@mipmap/btn_close_sign" />
 
     </RelativeLayout>
 

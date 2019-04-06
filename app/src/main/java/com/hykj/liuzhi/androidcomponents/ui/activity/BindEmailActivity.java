@@ -22,6 +22,7 @@ import butterknife.OnClick;
 import static com.zhouyou.http.EasyHttp.getContext;
 
 public class BindEmailActivity extends BaseActivity {
+
     @BindView(R.id.iv_bindemail_back)
     ImageView ivBindemailBack;
     @BindView(R.id.iv_bindemail_save)
@@ -35,17 +36,27 @@ public class BindEmailActivity extends BaseActivity {
     @BindView(R.id.rl_mine_et_input)
     TextView edInput;
 
+    /**
+     * 修改邮箱
+     */
+    private ACache aCache;
+    private boolean mIsChange;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bindemail);
         ButterKnife.bind(this);
+        aCache = ACache.get(this);
     }
 
     @OnClick({R.id.iv_bindemail_back, R.id.iv_bindemail_save, R.id.im_delte})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_bindemail_back:
+                if (mIsChange) {
+                    setResult(2);
+                }
                 finish();
                 break;
             case R.id.iv_bindemail_save:
@@ -56,11 +67,6 @@ public class BindEmailActivity extends BaseActivity {
                 break;
         }
     }
-
-    /**
-     * 修改邮箱
-     */
-    private ACache aCache;
 
     public void setEmail(final String Email) {
         if (Email.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+") && Email.length() > 0) {
@@ -76,11 +82,11 @@ public class BindEmailActivity extends BaseActivity {
                     Toast.makeText(getContext(), entity.getMsg(), Toast.LENGTH_SHORT).show();
                     aCache.put("user_mail", Email);
                     Toast.makeText(BindEmailActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
+                    ivBindemailSave.setVisibility(View.GONE);
                     rlMineBindemailInput.setVisibility(View.GONE);
                     tvMineBindemailDescrip.setVisibility(View.GONE);
                     llMineBindemailWait.setVisibility(View.VISIBLE);
-                    setResult(2);
-                    finish();
+                    mIsChange = true;
                 }
 
                 @Override

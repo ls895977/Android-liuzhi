@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -54,7 +53,9 @@ public class SelectAdressActivity extends BaseActivity implements BaseQuickAdapt
         initView();
         initData();
     }
+
     ZLoadingDialog dialog;
+
     private void initView() {
         if (getIntent().getStringExtra("title") != null) {
             title = getIntent().getStringExtra("title");
@@ -190,15 +191,18 @@ public class SelectAdressActivity extends BaseActivity implements BaseQuickAdapt
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (title.equals("ConfirmOrderActivity")) {
             Intent intent = new Intent();
-            intent.putExtra("Full_name",entity.getData().getArray().get(position).getFull_name()+"");
-            intent.putExtra("addressid", entity.getData().getArray().get(position).getAddress_id() + "");
-            intent.putExtra("addrname", entity.getData().getArray().get(position).getAddress_address() + "");
+            AllAddBean.DataBean.ArrayBean arrayBean = entity.getData().getArray().get(position);
+            intent.putExtra("address_user", arrayBean.getAddress_user());
+            intent.putExtra("address_id", arrayBean.getAddress_id() + "");
+            intent.putExtra("address_name", arrayBean.getFull_name() + arrayBean.getAddress_address());
             setResult(11, intent);
             finish();
         }
 
     }
+
     private String addressid;
+
     public void postDeleteaddress() {
         dialog.show();
         HttpHelper.deleteaddress(aCache.getAsString("user_id"), addressid, new HttpHelper.HttpUtilsCallBack<String>() {
@@ -232,8 +236,8 @@ public class SelectAdressActivity extends BaseActivity implements BaseQuickAdapt
      * 修改默认地址
      */
     public void changeadderssstatus(int position) {
-        if(position<AllDatas.size()){
-        }else {
+        if (position < AllDatas.size()) {
+        } else {
             return;
         }
         dialog.show();

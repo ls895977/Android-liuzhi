@@ -33,6 +33,8 @@ import com.hykj.liuzhi.androidcomponents.utils.WxShareUtils;
 import com.zyao89.view.zloading.ZLoadingDialog;
 import com.zyao89.view.zloading.Z_TYPE;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -76,10 +78,12 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
     private TextView[] pt = new TextView[4];
     private TextView[] ppt = new TextView[4];
     private LinearLayout myChaoQingView;
-    private String definition = "0";
+    private String definition = "1";
     private Dlg_Share share;
     ZLoadingDialog loding;
     private TextView tv_play_count, tv_collect, tv_type;
+    private List<DetailVideoBean.DataBean.VideodefinitiondataBean> mVideoDefinition;
+    private int mVideoPoint;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,7 +120,6 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         ppt[1] = findViewById(R.id.ppt2);
         ppt[2] = findViewById(R.id.ppt3);
         ppt[3] = findViewById(R.id.ppt4);
-
     }
 
     String stType;
@@ -197,24 +200,52 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 setChoseStatus(0);
                 break;
             case R.id.p1://标清
-                definition = "1";
                 setChoseStatus(0);
                 myChaoQingView.setVisibility(View.GONE);
+                if ("1".equals(definition)) {
+                    return;
+                }
+                mJzvdStd.setUp(mVideoDefinition.get(0).getVideodefinition_url(), ""
+                        , JzvdStd.SCREEN_WINDOW_NORMAL);
+                definition = "1";
                 break;
             case R.id.p2://高清
-                definition = "2";
                 setChoseStatus(1);
                 myChaoQingView.setVisibility(View.GONE);
+                if ("2".equals(definition)) {
+                    return;
+                }
+                mJzvdStd.setUp(mVideoDefinition.get(1).getVideodefinition_url(), ""
+                        , JzvdStd.SCREEN_WINDOW_NORMAL);
+                definition = "2";
                 break;
             case R.id.p3://超清
-                definition = "3";
                 setChoseStatus(2);
                 myChaoQingView.setVisibility(View.GONE);
+                if ("3".equals(definition)) {
+                    return;
+                }
+                if (mVideoDefinition.size() > 2) {
+                    mJzvdStd.setUp(mVideoDefinition.get(2).getVideodefinition_url(), ""
+                            , JzvdStd.SCREEN_WINDOW_NORMAL);
+                    definition = "3";
+                } else {
+                    Toast.makeText(this, "暂无该清晰度资源", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.p4://蓝光
-                definition = "4";
                 setChoseStatus(3);
                 myChaoQingView.setVisibility(View.GONE);
+                if ("4".equals(definition)) {
+                    return;
+                }
+                if (mVideoDefinition.size() > 3) {
+                    mJzvdStd.setUp(mVideoDefinition.get(3).getVideodefinition_url(), ""
+                            , JzvdStd.SCREEN_WINDOW_NORMAL);
+                    definition = "4";
+                } else {
+                    Toast.makeText(this, "暂无该清晰度资源", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.share://分享
                 share.show();
@@ -237,7 +268,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
             @Override
             public void onSucceed(String succeed) {
                 entity = FastJSONHelper.getPerson(succeed, DetailVideoBean.class);
-                mJzvdStd.setUp(entity.getData().getVideodefinitiondata().get(0).getVideodefinition_url(), ""
+                mVideoDefinition = entity.getData().getVideodefinitiondata();
+                mJzvdStd.setUp(mVideoDefinition.get(0).getVideodefinition_url(), ""
                         , JzvdStd.SCREEN_WINDOW_NORMAL);
                 Glide.with(DetailVideoActivity.this)
                         .load(entity.getData().getVideo_image())
@@ -247,7 +279,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 video_title.setText(entity.getData().getVideo_name());
                 video_detail.setText(entity.getData().getVideo_detail());
                 video_time.setText(DateUtils.timesTwo(entity.getData().getVideo_creattime() + ""));
-                video_zan.setText(entity.getData().getVideo_point() + "");
+                mVideoPoint = entity.getData().getVideo_point();
+                video_zan.setText(String.valueOf(mVideoPoint));
                 tv_play_count.setText(entity.getData().getVideo_videonum() + "");
                 tv_collect.setText(entity.getData().getVideo_collection() + "");
                 if (entity.getData().getUsercollection() == 0) {
@@ -367,6 +400,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 }
                 if (entity.getMsg().equals("访问成功")) {
                     zan.setSelected(false);
+                    mVideoPoint--;
+                    video_zan.setText(String.valueOf(mVideoPoint));
                     Toast.makeText(getContext(), "取消点赞成功！", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -405,6 +440,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 }
                 if (entity.getMsg().equals("访问成功")) {
                     zan.setSelected(true);
+                    mVideoPoint++;
+                    video_zan.setText(String.valueOf(mVideoPoint));
                     Toast.makeText(getContext(), "点赞成功！", Toast.LENGTH_SHORT).show();
                 }
             }

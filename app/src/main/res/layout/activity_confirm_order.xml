@@ -48,26 +48,26 @@
                 android:paddingLeft="@dimen/dip_10">
 
                 <RelativeLayout
+                    android:id="@+id/rl_user"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dip_10">
+                    android:layout_marginBottom="@dimen/dip_10"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/shouhuoren"
-                        android:textColor="@color/bar_grey"
-                        android:textSize="14sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="收货人：" />
+                        android:textColor="@color/bar_grey"
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/bar_grey"
-                        android:textSize="14sp"
                         android:layout_alignParentRight="true"
-                        android:text="收货人：" />
+                        android:textColor="@color/bar_grey"
+                        android:textSize="14sp" />
                 </RelativeLayout>
 
                 <TextView
@@ -91,8 +91,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="@dimen/dip_20"
                 android:layout_marginRight="15dp"
+                android:layout_marginTop="@dimen/dip_20"
                 android:background="@color/white"
                 android:elevation="5dp"
                 android:gravity="center_vertical"
@@ -158,7 +158,7 @@
                             android:textSize="10sp" />
                     </LinearLayout>
 
-                    <CheckBox
+                    <com.suke.widget.SwitchButton
                         android:id="@+id/oder_deductibletype"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -177,9 +177,9 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/dip_10"
                     android:paddingLeft="@dimen/dip_10"
-                    android:paddingTop="@dimen/dip_10"
-                    android:paddingBottom="@dimen/dip_10">
+                    android:paddingTop="@dimen/dip_10">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -209,9 +209,9 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/dip_10"
                     android:paddingLeft="@dimen/dip_10"
-                    android:paddingTop="@dimen/dip_10"
-                    android:paddingBottom="@dimen/dip_10">
+                    android:paddingTop="@dimen/dip_10">
 
                     <TextView
                         android:layout_width="wrap_content"

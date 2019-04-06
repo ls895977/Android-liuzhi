@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +15,13 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.bean.CircleBean;
-import com.hykj.liuzhi.androidcomponents.bean.User;
-import com.hykj.liuzhi.androidcomponents.mock.Mock;
 import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
-import com.hykj.liuzhi.androidcomponents.ui.activity.DetailCircleImageActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.DetailSoftArticleActivity;
-import com.hykj.liuzhi.androidcomponents.ui.adapter.CircleAdapter;
-import com.hykj.liuzhi.androidcomponents.ui.adapter.RecommendAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.adapter.UserAdvertorialAdapter;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.UserAdvertorialFragment;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.bean.UserAdvertorialBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.bean.WatchHistoryBean;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.ShopHomeBean;
-import com.hykj.liuzhi.androidcomponents.ui.widget.BannerHeader;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
-import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
@@ -40,7 +29,6 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,6 +113,7 @@ public class MineSoftArticleFragment extends Fragment implements BaseQuickAdapte
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onSucceed(String succeed) {
                 Gson gson = new Gson();
@@ -133,15 +122,19 @@ public class MineSoftArticleFragment extends Fragment implements BaseQuickAdapte
                     UserAdvertorialBean.DataBean.ArrayBean bean = new UserAdvertorialBean.DataBean.ArrayBean();
                     bean.setSofttext_id(entity.getData().getArray().get(i).getSofttext_id());
                     bean.setSofttext_title(entity.getData().getArray().get(i).getSofttext_id() + "");
-                    UserAdvertorialBean.DataBean.ArrayBean.SofttextimagedataBean  softtextimagedataBean=new   UserAdvertorialBean.DataBean.ArrayBean.SofttextimagedataBean();
-                   if(entity.getData().getArray().get(i).getSofttextdata().getSofttextimages()!=null) {
-                       softtextimagedataBean.setSofttextimage_url(entity.getData().getArray().get(i).getSofttextdata().getSofttextimages().getSofttextimage_url());
-                   }
-                    bean.setSofttextimagedata(softtextimagedataBean);
+                    UserAdvertorialBean.DataBean.ArrayBean.SofttextimagedataBean softtextimagedataBean = new UserAdvertorialBean.DataBean.ArrayBean.SofttextimagedataBean();
+                    WatchHistoryBean.DataBean.ArrayBean.SofttextdataBean softtextdata = entity.getData().getArray().get(i).getSofttextdata();
                     UserAdvertorialBean.DataBean.ArrayBean.UserdataBean userdataBean = new UserAdvertorialBean.DataBean.ArrayBean.UserdataBean();
-                    userdataBean.setUser_autograph(entity.getData().getArray().get(i).getSofttextdata().getUserdata().getUser_autograph());
-                    userdataBean.setUser_nickname(entity.getData().getArray().get(i).getSofttextdata().getUserdata().getUser_nickname());
-                    userdataBean.setUser_pic(entity.getData().getArray().get(i).getSofttextdata().getUserdata().getUser_pic());
+                    if (softtextdata != null &&
+                            softtextdata.getSofttextimages() != null) {
+                        softtextimagedataBean.setSofttextimage_url(softtextdata.getSofttextimages().getSofttextimage_url());
+                        if (softtextdata.getUserdata() != null) {
+                            userdataBean.setUser_autograph(softtextdata.getUserdata().getUser_autograph());
+                            userdataBean.setUser_nickname(softtextdata.getUserdata().getUser_nickname());
+                            userdataBean.setUser_pic(softtextdata.getUserdata().getUser_pic());
+                        }
+                    }
+                    bean.setSofttextimagedata(softtextimagedataBean);
                     bean.setUserdata(userdataBean);
                     datas.add(bean);
                 }

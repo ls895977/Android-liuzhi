@@ -49,6 +49,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class HomeAllFragment extends ViewPagerFragment implements BaseQuickAdapter.OnItemClickListener {
+
     @BindView(R.id.rv)
     RecyclerView rv;
     @BindView(R.id.myrv)
@@ -219,6 +220,12 @@ public class HomeAllFragment extends ViewPagerFragment implements BaseQuickAdapt
 
     public void setDatasList(List<TextureFragBean.DataBean.ArrayBean> data) {
         Random random = new Random();
+        if (mAdapter == null) {
+            TextureMAdapter = new TextureAdapter(getContext(), TextureDatas);
+            myrv.setAdapter(TextureMAdapter);
+            TextureMAdapter.addHeaderView(header);
+            TextureMAdapter.setOnItemClickListener(this);
+        }
         if (data.size() == 0) {
             return;
         }
@@ -245,15 +252,7 @@ public class HomeAllFragment extends ViewPagerFragment implements BaseQuickAdapt
                         bean.getVideo_labels(), bean.getVideo_detail(), Labelsdata));
             }
         }
-        if (mAdapter == null) {
-            TextureMAdapter = new TextureAdapter(getContext(), TextureDatas);
-            myrv.setAdapter(TextureMAdapter);
-            TextureMAdapter.addHeaderView(header);
-            TextureMAdapter.setOnItemClickListener(this);
-        } else {
-            TextureMAdapter.notifyDataSetChanged();
-        }
-
+        if (mAdapter != null) mAdapter.notifyDataSetChanged();
     }
 
     /**
