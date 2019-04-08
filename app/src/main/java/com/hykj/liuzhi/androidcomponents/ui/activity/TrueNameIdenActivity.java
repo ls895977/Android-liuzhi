@@ -20,44 +20,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.hykj.liuzhi.R;
-import com.hykj.liuzhi.androidcomponents.bean.MineFileBean;
-import com.hykj.liuzhi.androidcomponents.bean.UserData;
 import com.hykj.liuzhi.androidcomponents.net.http.ApiConstant;
-import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.dailog.Dlg_Photograph;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.bean.UserFileupLoadsBean;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.utils.CompressFileUtil;
 import com.hykj.liuzhi.androidcomponents.ui.activity.min.utils.CompressHelper;
-import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.Debug;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.RxPermissions;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
-import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
-import com.hykj.liuzhi.androidcomponents.utils.LocalInfoUtils;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.body.UIProgressResponseCallBack;
 import com.zhouyou.http.callback.ProgressDialogCallBack;
 import com.zhouyou.http.exception.ApiException;
 import com.zhouyou.http.subsciber.IProgressDialog;
 import com.zhouyou.http.utils.HttpLog;
-import com.zhouyou.http.utils.HttpUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 import static com.zhouyou.http.EasyHttp.getContext;
 
@@ -91,6 +77,7 @@ public class TrueNameIdenActivity extends BaseActivity implements Dlg_Photograph
         initView();
     }
 
+    @SuppressLint("CheckResult")
     private void initView() {
         aCache = ACache.get(this);
         mRxPermissions = new RxPermissions(this);
@@ -344,7 +331,7 @@ public class TrueNameIdenActivity extends BaseActivity implements Dlg_Photograph
                             Toast.makeText(getContext(), entity.getMsg(), Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        Toast.makeText(getContext(),"上传成功！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "上传成功！", Toast.LENGTH_SHORT).show();
                         finish();
                     }
 
@@ -364,6 +351,7 @@ public class TrueNameIdenActivity extends BaseActivity implements Dlg_Photograph
             return dialog;
         }
     };
+
     final UIProgressResponseCallBack listener = new UIProgressResponseCallBack() {
         @Override
         public void onUIResponseProgress(long bytesRead, long contentLength, boolean done) {

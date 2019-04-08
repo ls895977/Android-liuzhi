@@ -60,6 +60,7 @@ import static com.zhouyou.http.EasyHttp.getContext;
  * @describe:
  */
 public class DetailSoftArticleActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener, View.OnClickListener, CommentMorePopup.Callback {
+
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     Gson gson = new Gson();

@@ -54,6 +54,7 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
     private Activity activity;
     private TextView circle_Userfans, tv_num, tv_type;
     private String stType;
+    private int mSoftTextPoint;
 
     public SoftDetailHeader(Activity context, SofttextFirstPageBean bean1, String stType1) {
         super(context);
@@ -138,7 +139,8 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
         } else {
             userpoint.setSelected(false);
         }
-        userpoint.setText(bean.getData().getSofttext_point() + "");
+        mSoftTextPoint = bean.getData().getSofttext_point();
+        userpoint.setText(String.valueOf(mSoftTextPoint));
         if (bean.getData().getUserfans() == 1) {
             circle_Userfans.setText("已关注");
         } else {
@@ -280,7 +282,6 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
                 });
     }
 
-
     /**
      * 软文取消点赞
      */
@@ -298,6 +299,8 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
                     return;
                 }
                 if (entity.getMsg().equals("访问成功")) {
+                    mSoftTextPoint--;
+                    userpoint.setText(String.valueOf(mSoftTextPoint));
                     userpoint.setSelected(false);
                     Toast.makeText(getContext(), "取消点赞成功！", Toast.LENGTH_SHORT).show();
                     return;
@@ -337,6 +340,8 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
                 }
                 Log.e("aa", "---------" + entity.getMsg());
                 if (entity.getMsg().equals("访问成功")) {
+                    mSoftTextPoint--;
+                    userpoint.setText(String.valueOf(mSoftTextPoint));
                     userpoint.setSelected(true);
                     Toast.makeText(getContext(), "点赞成功！", Toast.LENGTH_SHORT).show();
                 }
@@ -441,7 +446,7 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
      */
     private void setClick(String clickId) {
         loding.show();
-        HttpHelper.getUserClickAttention(LocalInfoUtils.getUserId() + "", clickId, new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUserClickAttention(clickId, LocalInfoUtils.getUserId() + "", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 loding.dismiss();

@@ -42,6 +42,7 @@ import butterknife.Unbinder;
 
 /**
  * 推荐
+ *
  * @date: 2018/9/27
  * @describe:
  */
@@ -241,14 +242,14 @@ public class RecommendFragment extends ViewPagerFragment implements BaseQuickAda
             case R.id.video1://视频
                 Intent intent = new Intent();
                 intent.putExtra("videoid", dataAll.get(position).getVideo_id() + "");
-                intent.putExtra("stType","推荐类型");
+                intent.putExtra("stType", "推荐类型");
                 intent.setClass(getContext(), DetailVideoActivity.class);
                 startActivity(intent);
                 break;
             case R.id.image1://软文
                 Intent intent1 = new Intent();
                 intent1.putExtra("softtextid", dataAll.get(position).getSofttext_id() + "");
-                intent1.putExtra("stType","推荐类型");
+                intent1.putExtra("stType", "推荐类型");
                 intent1.setClass(getContext(), DetailSoftArticleActivity.class);
                 startActivity(intent1);
                 break;

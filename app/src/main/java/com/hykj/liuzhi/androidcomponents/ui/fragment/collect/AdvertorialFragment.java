@@ -23,6 +23,7 @@ import com.hykj.liuzhi.androidcomponents.ui.adapter.AdvertorialAdapter;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.collect.bean.CollectBean;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.collect.bean.Collectbase;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.home.base.ViewPagerFragment;
+import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.FastJSONHelper;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -49,6 +50,7 @@ public class AdvertorialFragment extends ViewPagerFragment implements BaseQuickA
     String type;
     List<Collectbase> datas = new ArrayList<>();
     private SmartRefreshLayout refreshLayout;
+    private String mUserId;
 
     public static AdvertorialFragment newInstance(String type1) {
         AdvertorialFragment fragment = new AdvertorialFragment();
@@ -73,6 +75,7 @@ public class AdvertorialFragment extends ViewPagerFragment implements BaseQuickA
     }
 
     private void initData() {
+        mUserId = ACache.get(getContext()).getAsString("user_id");
         refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));  //设置 Header 为 贝塞尔雷达 样式
         refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));//设置 Footer 为 球脉冲 样式
         refreshLayout.setEnableRefresh(true);//启用刷新
@@ -111,7 +114,7 @@ public class AdvertorialFragment extends ViewPagerFragment implements BaseQuickA
     CollectBean entity;
 
     public void backData() {
-        HttpHelper.getUserCollection(page + "", type + "", new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUserCollection(mUserId, page + "", type, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();

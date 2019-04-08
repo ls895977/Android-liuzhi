@@ -29,18 +29,16 @@ import butterknife.ButterKnife;
 
 public class AttentionActivity extends BaseActivity {
 
-
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-
     @BindView(R.id.springView)
     SpringView springView;
+
     private AttentionAdapter mAdapter;
     private String type;
     private String title;
     private int pageIndex = 1;
     private int pageSize = 10;
-    private Object usercollection;
     private List<UserAttentionBean.DataBean.ArrayBean> list;
     private EditText seachar;
 

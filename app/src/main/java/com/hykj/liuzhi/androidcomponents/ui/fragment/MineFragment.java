@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hykj.liuzhi.R;
+import com.hykj.liuzhi.androidcomponents.net.http.HttpHelper;
 import com.hykj.liuzhi.androidcomponents.ui.activity.AttentionActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.EditUserDataActivity;
 import com.hykj.liuzhi.androidcomponents.ui.activity.MyCollectActivity;
@@ -30,6 +31,7 @@ import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.MineCameFragment;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.mine.UserAdvertorialFragment;
 import com.hykj.liuzhi.androidcomponents.ui.fragment.utils.permission.RxPermissions;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
+import com.hykj.liuzhi.androidcomponents.utils.ErrorStateCodeUtils;
 import com.hykj.liuzhi.androidcomponents.utils.LocalInfoUtils;
 import com.hykj.liuzhi.androidcomponents.utils.RoundImageView;
 
@@ -120,6 +122,7 @@ public class MineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getUserSelf();
         seetingUser();
     }
 
@@ -233,5 +236,35 @@ public class MineFragment extends Fragment {
         tvItem[currentTabIndex].setSelected(false);
         tvItem[indext].setSelected(true);
         currentTabIndex = indext;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) {
+            getUserSelf();
+        }
+    }
+
+    public void getUserSelf() {
+        HttpHelper.getUserself(Integer.valueOf(aCache.getAsString("user_id")), new HttpHelper.HttpUtilsCallBack<String>() {
+            @Override
+            public void onFailure(String failure) {
+                Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSucceed(String succeed) {
+                LocalInfoUtils.saveUserself(succeed);
+                tvConllection.setText(LocalInfoUtils.getUserself("user_collection"));
+                tvMyFocus.setText(LocalInfoUtils.getUserself("user_follow"));
+                tvMyFans.setText(LocalInfoUtils.getUserself("user_fans"));
+                tvMineSead.setText(LocalInfoUtils.getUserself("user_integral"));
+            }
+
+            @Override
+            public void onError(String error) {
+                Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

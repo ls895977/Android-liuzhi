@@ -120,6 +120,7 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
         ppt[1] = findViewById(R.id.ppt2);
         ppt[2] = findViewById(R.id.ppt3);
         ppt[3] = findViewById(R.id.ppt4);
+        setChoseStatus(0);
     }
 
     String stType;
@@ -197,7 +198,6 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 break;
             case R.id.choseGaoqing://选择视频放置清晰度
                 myChaoQingView.setVisibility(View.VISIBLE);
-                setChoseStatus(0);
                 break;
             case R.id.p1://标清
                 setChoseStatus(0);
@@ -207,6 +207,7 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 }
                 mJzvdStd.setUp(mVideoDefinition.get(0).getVideodefinition_url(), ""
                         , JzvdStd.SCREEN_WINDOW_NORMAL);
+                mJzvdStd.startVideo();
                 definition = "1";
                 break;
             case R.id.p2://高清
@@ -217,6 +218,7 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 }
                 mJzvdStd.setUp(mVideoDefinition.get(1).getVideodefinition_url(), ""
                         , JzvdStd.SCREEN_WINDOW_NORMAL);
+                mJzvdStd.startVideo();
                 definition = "2";
                 break;
             case R.id.p3://超清
@@ -228,6 +230,7 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 if (mVideoDefinition.size() > 2) {
                     mJzvdStd.setUp(mVideoDefinition.get(2).getVideodefinition_url(), ""
                             , JzvdStd.SCREEN_WINDOW_NORMAL);
+                    mJzvdStd.startVideo();
                     definition = "3";
                 } else {
                     Toast.makeText(this, "暂无该清晰度资源", Toast.LENGTH_SHORT).show();
@@ -242,6 +245,7 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 if (mVideoDefinition.size() > 3) {
                     mJzvdStd.setUp(mVideoDefinition.get(3).getVideodefinition_url(), ""
                             , JzvdStd.SCREEN_WINDOW_NORMAL);
+                    mJzvdStd.startVideo();
                     definition = "4";
                 } else {
                     Toast.makeText(this, "暂无该清晰度资源", Toast.LENGTH_SHORT).show();

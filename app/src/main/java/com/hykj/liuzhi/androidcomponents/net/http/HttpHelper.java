@@ -1328,8 +1328,9 @@ public class HttpHelper {
      *
      * @param callBack
      */
-    public static void getUserCollection(String page, String type, final HttpUtilsCallBack<String> callBack) {
+    public static void getUserCollection(String userId, String page, String type, final HttpUtilsCallBack<String> callBack) {
         HashMap<String, String> map = new HashMap<>();
+        map.put("user_id", userId);
         map.put("page", page);
         map.put("number", "10");
         map.put("type", type);

@@ -72,15 +72,15 @@ public class AttentionAdapter extends BaseQuickAdapter<UserAttentionBean.DataBea
                     textView.setText("已关注");
                 }
                 if ("0".equals(type)) {
-                    setClick(item.getUser_collid(), isAttention);
+                    setClick(item.getUser_collid(), isAttention, helper.getAdapterPosition());
                 } else {
-                    setClick(item.user_id, isAttention);
+                    setClick(item.user_id, isAttention, helper.getAdapterPosition());
                 }
             }
         });
     }
 
-    private void setClick(int clickId, boolean isAttention) {
+    private void setClick(int clickId, boolean isAttention, final int position) {
         if (isAttention) {
             HttpHelper.getUserClickAttention(clickId + "", LocalInfoUtils.getUserId() + "", new HttpHelper.HttpUtilsCallBack<String>() {
                 @Override
@@ -108,6 +108,9 @@ public class AttentionAdapter extends BaseQuickAdapter<UserAttentionBean.DataBea
                 @Override
                 public void onSucceed(String succeed) {
                     Logger.t("点击按钮是否关注").i(succeed);
+                    if ("0".equals(type)) {
+                        remove(position);
+                    }
                 }
 
                 @Override

@@ -13,7 +13,6 @@ import com.hykj.liuzhi.R;
 import com.hykj.liuzhi.androidcomponents.utils.ACache;
 import com.hykj.liuzhi.androidcomponents.utils.TitleBuilder;
 import com.luck.picture.lib.permissions.RxPermissions;
-import com.zhouyou.http.utils.HttpUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +23,7 @@ import io.reactivex.functions.Consumer;
  * 设置按钮
  */
 public class SetUpActivity extends BaseActivity {
+
     @BindView(R.id.rl_setup_fans)
     RelativeLayout rlSetupFans;
     @BindView(R.id.rl_setup_follows)
@@ -42,6 +42,9 @@ public class SetUpActivity extends BaseActivity {
     RelativeLayout rlMineSetupLoginRecord;
     @BindView(R.id.rl_mine_setup_suggest)
     RelativeLayout rlMineSetupSuggest;
+    @BindView(R.id.tv_email)
+    TextView mTvEmail;
+
     private ACache aCache;
     private RxPermissions rxPermissions;
 
@@ -49,9 +52,9 @@ public class SetUpActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
+        ButterKnife.bind(this);
         initView();
         initData();
-        ButterKnife.bind(this);
     }
 
     private void initData() {
@@ -60,6 +63,7 @@ public class SetUpActivity extends BaseActivity {
 
     private void initView() {
         aCache = ACache.get(this);
+        mTvEmail.setText(aCache.getAsString("user_mail"));
         new TitleBuilder(SetUpActivity.this).setTitleText("账户设置").setLeftIco(R.mipmap.common_black_back).setLeftIcoListening(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +75,7 @@ public class SetUpActivity extends BaseActivity {
     @OnClick({R.id.rl_setup_fans, R.id.rl_setup_follows, R.id.tv_setup_exitlogin, R.id.rl_mine_setup_bindemail, R.id.rl_mine_setup_takeaddress,
             R.id.rl_mine_setup_change_pass, R.id.rl_mine_setup_realname_auth, R.id.rl_mine_setup_login_record, R.id.rl_mine_setup_suggest, R.id.cller_cache})
     public void onViewClicked(View view) {
-        Intent intent = null;
+        Intent intent;
         switch (view.getId()) {
             case R.id.rl_setup_fans://粉丝
                 intent = new Intent(this, AttentionActivity.class);
@@ -104,7 +108,6 @@ public class SetUpActivity extends BaseActivity {
                 intent = new Intent(SetUpActivity.this, ChangePasswordActivity.class);
                 startActivity(intent);
                 break;
-
             case R.id.rl_mine_setup_realname_auth:
                 rxPermissions
                         .request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)

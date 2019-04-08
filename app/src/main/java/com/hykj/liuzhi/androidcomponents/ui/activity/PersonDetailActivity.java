@@ -2,7 +2,6 @@ package com.hykj.liuzhi.androidcomponents.ui.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -61,6 +60,7 @@ public class PersonDetailActivity extends BaseActivity {
     private ACache aCache;
     ZLoadingDialog dialog;
     private String User_id;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,11 +69,13 @@ public class PersonDetailActivity extends BaseActivity {
         initView();
         initData();
     }
+
     CircleFragmentBean.DataBean.UserdataBean userBean;
+
     private void initData() {
         iv_person_detail_userhead = findViewById(R.id.iv_person_detail_userhead);
         aCache = ACache.get(this);
-        User_id =getIntent().getStringExtra("User_id");
+        User_id = getIntent().getStringExtra("User_id");
         getUserfirstpagetitle();
     }
 
@@ -111,7 +113,7 @@ public class PersonDetailActivity extends BaseActivity {
      */
     private void setClick(String clickId) {
         dialog.show();
-        HttpHelper.getUserClickAttention( LocalInfoUtils.getUserId()+"",clickId, new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUserClickAttention(clickId, LocalInfoUtils.getUserId() + "", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 dialog.dismiss();
@@ -126,7 +128,7 @@ public class PersonDetailActivity extends BaseActivity {
                     if (entity.getError() == 0) {
                         circle_Userfans.setText("已关注");
                     }
-                    Toast.makeText(getContext(),"关注成功！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "关注成功！", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -146,7 +148,7 @@ public class PersonDetailActivity extends BaseActivity {
      */
     private void getUsernotfans(String clickId) {
         dialog.show();
-        HttpHelper.getUsernotfans( LocalInfoUtils.getUserId()+"",clickId, new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUsernotfans(LocalInfoUtils.getUserId() + "", clickId, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 dialog.dismiss();
@@ -161,7 +163,7 @@ public class PersonDetailActivity extends BaseActivity {
                     if (entity.getError() == 0) {
                         circle_Userfans.setText("+ 关注");
                     }
-                    Toast.makeText(getContext(),"已取消关注！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "已取消关注！", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -191,8 +193,8 @@ public class PersonDetailActivity extends BaseActivity {
                 userName.setText(entity.getData().getUser_nickname());
                 viewPagerPersonDetail.setAdapter(new PersonDetailAdapter(getSupportFragmentManager(), entity.getData().getUser_id() + ""));
                 tabLayoutPersonDetail.setViewPager(viewPagerPersonDetail);
-                user_follow.setText(entity.getData().getUser_follow()+"");
-                user_fans.setText(entity.getData().getUser_fans()+"");
+                user_follow.setText(entity.getData().getUser_follow() + "");
+                user_fans.setText(entity.getData().getUser_fans() + "");
                 if (entity.getData().getUserfans() == 1) {
                     circle_Userfans.setText("已关注");
                 } else {
