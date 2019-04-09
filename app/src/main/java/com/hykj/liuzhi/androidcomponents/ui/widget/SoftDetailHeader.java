@@ -340,7 +340,7 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
                 }
                 Log.e("aa", "---------" + entity.getMsg());
                 if (entity.getMsg().equals("访问成功")) {
-                    mSoftTextPoint--;
+                    mSoftTextPoint++;
                     userpoint.setText(String.valueOf(mSoftTextPoint));
                     userpoint.setSelected(true);
                     Toast.makeText(getContext(), "点赞成功！", Toast.LENGTH_SHORT).show();

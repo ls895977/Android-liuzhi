@@ -296,7 +296,8 @@ public class Act_addsofttext extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {//担交
         switch (v.getId()) {
             case R.id.issue_submit:
-                postAddsofTtextFile(addsofttext_application.getText().toString(), issue_imagetexttext.getText().toString());
+//                postAddsofTtextFile(addsofttext_application.getText().toString(), issue_imagetexttext.getText().toString());
+                postAddsofTtextFile("软文标题", issue_imagetexttext.getText().toString());
                 break;
             case R.id.issue_table://添加标签
                 break;
