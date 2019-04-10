@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,7 +120,7 @@ public class SoftDetailHeader extends LinearLayout implements View.OnClickListen
             nickName.setText(bean.getData().getUserdata().getUser_nickname());
             tv_autograp.setText(bean.getData().getUserdata().getUser_autograph());
         }
-        softtextimage.setText(bean.getData().getSofttext_text());
+        softtextimage.setText(Html.fromHtml(bean.getData().getSofttext_text()));
         ImageView imv = view.findViewById(R.id.iv1);
         if (bean.getData().getSofttextimage().size() > 0) {
             Glide.with(getContext()).load(bean.getData().getSofttextimage().get(0).getSofttextimage_url()).into(imv);

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -281,7 +282,8 @@ public class DetailVideoActivity extends BaseActivity implements Dlg_Videoreward
                 Jzvd.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
                 Jzvd.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
                 video_title.setText(entity.getData().getVideo_name());
-                video_detail.setText(entity.getData().getVideo_detail());
+//                video_detail.setText(entity.getData().getVideo_detail());
+                video_detail.setText(Html.fromHtml(entity.getData().getVideo_detail()));
                 video_time.setText(DateUtils.timesTwo(entity.getData().getVideo_creattime() + ""));
                 mVideoPoint = entity.getData().getVideo_point();
                 video_zan.setText(String.valueOf(mVideoPoint));

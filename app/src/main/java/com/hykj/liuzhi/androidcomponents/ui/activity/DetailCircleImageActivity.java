@@ -87,6 +87,8 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
     private String imagetext_id;
     private ACache aCache;
     private Dlg_Videoreward dlg_videoreward;
+    private int mImageTextCollect;
+    private int mImageTextPoint;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,7 +97,9 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
         ButterKnife.bind(this);
         initView();
     }
+
     ZLoadingDialog dialog;
+
     private void initView() {
         dialog = new ZLoadingDialog(this);
         dialog.setLoadingBuilder(Z_TYPE.ROTATE_CIRCLE)//设置类型
@@ -151,7 +155,7 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
                 dlg_videoreward.show();
                 break;
             case R.id.circle_Userfans://关注
-                if(entity.getData()==null){
+                if (entity.getData() == null) {
                     return;
                 }
                 if (userFans.getText().toString().equals("+ 关注")) {//走关注
@@ -182,7 +186,7 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
                     return;
                 }
                 llDetailCircleTougao.setVisibility(View.GONE);
-                if(entity.getData().getUserdata().getUser_pic()!=null) {
+                if (entity.getData().getUserdata().getUser_pic() != null) {
                     Glide.with(DetailCircleImageActivity.this).load(entity.getData().getUserdata().getUser_pic()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(ivAvatar);
                 }
                 tv_context.setText(entity.getData().getImagetext_text());
@@ -197,7 +201,8 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
                 banner.setImageLoader(new GlideImageLoader())
                         .setDelayTime(5000)
                         .start();
-                concell.setText(entity.getData().getImagetext_collection() + "");
+                mImageTextCollect = entity.getData().getImagetext_collection();
+                concell.setText(String.valueOf(mImageTextCollect));
                 if (entity.getData().getUsercollection() == 1) {
                     concell.setSelected(true);
                 } else {
@@ -213,7 +218,8 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
                 } else {
                     userFans.setText("+ 关注");
                 }
-                Zan.setText(entity.getData().getImagetext_point() + "");
+                mImageTextPoint = entity.getData().getImagetext_point();
+                Zan.setText(String.valueOf(mImageTextPoint));
 
             }
 
@@ -243,6 +249,8 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
                 }
                 if (entity.getMsg().equals("访问成功")) {
                     concell.setSelected(false);
+                    mImageTextCollect--;
+                    concell.setText(String.valueOf(mImageTextCollect));
                     Toast.makeText(getContext(), "取消收藏成功！", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -282,6 +290,8 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
                 Log.e("aa", "---------" + entity.getMsg());
                 if (entity.getMsg().equals("访问成功")) {
                     concell.setSelected(true);
+                    mImageTextCollect++;
+                    concell.setText(String.valueOf(mImageTextCollect));
                     Toast.makeText(getContext(), "收藏成功！", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -311,6 +321,8 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
                 }
                 if (entity.getMsg().equals("访问成功")) {
                     Zan.setSelected(true);
+                    mImageTextPoint++;
+                    Zan.setText(String.valueOf(mImageTextPoint));
                     Toast.makeText(getContext(), "点赞成功！", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -341,6 +353,8 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
                 }
                 if (entity.getMsg().equals("访问成功")) {
                     Zan.setSelected(false);
+                    mImageTextPoint--;
+                    Zan.setText(String.valueOf(mImageTextPoint));
                     Toast.makeText(getContext(), "取消点赞成功！", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -427,7 +441,7 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
      * @param clickId
      */
     private void setClick(int clickId) {
-        HttpHelper.getUserClickAttention(clickId+"", LocalInfoUtils.getUserId()+"", new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUserClickAttention(clickId + "", LocalInfoUtils.getUserId() + "", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
@@ -451,13 +465,14 @@ public class DetailCircleImageActivity extends BaseActivity implements Dlg_Video
             }
         });
     }
+
     /**
      * 取消关注
      *
      * @param clickId
      */
     private void getUsernotfans(int clickId) {
-        HttpHelper.getUsernotfans(clickId+"", LocalInfoUtils.getUserId()+"", new HttpHelper.HttpUtilsCallBack<String>() {
+        HttpHelper.getUsernotfans(clickId + "", LocalInfoUtils.getUserId() + "", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
 
