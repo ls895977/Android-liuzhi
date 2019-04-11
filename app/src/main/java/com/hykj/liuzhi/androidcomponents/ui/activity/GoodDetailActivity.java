@@ -104,10 +104,24 @@ public class GoodDetailActivity extends BaseActivity {
         WebSettings webSettings = tv_context.getSettings();
         webSettings.setDisplayZoomControls(false); //隐藏webview缩放按钮
         webSettings.setJavaScriptEnabled(true);//支持js
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        webSettings.setLoadWithOverviewMode(true);
+//        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setUseWideViewPort(true);
+        //自适应屏幕
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        // 自适应 屏幕大小界面
         webSettings.setLoadWithOverviewMode(true);
+        tv_context.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                int w = View.MeasureSpec.makeMeasureSpec(0,
+                        View.MeasureSpec.UNSPECIFIED);
+                int h = View.MeasureSpec.makeMeasureSpec(0,
+                        View.MeasureSpec.UNSPECIFIED);
+                // 重新测量
+                tv_context.measure(w, h);
+            }
+        });
         backShowgoods(getIntent().getStringExtra("goodsid"));
     }
     private GoodDetailDetailBean entity;
@@ -219,6 +233,7 @@ public class GoodDetailActivity extends BaseActivity {
                     if (entity.getError() == 0) {
                         checkBox.setSelected(false);
                         Toast.makeText(getContext(), "添加成功！", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getContext(), CartActivity.class));
                     }
                 }
             }

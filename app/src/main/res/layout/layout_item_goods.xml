@@ -3,21 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="140dp"
     android:layout_marginTop="5dp"
-    android:paddingLeft="@dimen/dip_5"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/dip_5">
+
     <ImageView
         android:id="@+id/iv_goods"
         android:layout_width="140dp"
-        android:scaleType="fitXY"
         android:layout_height="140dp"
-        android:background="@mipmap/test1" />
+        android:background="@mipmap/test1"
+        android:scaleType="fitXY" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
@@ -41,25 +45,27 @@
                 android:text="限量100件"
                 android:textColor="#aaaaaa"
                 android:textSize="13sp" />
+
             <com.hykj.liuzhi.androidcomponents.ui.fragment.shop.view.MyLinearLayout
                 android:id="@+id/tv_goods_lab"
                 android:layout_width="match_parent"
-                android:paddingLeft="@dimen/dip_5"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dip_5"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/dip_5" />
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true">
+
             <TextView
                 android:id="@+id/tv_goods_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
                 android:layout_marginBottom="5dp"
+                android:layout_marginLeft="12dp"
                 android:text="$99"
                 android:textColor="#ffb400"
                 android:textSize="16sp" />
@@ -69,8 +75,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="25dp"
                 android:layout_marginBottom="5dp"
+                android:layout_marginRight="25dp"
                 android:text="3456已拥有"
                 android:textColor="#aaaaaa"
                 android:textSize="11sp" />

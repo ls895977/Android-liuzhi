@@ -1,61 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
+
     <com.youth.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="250dp"/>
+        android:layout_height="250dp" />
+
     <TextView
         android:id="@+id/goods_detail_shopName"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="13dp"
-        android:textColor="#414141"
-        android:textSize="14sp"
-        android:text="纯手工纪念品"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="15dp"
+        android:text="纯手工纪念品"
+        android:textColor="#414141"
+        android:textSize="14sp" />
+
     <RelativeLayout
-        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="20dp">
+
         <TextView
             android:id="@+id/goods_detail_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="¥99.00"
             android:textColor="#ffb400"
-            android:textSize="17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="17sp" />
+
         <TextView
             android:id="@+id/goods_detail_integral"
-            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:text="已售23,345"
             android:textColor="#aaaaaa"
-            android:textSize="12sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="12sp" />
 
     </RelativeLayout>
+
     <TextView
         android:id="@+id/goods_detail_Integra2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="13dp"
-        android:textSize="12sp"
         android:text="可获得99积分"
         android:textColor="#aaaaaa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textSize="12sp" />
+
     <TextView
-        android:id="@+id/goods_detail_Integral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:textSize="12sp"
-        android:text="可获得99积分"
-        android:textColor="#414141"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:gravity="center_horizontal"
+        android:text="图文详情"
+        android:textColor="#333" />
+
 </LinearLayout>

@@ -44,22 +44,26 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/dip_50"
         android:background="@color/white">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/goods_detail_ll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/top_bar"
                 android:orientation="vertical" />
+
             <WebView
                 android:id="@+id/goods_detail_context"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
