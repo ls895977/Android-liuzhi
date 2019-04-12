@@ -15,6 +15,7 @@ import com.hykj.liuzhi.androidcomponents.ui.fragment.shop.bean.GoodDetailDetailB
 import com.youth.banner.Banner;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,10 +45,14 @@ public class GoodsDetailHeader extends LinearLayout {
         ButterKnife.bind(this);
         if (bean.getData().getImage() != null) {
             banner.setImages(bean.getData().getImage());
-            banner.setImageLoader(new GlideImageLoader())
-                    .setDelayTime(5000)
-                    .start();
+        } else {
+            ArrayList<Integer> imageUrls = new ArrayList<>();
+            imageUrls.add(R.mipmap.default_banner);
+            banner.setImages(imageUrls);
         }
+        banner.setImageLoader(new GlideImageLoader())
+                .setDelayTime(5000)
+                .start();
         shopName = view.findViewById(R.id.goods_detail_shopName);
         shopName.setText(bean.getData().getName());
         shopPrice = view.findViewById(R.id.goods_detail_price);

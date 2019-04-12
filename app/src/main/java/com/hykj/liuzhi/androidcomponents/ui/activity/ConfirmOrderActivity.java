@@ -109,6 +109,8 @@ public class ConfirmOrderActivity extends BaseActivity implements View.OnClickLi
             price_num = shopCartView.findViewById(R.id.order_shopPrice_num);
             if (DetailBean.getData().getImage() != null) {
                 Glide.with(this).load(DetailBean.getData().getImage().get(0)).into(imageView);
+            } else if (!TextUtils.isEmpty(getIntent().getStringExtra("img_url"))) {
+                Glide.with(this).load(getIntent().getStringExtra("img_url")).into(imageView);
             }
             shopName.setText(DetailBean.getData().getName());
             shopPrice.setText("¥" + DetailBean.getData().getPrice());

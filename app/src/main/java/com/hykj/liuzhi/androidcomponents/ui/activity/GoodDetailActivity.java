@@ -65,6 +65,7 @@ public class GoodDetailActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.putExtra("bean", entity);
+                intent.putExtra("img_url", getIntent().getStringExtra("img_url"));
                 intent.setClass(getBaseContext(), ConfirmOrderActivity.class);
                 startActivity(intent);
             }
@@ -110,7 +111,7 @@ public class GoodDetailActivity extends BaseActivity {
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
         // 自适应 屏幕大小界面
         webSettings.setLoadWithOverviewMode(true);
-        tv_context.setWebViewClient(new WebViewClient(){
+        tv_context.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -124,7 +125,9 @@ public class GoodDetailActivity extends BaseActivity {
         });
         backShowgoods(getIntent().getStringExtra("goodsid"));
     }
+
     private GoodDetailDetailBean entity;
+
     public void backShowgoods(String goodsid) {
         HttpHelper.showgoods(goodsid, aCache.getAsString("user_id"), new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
@@ -217,6 +220,7 @@ public class GoodDetailActivity extends BaseActivity {
 
     /**
      * 添加购物车
+     *
      * @param goodsid
      */
     public void addshopcar(String goodsid) {

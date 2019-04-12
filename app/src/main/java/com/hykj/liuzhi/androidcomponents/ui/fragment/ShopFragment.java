@@ -66,6 +66,7 @@ public class ShopFragment extends Fragment {
     Unbinder unbinder;
     GoodsAdapter mAdapter;
     Banner banner;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,12 +74,15 @@ public class ShopFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
     }
+
     ArrayList pics = new ArrayList();
+
     private void initView() {
         shop_refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));  //设置 Header 为 贝塞尔雷达 样式
         shop_refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()).setSpinnerStyle(SpinnerStyle.Scale));//设置 Footer 为 球脉冲 样式
@@ -114,6 +118,7 @@ public class ShopFragment extends Fragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent();
                 intent.setClass(getContext(), GoodDetailActivity.class);
+                intent.putExtra("img_url", datas.get(position).getGoods_pic());
                 intent.putExtra("goodsid", datas.get(position).getGoods_id() + "");
                 startActivity(intent);
             }
@@ -121,11 +126,13 @@ public class ShopFragment extends Fragment {
         Getsowing("1", "10", "3");
         PostShop();
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
+
     @OnClick({R.id.iv_cart, R.id.rl_search, R.id.search_area})
     public void onViewClicked(View view) {
         Intent intent = null;
@@ -140,12 +147,14 @@ public class ShopFragment extends Fragment {
                 break;
         }
     }
+
     public void Getsowing(String page, String number, String type) {
         HttpHelper.Getsowing(page, number, type, new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onSucceed(String succeed) {
                 GetsowingBean entity = FastJSONHelper.getPerson(succeed, GetsowingBean.class);
@@ -170,12 +179,14 @@ public class ShopFragment extends Fragment {
 
     List<ShopHomeBean.DataBean.ArrayBean> datas = new ArrayList<>();
     int page = 1;
+
     public void PostShop() {
         HttpHelper.Goodsfirstpage(page + "", "10", "1", new HttpHelper.HttpUtilsCallBack<String>() {
             @Override
             public void onFailure(String failure) {
                 Toast.makeText(getContext(), failure, Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onSucceed(String succeed) {
                 ShopHomeBean entity = FastJSONHelper.getPerson(succeed, ShopHomeBean.class);
@@ -184,6 +195,7 @@ public class ShopFragment extends Fragment {
                 }
                 mAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onError(String error) {
                 Toast.makeText(getContext(), ErrorStateCodeUtils.getRegisterErrorMessage(error), Toast.LENGTH_SHORT).show();

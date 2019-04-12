@@ -85,7 +85,7 @@ public class ShopSearchActivity extends BaseActivity implements BaseQuickAdapter
                 shop_search.setText(name);
             }
         });
-        topShop.setBackData(new FindSearchLayout.BackData(){
+        topShop.setBackData(new FindSearchLayout.BackData() {
             @Override
             public void onBack(String name) {
                 shop_search.setText(name);
@@ -278,6 +278,7 @@ public class ShopSearchActivity extends BaseActivity implements BaseQuickAdapter
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Intent intent = new Intent();
         intent.setClass(getContext(), GoodDetailActivity.class);
+        intent.putExtra("img_url", datas.get(position).getGoods_pic());
         intent.putExtra("goodsid", datas.get(position).getGoods_id() + "");
         startActivity(intent);
     }
